@@ -13,19 +13,19 @@ public function index() {
 
 		$split = explode('/', $this->request->get['_route_']);
 
-		$is_grocer_endpoint = false;
+		$is_guest_endpoint = false;
 
 		while(count($split) > 0) {
 			if(in_array(implode('/', $split), $this->config->get('insecure_endpoints')))
 				return;
 
 			if(in_array(implode('/', $split), $this->config->get('guest_endpoints')))
-				$is_grocer_endpoint = true;
+				$is_guest_endpoint = true;
 
 			array_pop($split);
 		}
 
-		if(!$is_grocer_endpoint)
+		if(!$is_guest_endpoint)
 			return;	
 	}
 
@@ -41,7 +41,7 @@ public function index() {
 			return $this->load->controller('http/error/401', 'authentication failed');
 
 		$this->session->set('operator', new Operator(
-			OperatorType::Grocer, $session->getGrocerId($bearer_token)
+			OperatorType::Guest, $session->getGuestId($bearer_token)
 		));
 		}
 		else
@@ -49,9 +49,9 @@ public function index() {
     }
 
 	private function sessionService() : Session {
-		$this->load->module('Sdm');
+		$this->load->module('Guest');
 
-		return $this->module_sdm->service('Session');
+		return $this->module_guest->service('Session');
 	}
 
     private function getAuthorizationHeader(){

@@ -1,5 +1,7 @@
 <?php
 
+use model\Guest\application\OrderManagementService;
+
 class ControllerGuest extends RestEndpoint{
 
     protected function get(){
@@ -34,6 +36,12 @@ class ControllerGuest extends RestEndpoint{
             if($this->uriAt(1)){
                 $this->addToBasket();
             }
+
+        if('taxi' == $this->uriAt(0))
+            $this->callTaxi();
+
+        if('wake_up_service' == $this->uriAt(0))
+            $this->createWakeUpAlarm();
     }
 
     protected function patch(){
@@ -73,6 +81,16 @@ class ControllerGuest extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
+    private function orderManagementService(): OrderManagementService
+    {
+    $this->load->module('Guest');
+
+    $this->order_management_service = $this->module_guest->service('OrderManagementService');
+
+    return $this->order_management_service;
+    }
+
+
     private function getHomePageCategories(){}
 
     private function getGuestProfile(){}
@@ -94,6 +112,23 @@ class ControllerGuest extends RestEndpoint{
     private function patchItemFromBasket(){}
 
     private function deleteItemFromBasket(){}
+
+    private function callTaxi(){
+
+        $id = $this->orderManagementService()->callTaxi(
+            $this->getAttr('countdown'),
+            $this->getAttr('order_note')
+            );
+        
+        $this->noContent();
+    }
+
+    private function createWakeUpAlarm(){
+
+        $this->orderManagementService()->wakeUpService(
+            $this->getAttr('wake_up_time')
+        );
+    }
 
 
 }

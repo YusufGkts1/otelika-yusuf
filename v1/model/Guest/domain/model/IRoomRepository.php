@@ -2,20 +2,18 @@
 
 namespace model\Guest\domain\model;
 
-use model\Guest\domain\model\OrderId;
-
 use model\common\Entity;
 use model\common\IPersistenceProvider;
 
-interface IOrderRepository extends IPersistenceProvider
+interface IRoomRepository extends IPersistenceProvider
 {
-    public function find(OrderId $id) : ?Order;
+    public function find(RoomId $id) : ?Room;
 
     public function save(Entity $entity);
 
     public function remove(string $id);
 
-    public function nextId():OrderId;
+    public function nextId():RoomId;
 
 
 }

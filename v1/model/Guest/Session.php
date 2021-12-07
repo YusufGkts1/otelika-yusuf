@@ -29,13 +29,13 @@ class Session {
         return $session->row;
     }
 
-    public function startSession(string $grocer_id, string $ip) : string {
-        $this->endSession($grocer_id);
+    public function startSession(string $guest_id, string $ip) : string {
+        $this->endSession($guest_id);
 
         $token = token(64);
 
-        $this->db->command("INSERT INTO `auth_session` SET grocer_id = :grocer_id, token = :token, ip = :ip, expires_in = :expires_in, last_operation = CURRENT_TIMESTAMP()", array(
-            ':grocer_id' => $grocer_id,
+        $this->db->command("INSERT INTO `auth_session` SET guest_id = :guest_id, token = :token, ip = :ip, expires_in = :expires_in, last_operation = CURRENT_TIMESTAMP()", array(
+            ':guest_id' => $guest_id,
             ':token' => $token,
             ':ip' => $ip,
             ':expires_in' => $this->config->get('session_duration'),
@@ -72,11 +72,11 @@ class Session {
         return true;
     }
 
-    public function getGrocerId(string $token) : string {
+    public function getGuestId(string $token) : string {
         $result = $this->db->query("SELECT * FROM auth_session WHERE token = :token", array(
             ':token' => $token
         ));
-        return $result->row['grocer_id'];
+        return $result->row['guest_id'];
     }
 
     private function resetSessionDuration(string $token) {

@@ -1,7 +1,7 @@
 <?php
 
-use \model\Sdm\Login;
-use \model\Sdm\Session;
+use \model\Guest\Login;
+use \model\Guest\Session;
 
 
 class ControllerSdmAuthorize extends Controller{
@@ -37,21 +37,18 @@ class ControllerSdmAuthorize extends Controller{
 
         switch($data->grant_type){
             case 'basic':
-                if(false == isset($data->phone))
-                    return $this->load->controller('http/error/422', 'phone is missing');
-
-                if(false == isset($data->password))
-                    return $this->load->controller('http/error/422', 'password is missing');
+                if(false == isset($data->guest_phone_or_tc_or_passport_no))
+                    return $this->load->controller('http/error/422', 'Guest information is missing');
 
                 $login_service = $this->loginService();
 
-                $grocer_id = $login_service->loginIsValid($data->phone, $data->password);
-                if(null == $grocer_id)
+                $guest_id = $login_service->loginIsValid($data->guest_phone_or_tc_or_passport_no);
+                if(null == $guest_id)
                     return $this->load->controller('http/error/401', 'could not find a login with provided credentials');
 
                 $session = $this->sessionService();
 
-                $token = $session->startSession($grocer_id, $this->request->server['REMOTE_ADDR']);
+                $token = $session->startSession($guest_id, $this->request->server['REMOTE_ADDR']);
                 return $this->load->controller('http/success/200', array(
                     'data' => array(
                         'token' => $token,
@@ -98,15 +95,15 @@ class ControllerSdmAuthorize extends Controller{
 	 */
 
     private function loginService() : Login {
-        $this->load->module('Sdm');
+        $this->load->module('Guest');
 
-        return $this->module_sdm->service('Login');
+        return $this->module_guest->service('Login');
     }
 
     private function sessionService() : Session {
-        $this->load->module('Sdm');
+        $this->load->module('Guest');
 
-        return $this->module_sdm->service('Session');
+        return $this->module_guest->service('Session');
     }
 }
 ?>
