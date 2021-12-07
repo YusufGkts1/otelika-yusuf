@@ -25,7 +25,12 @@ class ControllerGuest extends RestEndpoint{
             }
             $this->getOrderBasket(); 
         }
-               
+
+        if('fault_record' == $this->uriAt(0))
+            if($this->uriAt(1)){
+                $this->getFaultItem();
+            }
+            $this->fetchFaultItems();
     }
 
     protected function post(){
@@ -42,6 +47,11 @@ class ControllerGuest extends RestEndpoint{
 
         if('wake_up_service' == $this->uriAt(0))
             $this->createWakeUpAlarm();
+
+        if('fault_record' == $this->uriAt(0)){
+            if($this->uriAt(1))
+                $this->sendFaultRecord();
+        }
     }
 
     protected function patch(){
@@ -103,6 +113,10 @@ class ControllerGuest extends RestEndpoint{
 
     private function getSingleItemFromOrderBasket(){}
 
+    private function fetchFaultItems(){}
+
+    private function getFaultItem(){}
+
     private function confirmBasket(){}
 
     private function addToBasket(){}
@@ -112,6 +126,12 @@ class ControllerGuest extends RestEndpoint{
     private function patchItemFromBasket(){}
 
     private function deleteItemFromBasket(){}
+
+    private function sendFaultRecord(){
+        $this->orderManagementService()->createFaultRecord(
+            $this->uriAt(1)
+        );
+    }
 
     private function callTaxi(){
 

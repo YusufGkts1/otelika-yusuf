@@ -27,4 +27,11 @@ class Guest extends Entity
         );
 
     }
+
+    public function sendFaultRecord($broken_item){
+        return new Order(
+            OrderType::Broken()
+        );
+
+    }
 }
