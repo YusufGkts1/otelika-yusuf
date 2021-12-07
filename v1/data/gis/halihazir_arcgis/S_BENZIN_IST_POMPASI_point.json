@@ -1,0 +1,24 @@
+{
+"type": "FeatureCollection",
+"name": "S_BENZIN_IST_POMPASI_point",
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406173.112476760754362, 4544966.098563746549189, 91.780029296875 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406467.197174665052444, 4545440.726730260998011, 71.443275451660156 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 407005.973506532318424, 4545402.239552876912057, 46.5 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 405694.185545081214514, 4544512.576218956150115, 36.879257202148438 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 403899.156215910392348, 4544400.508108212612569, 89.227867126464844 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 403944.76906813448295, 4544442.927716266363859, 90.169845581054688 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 404452.140586166584399, 4544687.644737841561437, 91.046165466308594 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 404745.395699619723018, 4544661.846728522330523, 80.282005310058594 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406710.632777993392665, 4543268.305260390043259, 77.959098815917969 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406772.104905506712385, 4543323.351652866229415, 74.466255187988281 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 405082.73667995253345, 4542145.693626985885203, 70.455352783203125 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406326.521889097290114, 4541601.901753563433886, 20.025266647338867 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406314.779410618706606, 4541630.495373383164406, 19.675266265869141 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406057.597335334168747, 4541615.427649748511612, 27.212766647338867 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 405959.362524859025143, 4542251.493119060061872, 26.957944869995117 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406818.322582221066114, 4541895.900945049710572, 24.364788055419922 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406843.91690562927397, 4541880.51810157019645, 20.614788055419922 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 407240.251789023983292, 4542254.490191131830215, 21.441572189331055 ] } }
+]
+}

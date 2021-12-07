@@ -1,0 +1,4 @@
+[mariadb]
+plugin_load_add = aws_key_management
+aws_key_management_region = us-east-2
+aws_key_management_master_key_id = alias/gungoren_mariadb_custom_master_key

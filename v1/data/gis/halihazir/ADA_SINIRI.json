@@ -1,0 +1,1688 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545475.049944593,
+          405229.2342756654,
+          2.5139999389648438
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545481.32158486,
+          405237.74916317436,
+          2.5139999389648438
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545476.821254629,
+          405228.294804816,
+          2.5139999389648438
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545463.496193596,
+          405235.36036952416,
+          2.5139999389648438
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545465.720331629,
+          405234.1861478738,
+          2.5139999389648438
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545497.28859714,
+          405275.90288134536,
+          2.5139999389648438
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545500.334395086,
+          405282.2996704267,
+          2.5139999389648438
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545488.831231106,
+          405288.37634638214,
+          2.671999931335449
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545474.284505309,
+          405257.9206595142,
+          2.5139999389648438
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545497.212746227,
+          404938.8873697789,
+          0.5099999904632568
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545505.800338986,
+          404934.780981671,
+          0.5070000290870667
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545505.622731281,
+          404934.31681947416,
+          0.4059999883174896
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545609.811952422,
+          405107.38809218997,
+          46.560001373291016
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4545604.044576688,
+          405065.0490985426,
+          12.180000305175781
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544345.925051897,
+          405948.5244299329,
+          12.085111618041992
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544358.803165293,
+          406003.7295021708,
+          4.552740573883057
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544361.013404074,
+          406022.2998647161,
+          1.046846866607666
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544349.9631130295,
+          406023.0437034145,
+          1.1676937341690063
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544314.709743776,
+          406025.4167468203,
+          2.1821751594543457
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544290.901768137,
+          406027.0193556147,
+          1.7564454078674316
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544284.793677466,
+          406004.8219522285,
+          8.092463493347168
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544299.432095507,
+          405966.447000631,
+          14.22854995727539
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544305.00890671,
+          405961.76209831366,
+          16.865629196166992
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544599.618846903,
+          405437.8293114859,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544320.092753826,
+          405783.8212563177,
+          7.452000141143799
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544252.468580823,
+          405776.9976716579,
+          5.964000225067139
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544474.424236552,
+          405848.6336917947,
+          0.019999999552965164
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544339.126394497,
+          405911.1854540167,
+          58.55500030517578
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544333.487860403,
+          405915.11999218224,
+          311.0950012207031
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544338.449191494,
+          405905.82676061004,
+          311.0950012207031
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544301.67305988,
+          404049.33015949465,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544637.662186672,
+          404004.2689510777,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4544469.819827121,
+          405377.1262638245,
+          0.0820000022649765
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543138.343936975,
+          403832.27240451257,
+          2.13100004196167
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543136.576664964,
+          403833.7220173569,
+          0.6330000162124634
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543135.103949577,
+          403842.4864323516,
+          0.39800000190734863
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543135.050439782,
+          403842.7858625505,
+          0.5770000219345093
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543761.069054834,
+          403968.35633333575,
+          3.3953325243762637E-26
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543792.09470875,
+          404244.4522778098,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543734.75190774,
+          404152.4929457463,
+          410
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543790.799885704,
+          404223.8833212401,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542991.903649421,
+          406962.1423584566,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543062.7164648725,
+          406947.62734758045,
+          3872.169921875
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543085.037018495,
+          407405.1505504833,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543084.969603455,
+          407410.83324882097,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543084.892945358,
+          407417.29508327495,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543086.069502836,
+          407318.11808763706,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4543086.013953059,
+          407322.80061282235,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542950.380142777,
+          407321.11372366565,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542783.07028457,
+          407298.76399113087,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542663.758056359,
+          406170.9250987052,
+          0.01600000075995922
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542245.309302652,
+          406423.90441691584,
+          0.019214777275919914
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542229.276758499,
+          406430.359089293,
+          0.033715248107910156
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542064.077226395,
+          406364.44656642876,
+          0.20865529775619507
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542088.207419966,
+          406355.3459745639,
+          0.13837577402591705
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542100.429816921,
+          406350.5969436729,
+          0.1290898472070694
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542112.6791801425,
+          406346.20874820516,
+          0.11370155960321426
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542124.809257181,
+          406341.41830752033,
+          0.08141985535621643
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542132.518562892,
+          406338.91994913097,
+          0.06658142805099487
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542140.125397306,
+          406336.4052335779,
+          0.002387010958045721
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542152.523119974,
+          406332.4042503621,
+          0.0025813758838921785
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542177.05129996,
+          406324.3611715776,
+          0.0017878563376143575
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542590.557136254,
+          406996.0961151835,
+          0.00774353789165616
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542594.863271676,
+          406999.58922763733,
+          0.006500292103737593
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542598.655348586,
+          407003.9054961078,
+          0.006159036885946989
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542601.083859999,
+          407009.7601152415,
+          0.00484243780374527
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542600.951890014,
+          407019.10702092916,
+          0.0027528663631528616
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542599.236250595,
+          407029.5636882988,
+          0.0010063674999400973
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542571.947833171,
+          407012.17268737295,
+          0.002990042557939887
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542573.562005414,
+          407018.9431770103,
+          0.0020000000949949026
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542574.71018222,
+          407017.40631174337,
+          0.0010000000474974513
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542589.761741929,
+          407028.63432633306,
+          0.003000000026077032
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542570.471719364,
+          407026.6184828375,
+          0.0010000000474974513
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542569.323308737,
+          407028.175349088,
+          0.0010000000474974513
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542704.43192344,
+          406983.38623225526,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542665.082357601,
+          407108.48954715574,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542604.51828432,
+          407045.41993206635,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542679.163815298,
+          407371.24296224717,
+          0
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542618.751344145,
+          406645.8420406385,
+          -13.097999572753906
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542566.569533171,
+          406644.3118360093,
+          -13.097999572753906
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542470.266104615,
+          406592.59659608774,
+          0.14499999582767487
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542469.190871202,
+          406586.18283653934,
+          0.14499999582767487
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542469.143188621,
+          406582.5616063001,
+          0.14499999582767487
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542470.816642828,
+          406578.8704803555,
+          0.19200000166893005
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542473.184879637,
+          406577.34787824785,
+          0.19200000166893005
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542477.2881748425,
+          406576.2756398314,
+          0.19200000166893005
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542186.559723439,
+          406447.9836388024,
+          0.0007071819854900241
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542121.820485057,
+          406475.1052247381,
+          0.010481993667781353
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542421.16560053,
+          406722.1046827458,
+          0.00365201267413795
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542433.9256059965,
+          406762.6541876449,
+          0.006911713629961014
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542438.121716717,
+          406775.9888380569,
+          0.007995391264557838
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542397.344591956,
+          406788.01262152096,
+          0.0031629574950784445
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542392.96073308,
+          406774.6367847955,
+          0.0023792425636202097
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542445.518625878,
+          406828.27117008466,
+          0.029424145817756653
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542401.985867909,
+          406802.17387785186,
+          0.00399269163608551
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542554.866866626,
+          406831.7198713258,
+          3
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542545.79171095,
+          406858.53878106654,
+          0.15000000596046448
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542487.83485609,
+          406930.8491295441,
+          0.041575849056243896
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4542491.000709419,
+          406969.5937579431,
+          0.013781923800706863
+        ]
+      },
+      "properties": {
+        "entityType": "CustomFeature",
+        "ad": null,
+        "layerName": "ADA_SINIRI"
+      }
+    }
+  ]
+}

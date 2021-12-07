@@ -1,0 +1,10 @@
+[mariadb]
+innodb_default_encryption_key_id = 1
+innodb_encrypt_tables = FORCE
+innodb_encrypt_temporary_tables = ON
+innodb_encrypt_log = ON
+innodb_encryption_threads = 4
+encrypt_binlog = ON
+encrypt_tmp_disk_tables = ON
+encrypt_tmp_files = ON
+aria_encrypt_tables = ON

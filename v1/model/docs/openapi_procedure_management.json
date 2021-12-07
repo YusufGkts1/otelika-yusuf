@@ -1,0 +1,3323 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ERP",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "https://api.gungoren-dev.com/v1",
+            "description": "Pre Production Server"
+        },
+        {
+            "url": "https://api.gungoren.bel.tr/v1",
+            "description": "Production Server"
+        },
+        {
+            "url": "localhost:8080/v1",
+            "description": "Local Environment"
+        }
+    ],
+    "paths": {
+        "/file": {
+            "get": {
+                "tags": [
+                    "File"
+                ],
+                "summary": "Get file",
+                "operationId": "840ad7ab0ceb8213e6031b62217aae22",
+                "parameters": [
+                    {
+                        "parameter": "token",
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uri"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/octet-stream": {}
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/file/upload": {
+            "post": {
+                "tags": [
+                    "File"
+                ],
+                "summary": "Upload File",
+                "description": "Uploads file to the server and returns a unique ID that represents this file. Attach this unique ID to requests to claim this file. Unclaimed files will be removed after 1 hour",
+                "operationId": "7aec4543a81d8f38b5966c07c320a0e2",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Key - ID pairs",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "description": "key sent with the request",
+                                                        "type": "string"
+                                                    },
+                                                    "id": {
+                                                        "description": "unique id created by the server",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/file/zip": {
+            "post": {
+                "tags": [
+                    "File"
+                ],
+                "summary": "Zip Files",
+                "description": "Create a zip file from given file URIs and returns the URI for that zip file. Unauthorized or non-existing files will be skipped.",
+                "operationId": "8b9dead31b4b8a71841fc8b671b681db",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "properties": {
+                                                    "files": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "format": "uri"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "uri": {
+                                                    "type": "string",
+                                                    "format": "uri"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/procedure_management/application": {
+            "post": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Apply For Procedure",
+                "operationId": "f9d21d889befc5483b134659c8f09ed8",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/container_id"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "captcha": {
+                                        "type": "string"
+                                    },
+                                    "confirmation": {
+                                        "description": "true if user aggrees to the terms",
+                                        "type": "bool"
+                                    },
+                                    "initiator": {
+                                        "type": "object",
+                                        "oneOf": [
+                                            {
+                                                "schema": "individual",
+                                                "properties": {
+                                                    "type": {
+                                                        "description": "\n\t * \t\t\t\t\t\t\t\t\t`Individual = 1`\n\t * \t\t\t\t\t\t\t\t\t`Corporate = 2`",
+                                                        "type": "int"
+                                                    },
+                                                    "tcno": {
+                                                        "type": "string",
+                                                        "maxLength": 11,
+                                                        "minLength": 11,
+                                                        "pattern": "^[0-9]$"
+                                                    },
+                                                    "firstname": {
+                                                        "type": "string"
+                                                    },
+                                                    "lastname": {
+                                                        "type": "string"
+                                                    },
+                                                    "address": {
+                                                        "type": "string"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            {
+                                                "schema": "corporate",
+                                                "properties": {
+                                                    "type": {
+                                                        "description": "\n\t * \t\t\t\t\t\t\t\t\t`Individual = 1`\n\t * \t\t\t\t\t\t\t\t\t`Corporate = 2`",
+                                                        "type": "int"
+                                                    },
+                                                    "tax_number": {
+                                                        "description": "can be either a TCNO or a tax number",
+                                                        "type": "string",
+                                                        "maxLength": 11,
+                                                        "minLength": 10,
+                                                        "pattern": "^[0-9]$"
+                                                    },
+                                                    "tax_office": {
+                                                        "type": "string"
+                                                    },
+                                                    "corporate_name": {
+                                                        "type": "string"
+                                                    },
+                                                    "address": {
+                                                        "type": "string"
+                                                    },
+                                                    "phone": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        ]
+                                    },
+                                    "form": {
+                                        "description": "Must be of format: { form: { items: [{...}, ...] } }",
+                                        "type": "string",
+                                        "format": "json"
+                                    },
+                                    "kvkk": {
+                                        "description": "true if user aggrees to the terms",
+                                        "type": "bool"
+                                    },
+                                    "repeatable": {
+                                        "type": "bool"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure": {
+            "get": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Fetch Procedures",
+                "operationId": "72bd717737460ea824ac6c832005594e",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/procedure_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/procedure"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Start Procedure",
+                "operationId": "a60ffd0d47d871963e1bd69c90dfd0d4",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/procedure_include"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "oneOf": [
+                                            {
+                                                "property": "attributes",
+                                                "properties": {
+                                                    "attributes": {
+                                                        "required": [
+                                                            "structure_id",
+                                                            "procedure_type",
+                                                            "description"
+                                                        ],
+                                                        "properties": {
+                                                            "structure_id": {
+                                                                "type": "string"
+                                                            },
+                                                            "procedure_type": {
+                                                                "$ref": "#/components/schemas/procedure_type_structure"
+                                                            },
+                                                            "description": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            {
+                                                "property": "attributes",
+                                                "properties": {
+                                                    "attributes": {
+                                                        "required": [
+                                                            "ada",
+                                                            "parsel",
+                                                            "procedure_type",
+                                                            "description"
+                                                        ],
+                                                        "properties": {
+                                                            "ada": {
+                                                                "nullable": true,
+                                                                "type": "string"
+                                                            },
+                                                            "parsel": {
+                                                                "type": "string"
+                                                            },
+                                                            "procedure_type": {
+                                                                "$ref": "#/components/schemas/procedure_type_parcel"
+                                                            },
+                                                            "description": {
+                                                                "type": "string"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/procedure"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/category": {
+            "get": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Fetch Categories",
+                "operationId": "19278274fa32d67d300da2ba7ed85ba2",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_category_filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/procedure_category"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}": {
+            "get": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Get Single Procedure",
+                "operationId": "7921f88722b420c9ea0163141e1b399c",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/procedure_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/procedure"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Cancel Procedure",
+                "operationId": "897860e887ac40c6160d278a70cb3226",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Update procedure",
+                "operationId": "cb357521deec6fa7d285f797c12ea95f",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/procedure_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "properties": {
+                                                    "description": {
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/procedure"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/event": {
+            "get": {
+                "tags": [
+                    "Event (Procedure)"
+                ],
+                "summary": "Fetch Procedure Events",
+                "operationId": "2c87642b831ae99792820708d52c9620",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/procedure_event_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/procedure_event"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/event/{event_id}": {
+            "get": {
+                "tags": [
+                    "Event (Procedure)"
+                ],
+                "summary": "Get Single Event",
+                "operationId": "7d9f7e8b47286432f3335e7c061b93cb",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/procedure_event_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/procedure_event_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/procedure_event"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/attachment": {
+            "get": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Fetch Procedure Attachemnts",
+                "description": "Aggregates procedure's steps' attachments",
+                "operationId": "cc4293037ee8378eae2ef8999d7cec77",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_attachment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/step_attachment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/comment": {
+            "get": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Fetch Procedure Comments",
+                "description": "Aggregates procedure's steps' comments",
+                "operationId": "4df4e8bf728eb1bce7d429e0374f8995",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/step_comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/subprocedure": {
+            "get": {
+                "tags": [
+                    "Subprocedure"
+                ],
+                "summary": "Get Subprocedures of Procedure",
+                "operationId": "06cf2c02b38ce24fd421c5ce34e356f2",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subprocedure_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/subprocedure"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/subprocedure/{subprocedure_id}": {
+            "get": {
+                "tags": [
+                    "Subprocedure"
+                ],
+                "summary": "Get Single Subprocedure",
+                "operationId": "f1fbc9c3fcf87c383cbf102927a66a11",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subprocedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subprocedure_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/subprocedure"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/step": {
+            "get": {
+                "tags": [
+                    "Step"
+                ],
+                "summary": "Get Procedure Steps",
+                "operationId": "b3525de0579c2c0ab4c3cdbd5f7fae10",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/step"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/step/{step_id}": {
+            "get": {
+                "tags": [
+                    "Step"
+                ],
+                "summary": "Get Single Step",
+                "operationId": "fc8719a539f0bb1038fa31c7c1c6a02a",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/step"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/step/{step_id}/comment": {
+            "get": {
+                "tags": [
+                    "Comment (Step)"
+                ],
+                "summary": "Get Step Comments",
+                "operationId": "503e0de8490dc3a68cf66fbb60f2e192",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/step_comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Comment (Step)"
+                ],
+                "summary": "Comment on Step",
+                "operationId": "2597d718f2f5566ff4437a156ea119ab",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/comment_request_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/step_comment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/step/{step_id}/comment/{comment_id}": {
+            "get": {
+                "tags": [
+                    "Comment (Step)"
+                ],
+                "summary": "Get Single Comment",
+                "operationId": "812b1f6e9450dfcf41e5eb75cadc16db",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_comment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/step_comment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Comment (Step)"
+                ],
+                "summary": "Remove Step Comment",
+                "operationId": "3db8ecc0cec1678b39cbf0cd736c89eb",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_comment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Comment (Step)"
+                ],
+                "summary": "Update Step Comment",
+                "operationId": "96b18f40adcec6fdb64c13f255f77e67",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_comment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_comment_include"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/comment_request_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/step_comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/step/{step_id}/attachment": {
+            "get": {
+                "tags": [
+                    "Attachment (Step)"
+                ],
+                "summary": "Get Step Attachments",
+                "operationId": "5c1d39b451fc8aa5e2cab4a1c1bd9fe2",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_attachment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/step_attachment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Attachment (Step)"
+                ],
+                "summary": "Add Attachment To Step",
+                "operationId": "2cb416aea2618a8e0650c47a806e0983",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_attachment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "required": [
+                                                    "base64",
+                                                    "name"
+                                                ],
+                                                "properties": {
+                                                    "base64": {
+                                                        "type": "binary"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/step_attachment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/step/{step_id}/attachment/{attachment_id}": {
+            "get": {
+                "tags": [
+                    "Attachment (Step)"
+                ],
+                "summary": "Get Single Attachment",
+                "operationId": "071f316d222d2919327ef6e38a6cfbec",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_attachment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_attachment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/step_attachment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Attachment (Step)"
+                ],
+                "summary": "Remove Step Attachment",
+                "operationId": "d4da2e29751ee250b7d21b0be80f7d9b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/step_attachment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/advance": {
+            "post": {
+                "tags": [
+                    "Procedure"
+                ],
+                "summary": "Advance Procedure",
+                "operationId": "636f05d01dba02d3e2908ad9462d12bc",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/procedure_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "required": [
+                                                    "container_id",
+                                                    "choice"
+                                                ],
+                                                "properties": {
+                                                    "choice": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/procedure"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/procedure_management/procedure/{procedure_id}/subprocedure/{subprocedure_id}/advance": {
+            "post": {
+                "tags": [
+                    "Subprocedure"
+                ],
+                "summary": "Advance Subprocedure",
+                "operationId": "ace00490b596557b8fb79c3cd02211d6",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/procedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subprocedure_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subprocedure_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "required": [
+                                                    "container_id",
+                                                    "choice"
+                                                ],
+                                                "properties": {
+                                                    "choice": {
+                                                        "type": "integer"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/subprocedure"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "authorization": {
+                "type": "string"
+            },
+            "error": {
+                "properties": {
+                    "code": {
+                        "type": "integer"
+                    },
+                    "detail": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "errors": {
+                "properties": {
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/error"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "personnel_basic": {
+                "title": "Personnel Basic",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "image_uri": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "uri"
+                            },
+                            "firstname": {
+                                "type": "string"
+                            },
+                            "lastname": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "citizen": {
+                "title": "Citizen",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "tcno": {
+                                "type": "string",
+                                "maxLength": 11,
+                                "minLength": 11
+                            },
+                            "firstname": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "lastname": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "gender": {
+                                "nullable": true,
+                                "description": "`1 = Female`, `2 = Male`",
+                                "type": "integer"
+                            },
+                            "address": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "phone": {
+                                "nullable": true,
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "corporation": {
+                "title": "Corporation",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "tax_number": {
+                                "type": "string",
+                                "maxLength": 11,
+                                "minLength": 10
+                            },
+                            "tax_office": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "title": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "address": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "phone": {
+                                "nullable": true,
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "feature_type": {
+                "type": "string",
+                "enum": [
+                    "parcel",
+                    "structure",
+                    "numbering",
+                    "district",
+                    "road",
+                    "poi",
+                    "custom"
+                ]
+            },
+            "department": {
+                "title": "Department",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "parent_department": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "director": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "director_allowed_parent_depth": {
+                                "type": "integer"
+                            },
+                            "director_allowed_child_depth": {
+                                "type": "integer"
+                            },
+                            "member_allowed_parent_depth": {
+                                "type": "integer"
+                            },
+                            "member_allowed_child_depth": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "director": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "comment_request_body": {
+                "title": "Comment",
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "department_basic": {
+                "title": "Department",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "task": {
+                "title": "Task",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "assigner": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "start_date": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "due_date": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "location": {
+                                "nullable": true,
+                                "properties": {
+                                    "latitude": {
+                                        "type": "string",
+                                        "maximum": "90",
+                                        "minimum": "-90"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "maximum": "180",
+                                        "minimum": "-180"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "priority": {
+                                "description": "`1 = Clear`, `2 = Low`, `3 = Medium`, `4 = High`, `5 = Urgent`",
+                                "type": "integer",
+                                "maximum": 5,
+                                "minimum": 1
+                            },
+                            "status": {
+                                "description": "`1 = Open`, `2 = InProgress`, `3 = Delayed`, `4 = Complete`, `5 = Cancelled`",
+                                "type": "integer",
+                                "maximum": 5,
+                                "minimum": 1
+                            },
+                            "created_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "edited_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "subtask": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/subtask"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "assignee": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/personnel_basic"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "comment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/comment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "event": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/event"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "attachment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/attachment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "subtask": {
+                "title": "Subtask",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "assigner": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "due_date": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "location": {
+                                "nullable": true,
+                                "properties": {
+                                    "latitude": {
+                                        "type": "string",
+                                        "maximum": "90",
+                                        "minimum": "-90"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "maximum": "180",
+                                        "minimum": "-180"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "priority": {
+                                "description": "`1 = Clear`, `2 = Low`, `3 = Medium`, `4 = High`, `5 = Urgent`",
+                                "type": "integer",
+                                "maximum": 5,
+                                "minimum": 1
+                            },
+                            "status": {
+                                "description": "`1 = Open`, `2 = InProgress`, `3 = Delayed`, `4 = Complete`, `5 = Cancelled`",
+                                "type": "integer",
+                                "maximum": 5,
+                                "minimum": 1
+                            },
+                            "created_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "assignee": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/personnel_basic"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "comment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/comment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "event": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/event"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "attachment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/attachment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "comment": {
+                "title": "Comment",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "edited_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "commented_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "commentator": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "event": {
+                "title": "Event",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "type": {
+                                "description": "`StatusChanged = 1`, `TitleChanged = 2`, `Assigned = 3`, `Deassigned = 4`, `DescriptionUpdated = 5`, `DueDateChanged = 6`, `SubtaskCreated = 7`, `SubtaskRemoved = 8`, `PriorityChanged = 10`, `LocationChanged = 11`, `AttachmentAttached = 12`, `AttachmentRemoved = 13`, `StartDateChanged = 14`",
+                                "type": "integer",
+                                "maximum": 14,
+                                "minimum": 1
+                            },
+                            "occurred_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "data": {
+                                "description": "\n * \t\t\t\t\tDepending on the event type, this object will contain following properties: \n * \t\t\t\t\t`type == 1` => `{ status_old: int, status_new: int }`,\n * \t\t\t\t\t`type == 2` => `{ title_old: string, title_new: string }`,\n * \t\t\t\t\t`type == 3` => `{ assignee: int }`,\n * \t\t\t\t\t`type == 4` => `{ assignee: int }`,\n * \t\t\t\t\t`type == 5` => `{ description: string }`,\n * \t\t\t\t\t`type == 6` => `{ due_date_old: string(datetime), due_date_new: string(datetime) }`,\n * \t\t\t\t\t`type == 7` => `{ title: string }`,\n * \t\t\t\t\t`type == 8` => `{ title: string }`,\n * \t\t\t\t\t`type == 10` => `{ priority_old: int, priority_new: int }`,\n * \t\t\t\t\t`type == 11` => `{ location: { latitude: string, longitude: string } }`,\n * \t\t\t\t\t`type == 12` => `{ name: string }`,\n * \t\t\t\t\t`type == 13` => `{ name: string }`,\n * \t\t\t\t\t`type == 14` => `{ start_date_old: string(datetime), start_date_new: string(datetime) }`\n * \t\t\t\t",
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "enabler": {
+                                "nullable": true,
+                                "description": "NULL if event was triggered by the system",
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "attachment": {
+                "title": "attachment",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "extension": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "uri": {
+                                "description": "Direct access URI",
+                                "type": "string",
+                                "format": "uri"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "uploader": {
+                                "nullable": "true",
+                                "description": "NULL if attachment was added by the system",
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "procedure_type": {
+                "description": "\n * \t\t\t`(Numarataj) Numbering = 1`\n *\t\t\t`(Yapı Ruhsatı) BuildingPermit = 2`\n *\t\t\t`(İnşaat İstikamet Rölevesi) ConstructionDirectionSurveying = 3`\n *\t\t\t`(Kot Kesit Rölevesi) ElevationProfileSurveying = 4`\n *\t\t\t`(Yola Terk) Expropriation = 5`\n *\t\t\t`(İfraz) Parcelling = 6`\n *\t\t\t`(Tevhit) Amalgamation = 7`\n *\t\t\t`(Ecrimisil) OccupationCompensationByManagement = 8`\n *\t\t\t`(Ecrimisil - Vatandaş) OccupationCompensationByCitizen = 9`\n *\t\t\t`(1/5000 Ölçekli Plan Değişimi) PlanChange1to5000Internal = 10`\n *\t\t\t`(1/5000 Ölçekli Plan Değişimi - Vatandaş) PlanChange1to5000External = 11`\n *\t\t\t`(Yıkım Ruhsatı) DeconstructionPermit = 12`\n *\t\t\t`(Avan Proje) PreliminaryDesign = 13`\n *\t\t\t`(Yazılı İmar Durumu) WrittenZoningStatus = 14`\n *\t\t\t`Riskli Yapı = 15`\n *\t\t\t`Kira Yardımı (Mal Sahibi) = 16`\n *\t\t\t`Kira Yardımı (Kiracı) = 17`\n *\t\t\t`Test = 18`",
+                "type": "integer"
+            },
+            "application": {
+                "title": "Application",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "form_data": {
+                                "type": "string",
+                                "format": "json"
+                            },
+                            "applied_on": {
+                                "type": "string",
+                                "format": "date"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "applicant": {
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "oneOf": [
+                                            {
+                                                "$ref": "#/components/schemas/citizen"
+                                            },
+                                            {
+                                                "$ref": "#/components/schemas/corporation"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "step_attachment": {
+                "title": "attachment",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "extension": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "uri": {
+                                "description": "Direct access URI",
+                                "type": "string",
+                                "format": "uri"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "uploader": {
+                                "nullable": "true",
+                                "description": "NULL if attachment was added by the system",
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "procedure_category": {
+                "title": "Category",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "container_type": {
+                                "$ref": "#/components/schemas/container_type"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "active": {
+                                "type": "integer"
+                            },
+                            "total": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "choice_type": {
+                "description": "`Transition = 1`, `Success = 2`, `Failure = 3`",
+                "type": "integer"
+            },
+            "step_choice": {
+                "title": "Choice",
+                "properties": {
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "$ref": "#/components/schemas/choice_type"
+                            },
+                            "number": {
+                                "type": "integer"
+                            },
+                            "wait_for_days": {
+                                "nullable": true,
+                                "type": "integer"
+                            },
+                            "remaining_days": {
+                                "nullable": true,
+                                "description": "How many days more must pass before this choice can be choosen. null if wait_for_days is null. 0 if step is complete. wait_for_days if step is not yet activated.",
+                                "type": "integer"
+                            },
+                            "is_selected": {
+                                "type": "boolean"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "next_step": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/step"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "subprocedure": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/subprocedure"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "step_comment": {
+                "title": "Comment",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "edited_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "commented_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "commentator": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "container_type": {
+                "description": "`1 = Structure`, `2 = Parcel`",
+                "type": "integer"
+            },
+            "container": {
+                "title": "Container",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "type": {
+                                "$ref": "#/components/schemas/container_type"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "procedure": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/procedure"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "procedure_structure": {
+                "title": "Structure",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "ada": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "pafta": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "parsel": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "blok_adi": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "yol_alti_kat_sayisi": {
+                                "nullable": true,
+                                "type": "integer"
+                            },
+                            "yol_ustu_kat_sayisi": {
+                                "nullable": true,
+                                "type": "integer"
+                            },
+                            "bina_durum": {
+                                "nullable": true,
+                                "type": "integer"
+                            },
+                            "bina_durum_str": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "bina_yapi_tipi": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "bina_yapi_tipi_str": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "site_adi": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "posta_kodu": {
+                                "nullable": true,
+                                "type": "integer"
+                            },
+                            "csbm_kodu": {
+                                "nullable": true,
+                                "type": "integer"
+                            },
+                            "kod": {
+                                "nullable": true,
+                                "type": "integer"
+                            },
+                            "es_bina_kimlik_no": {
+                                "nullable": true,
+                                "type": "integer"
+                            },
+                            "es_bina_kodu": {
+                                "nullable": true,
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "procedure_parcel": {
+                "title": "Parcel",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "ada": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "pafta": {
+                                "nullable": true,
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "meta": {
+                        "properties": {
+                            "yapi": {
+                                "type": "integer"
+                            },
+                            "yapi_mesken": {
+                                "type": "integer"
+                            },
+                            "yapi_ticari": {
+                                "type": "integer"
+                            },
+                            "yapi_kamu": {
+                                "type": "integer"
+                            },
+                            "yapi_diger": {
+                                "type": "integer"
+                            },
+                            "yapi_riskli": {
+                                "type": "integer"
+                            },
+                            "numarataj": {
+                                "type": "integer"
+                            },
+                            "bagimsiz_bolum": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "procedure_event": {
+                "title": "Event",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "type": {
+                                "description": "`Advanced = 1`, `SubprocedureAdvanced = 2`, `DescriptionChanged = 3`, `Commented = 4`, `AttachmentAttached = 5`",
+                                "type": "integer",
+                                "maximum": 5,
+                                "minimum": 1
+                            },
+                            "occurred_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "data": {
+                                "nullable": true,
+                                "description": "\n\t * \t\t\t\tDepending on the event type, this object will contain following properties: \n\t * \t\t\t\t`type == 1` => `{ old_step: string (title), new_step: string (title) (null if new step is null) }`,\n\t * \t\t\t\t`type == 2` => `{ subprocedure: string (title), old_step: string (title), new_step: string (title) (null if new step is null) }`,\n\t * \t\t\t\t`type == 3` => `{ old_description: string (first 128 characters), new_description: (first 128 characters) }`,\n\t * \t\t\t\t`type == 4` => `{ step: string (title), comment: string (message) (first 128 characters) }`,\n\t * \t\t\t\t`type == 5` => `{ step: string (title), attachment: string (name) }`\n\t * \t\t\t",
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "enabler": {
+                                "nullable": true,
+                                "description": "NULL if event was triggered by the system",
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "procedure_type_parcel": {
+                "description": "\n * \t\t\t`(Numarataj) Numbering = 1`\n *\t\t\t`(Yapı Ruhsatı) BuildingPermit = 2`\n *\t\t\t`(İnşaat İstikamet Rölevesi) ConstructionDirectionSurveying = 3`\n *\t\t\t`(Kot Kesit Rölevesi) ElevationProfileSurveying = 4`\n *\t\t\t`(Yola Terk) Expropriation = 5`\n *\t\t\t`(İfraz) Parcelling = 6`\n *\t\t\t`(Tevhit) Amalgamation = 7`\n *\t\t\t`(Ecrimisil) OccupationCompensationByManagement = 8`\n *\t\t\t`(Ecrimisil - Vatandaş) OccupationCompensationByCitizen = 9`\n *\t\t\t`(1/5000 Ölçekli Plan Değişimi) PlanChange1to5000Internal = 10`\n *\t\t\t`(1/5000 Ölçekli Plan Değişimi - Vatandaş) PlanChange1to5000External = 11`\n *\t\t\t`(Avan Proje) PreliminaryDesign = 13`\n *\t\t\t`(Yazılı İmar Durumu) WrittenZoningStatus = 14`\n *\t\t\t`Test = 18`",
+                "type": "integer"
+            },
+            "procedure_type_structure": {
+                "description": "\n * \t\t\t`(Yıkım Ruhsatı) DeconstructionPermit = 12`\n * \t\t\t`Riskli Yapı = 15`\n * \t\t\t`Kira Yardımı (Mal Sahibi) = 16`\n * \t\t\t`Kira Yardımı (Kiracı) = 17`\n * \t\t\t`Test = 18`",
+                "type": "integer"
+            },
+            "procedure": {
+                "title": "Procedure",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "current_step": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "due_date": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "type": {
+                                "$ref": "#/components/schemas/procedure_type"
+                            },
+                            "is_complete": {
+                                "type": "boolean"
+                            },
+                            "completed_on": {
+                                "nullable": true,
+                                "description": "null if procedure is not yet complete",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "date_created": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "subprocedure": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/subprocedure"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "step": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/step"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "event": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/procedure_event"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "container": {
+                                "properties": {
+                                    "data": {
+                                        "type": "object",
+                                        "oneOf": [
+                                            {
+                                                "$ref": "#/components/schemas/procedure_structure"
+                                            },
+                                            {
+                                                "$ref": "#/components/schemas/procedure_parcel"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "application": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/application"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "department": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/department"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "started_by": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "completed_by": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "step_trigger": {
+                "title": "Trigger",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "description": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "step": {
+                "title": "Step",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "out_of_scope": {
+                                "type": "boolean"
+                            },
+                            "is_complete": {
+                                "type": "boolean"
+                            },
+                            "completed_on": {
+                                "nullable": true,
+                                "description": "null if step is not yet complete",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "activated_on": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "due_date": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "choice": {
+                                "nullable": true,
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/step_choice"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "trigger": {
+                                "nullable": true,
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/step_trigger"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "comment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/step_comment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "attachment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/step_attachment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "completed_by": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "subprocedure": {
+                "title": "Subprocedure",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "attributes": {
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "current_step": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "is_active": {
+                                "type": "boolean"
+                            },
+                            "is_complete": {
+                                "type": "boolean"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "step": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/step"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "204": {
+                "description": "No Content"
+            },
+            "400": {
+                "description": "BadRequest",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/errors"
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "Unatuhorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/errors"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "NotFound",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/errors"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "container_id": {
+                "name": "container_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "procedure_id": {
+                "name": "procedure_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "procedure_order_by": {
+                "name": "orderby",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "container_id",
+                        "title",
+                        "type",
+                        "date_created"
+                    ]
+                }
+            },
+            "procedure_filter": {
+                "name": "filter",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "container_id",
+                        "title",
+                        "type",
+                        "date_created",
+                        "is_complete"
+                    ]
+                }
+            },
+            "procedure_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "application",
+                        "application.applicant",
+                        "subprocedure",
+                        "subprocedure.{subprocedure_include}",
+                        "step",
+                        "step.{step_include}",
+                        "event",
+                        "event.{event_include}",
+                        "container",
+                        "department",
+                        "started_by",
+                        "completed_by"
+                    ]
+                }
+            },
+            "procedure_category_filter": {
+                "name": "filter",
+                "in": "query",
+                "description": "`1 = Structure`, `2 = Parcel`",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "2"
+                    ]
+                }
+            },
+            "subprocedure_id": {
+                "name": "subprocedure_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "subprocedure_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "step",
+                        "step.{step_include}"
+                    ]
+                }
+            },
+            "step_id": {
+                "name": "step_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "step_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "choice",
+                        "choice.next_step",
+                        "choice.next_step.{step_include}",
+                        "choice.subprocedure",
+                        "choice.subprocedure.{subprocedure_include}",
+                        "trigger",
+                        "comment",
+                        "comment.{comment_include}",
+                        "attachment",
+                        "attachment.{attachment_include}",
+                        "completed_by"
+                    ]
+                }
+            },
+            "procedure_event_id": {
+                "name": "event_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "procedure_event_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "enabler"
+                    ]
+                }
+            },
+            "step_comment_id": {
+                "name": "comment_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "step_comment_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "commentator"
+                    ]
+                }
+            },
+            "step_attachment_id": {
+                "name": "attachment_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "step_attachment_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "uploader"
+                    ]
+                }
+            },
+            "application_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "applicant"
+                    ]
+                }
+            },
+            "authorization": {
+                "name": "Authorization",
+                "in": "header",
+                "schema": {
+                    "$ref": "#/components/schemas/authorization"
+                }
+            },
+            "comment_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "commentator"
+                    ]
+                }
+            }
+        }
+    },
+    "x-tagGroups": [
+        {
+            "name": "Task Management",
+            "tags": [
+                "Task",
+                "Subtask",
+                "Assignement",
+                "Comment",
+                "Event",
+                "Attachment"
+            ]
+        },
+        {
+            "name": "File",
+            "tags": [
+                "File"
+            ]
+        },
+        {
+            "name": "Procedure Management",
+            "tags": [
+                "Procedure",
+                "Subprocedure",
+                "Step",
+                "Event (Procedure)",
+                "Comment (Step)",
+                "Attachment (Step)"
+            ]
+        },
+        {
+            "name": "GIS",
+            "tags": [
+                "Stats",
+                "Feature",
+                "Feature (Public)",
+                "Search",
+                "Search (Public)",
+                "POI",
+                "POI (Public)",
+                "Custom Feature",
+                "Custom Feature (Public)",
+                "District",
+                "District (Public)",
+                "CSBM",
+                "CSBM (Public)",
+                "Road",
+                "Road (Public)",
+                "Parcel",
+                "Parcel (Public)",
+                "Structure",
+                "Structure (Public)",
+                "Numbering",
+                "Numbering (Public)",
+                "Independent Section",
+                "Independent Section (Public)",
+                "Inhabitant",
+                "Document",
+                "Tag (Structure)",
+                "Tag (Parcel)",
+                "Comment (Structure)",
+                "Comment (Parcel)",
+                "Attachment (Structure)",
+                "Procedure (Structure)",
+                "Procedure (Parcel)",
+                "Plan"
+            ]
+        },
+        {
+            "name": "Sdm",
+            "tags": [
+                "Auth (Grocer)",
+                "Forgotten Password (Grocer)"
+            ]
+        },
+        {
+            "name": "Polling",
+            "tags": [
+                "Auth",
+                "Queue",
+                "DirectMessage",
+                "DemoMessage",
+                "Message",
+                "Citizen",
+                "MessageTemplate",
+                "FilterTemplate",
+                "Category (Citizen)",
+                "Tag (Citizen)",
+                "Survey",
+                "Submission",
+                "Submission (Public)",
+                "Filter",
+                "Tag Rule"
+            ]
+        }
+    ]
+}

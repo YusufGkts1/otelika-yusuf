@@ -1,0 +1,13 @@
+{
+"type": "FeatureCollection",
+"name": "S_GSM_BAZ_IST_point",
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 404181.494721282913815, 4544605.829329816624522, 70.10498046875 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 404172.24024380708579, 4544629.562291741371155, 70.146575927734375 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 405028.477105244470295, 4544125.81465916801244, 78.824996948242188 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406616.209422394167632, 4543330.548482230864465, 70.17523193359375 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 407260.968639266793616, 4542937.790050283074379, 37.281509399414062 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 405105.437945151119493, 4542197.033078505657613, 100.866714477539062 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406718.415814251406118, 4541681.976605567149818, 14.550529479980469 ] } }
+]
+}

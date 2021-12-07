@@ -1,0 +1,73 @@
+cd ..
+
+function get_exclusion_string() {
+	controller_folder=$1
+	model_folder=$2
+
+	exclusion_string='./system'
+
+	for d in ./controller/*/ ; do
+		if [ `basename $d` == $controller_folder ]; then
+			: # do nothing
+		else
+			if [ -z "$exclusion_string" ]; then
+				: # do nothing
+			else
+				exclusion_string="$exclusion_string,"
+			fi
+
+			exclusion_string="$exclusion_string $d"
+		fi
+	done
+
+	for d in ./model/*/ ; do
+		if [ `basename $d` == $model_folder ]; then
+			: # do nothing
+		else
+			if [ -z "$exclusion_string" ]; then
+				: # do nothing
+			else
+				exclusion_string="$exclusion_string,"
+			fi
+
+			exclusion_string="$exclusion_string $d"
+		fi
+	done
+
+	exclusion_string="${exclusion_string// /}"
+
+	# echo "\nEXCLUSION STRING"
+	# echo "$exclusion_string"
+	# echo "\n"
+
+	echo "$exclusion_string"
+}
+
+task_management_controller_folder='task_management'
+task_management_model_folder='TaskManagement'
+
+procedure_management_controller_folder='procedure_management'
+procedure_management_model_folder='ProcedureManagement'
+
+gis_controller_folder='gis'
+gis_model_folder='StructureProfile'
+
+polling_controller_folder='polling'
+polling_model_folder='Polling'
+
+sdm_controller_folder='sdm'
+sdm_model_folder='Sdm'
+
+task_management_exclusion_string=$(get_exclusion_string $task_management_controller_folder $task_management_model_folder)
+procedure_management_exclusion_string=$(get_exclusion_string $procedure_management_controller_folder $procedure_management_model_folder)
+gis_exclusion_string=$(get_exclusion_string $gis_controller_folder $gis_model_folder)
+polling_exclusion_string=$(get_exclusion_string $polling_controller_folder $polling_model_folder)
+sdm_exclusion_string=$(get_exclusion_string $sdm_controller_folder $sdm_model_folder)
+
+
+# ./system/storage/vendor/bin/openapi --exclude "$task_management_exclusion_string" --output ./docs/openapi_task_management.json .
+# ./system/storage/vendor/bin/openapi --exclude "$procedure_management_exclusion_string" --output ./docs/openapi_procedure_management.json .
+# ./system/storage/vendor/bin/openapi --exclude "$gis_exclusion_string" --output ./docs/openapi_gis.json .
+# ./system/storage/vendor/bin/openapi --exclude "$polling_exclusion_string" --output ./docs/openapi_polling.json .
+./system/storage/vendor/bin/openapi --exclude "$sdm_exclusion_string" --output ./docs/openapi_sdm.json .
+

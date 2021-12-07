@@ -1,0 +1,9 @@
+gdal_translate -co COMPRESS=JPEG -co PHOTOMETRIC=YCBCR -co TILED=YES c1982PL_1.tif c1982PL_1_comp.tif
+
+gdaladdo \
+  --config COMPRESS_OVERVIEW JPEG \
+  --config PHOTOMETRIC_OVERVIEW YCBCR \
+  --config INTERLEAVE_OVERVIEW PIXEL \
+  -r average \
+  c1982PL_1_comp.tif \
+  2 4 8 16

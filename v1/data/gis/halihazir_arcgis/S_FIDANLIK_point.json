@@ -1,0 +1,21 @@
+{
+"type": "FeatureCollection",
+"name": "S_FIDANLIK_point",
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 405548.439481963927392, 4544650.730039314366877, 29.971456527709961 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 405581.50412803812651, 4544601.806775661185384, 31.621456146240234 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 405547.051621987309773, 4544595.102130656130612, 31.021455764770508 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406513.742349542793818, 4541953.808149199001491, 30.589788436889648 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406509.998213217244484, 4541931.335360770113766, 28.189788818359375 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406635.756108761182986, 4542038.636528570204973, 32.989788055419922 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406705.090466011490207, 4541774.819437393918633, 16.823513031005859 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406760.811548100085929, 4541668.241416369564831, 16.505491256713867 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406583.130521799088456, 4541603.270552823320031, 13.871078491210938 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406758.9187370405416, 4541552.1621472556144, 11.433582305908203 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406830.748438934853766, 4541589.264935786835849, 12.63358211517334 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406827.035411988908891, 4541613.125594447366893, 13.833582878112793 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406778.198575564660132, 4541587.008922198787332, 13.083582878112793 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406710.263289825175889, 4541533.248663610778749, 11.733582496643066 ] } },
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406802.751727254129946, 4541575.011747471056879, 12.0048828125 ] } }
+]
+}

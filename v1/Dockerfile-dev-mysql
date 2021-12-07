@@ -1,0 +1,14 @@
+FROM mysql:latest
+
+RUN apt-get update
+
+# TOOLS
+RUN apt-get install -y nano \
+        curl \
+        git \
+        net-tools
+
+RUN echo "init_command=\"SET @@global.time_zone = '+03:00';\"" >> /etc/mysql/conf.d/mysql.cnf
+RUN sed 's/--protocol=socket -uroot -hlocalhost/--protocol=socket -uroot -hlocalhost --disable-auto-rehash/' /entrypoint.sh
+
+EXPOSE 33060:3306

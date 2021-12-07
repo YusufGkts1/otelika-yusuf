@@ -1,0 +1,2713 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "ERP",
+        "version": "0.1"
+    },
+    "servers": [
+        {
+            "url": "https://api.gungoren-dev.com/v1",
+            "description": "Pre Production Server"
+        },
+        {
+            "url": "https://api.gungoren.bel.tr/v1",
+            "description": "Production Server"
+        },
+        {
+            "url": "localhost:8080/v1",
+            "description": "Local Environment"
+        }
+    ],
+    "paths": {
+        "/file": {
+            "get": {
+                "tags": [
+                    "File"
+                ],
+                "summary": "Get file",
+                "operationId": "840ad7ab0ceb8213e6031b62217aae22",
+                "parameters": [
+                    {
+                        "parameter": "token",
+                        "name": "token",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uri"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/octet-stream": {}
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/file/upload": {
+            "post": {
+                "tags": [
+                    "File"
+                ],
+                "summary": "Upload File",
+                "description": "Uploads file to the server and returns a unique ID that represents this file. Attach this unique ID to requests to claim this file. Unclaimed files will be removed after 1 hour",
+                "operationId": "7aec4543a81d8f38b5966c07c320a0e2",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Key - ID pairs",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "description": "key sent with the request",
+                                                        "type": "string"
+                                                    },
+                                                    "id": {
+                                                        "description": "unique id created by the server",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/file/zip": {
+            "post": {
+                "tags": [
+                    "File"
+                ],
+                "summary": "Zip Files",
+                "description": "Create a zip file from given file URIs and returns the URI for that zip file. Unauthorized or non-existing files will be skipped.",
+                "operationId": "8b9dead31b4b8a71841fc8b671b681db",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "properties": {
+                                                    "files": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string",
+                                                            "format": "uri"
+                                                        }
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "uri": {
+                                                    "type": "string",
+                                                    "format": "uri"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            }
+        },
+        "/task_management/task": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Get Tasks",
+                "description": "Returns tasks and subtasks that are related to the `active` personnel",
+                "operationId": "25267e5e633b248807b5765c9ffdf325",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_order_by"
+                    },
+                    {
+                        "$ref": "#/components/parameters/task_filter"
+                    },
+                    {
+                        "$ref": "#/components/parameters/task_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/task"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Create Task",
+                "operationId": "228009accdfad36bb4905b61979e207f",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/task_include"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/task_post_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/task"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Get Single Task",
+                "description": "Returns a single task and it's subtasks that is related to the `active` personnel",
+                "operationId": "73f913edf28d6d8322814d03b6bce832",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/task_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/task"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Remove Task",
+                "operationId": "c6f5af468447b1dceb41a3304cb5bad8",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Update Task",
+                "operationId": "3abfcc912775d14b409dec4726da667c",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/task_include"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/task_patch_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/task"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/comment": {
+            "get": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Get Task Comments",
+                "operationId": "5faa022d915153b86d0e6f8aa3cb57a6",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Comment On Task",
+                "operationId": "071add0cd6a2e4972099692b1fcd4038",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/comment_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/event": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Get Task Events",
+                "operationId": "96004e656b1172aeb16b6ac49e7308ad",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/event_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/event"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/attachment": {
+            "get": {
+                "tags": [
+                    "Attachment"
+                ],
+                "summary": "Get Task Attachments",
+                "operationId": "73f6d1933bffcbced708dc511097763b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/attachment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/attachment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Attachment"
+                ],
+                "summary": "Add Task Attachment",
+                "operationId": "5a2987fc7ddc87df99b7e40f833ee657",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/attachment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/attachment_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/attachment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/subtask": {
+            "get": {
+                "tags": [
+                    "Subtask"
+                ],
+                "summary": "Get Subtasks",
+                "description": "Returns a tasks's subtasks",
+                "operationId": "2785d29f220dacfe023261f558d49b3f",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/subtask"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Subtask"
+                ],
+                "summary": "Create Subtask",
+                "operationId": "ce722d060d82f5a9a7f06b2996433b06",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_include"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/task_post_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/subtask"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/subtask/{subtask_id}": {
+            "get": {
+                "tags": [
+                    "Subtask"
+                ],
+                "summary": "Get Single Subtask",
+                "description": "Returns a single subtask",
+                "operationId": "8b20ce780c5642d91661d5d70981c6cc",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/subtask"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Subtask"
+                ],
+                "summary": "Remove Subtask",
+                "operationId": "2733d56c284d1aa74c07bea2c2b2e48c",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Subtask"
+                ],
+                "summary": "Update Subtask",
+                "operationId": "30cc5e39287ef3b2825ddd95df58cf07",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/task_patch_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/subtask"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/subtask/{subtask_id}/comment": {
+            "get": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Get Subtask Comments",
+                "operationId": "f41e870d24d9cc232a7f771ea2b58aab",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Comment On Subtask",
+                "operationId": "070d9c5e2347a55ec0403647af23f9bd",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/comment_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/subtask/{subtask_id}/event": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Get Subtask Events",
+                "operationId": "1767bf60b52c7d376d61ca1a42017120",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/event_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/event"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/subtask/{subtask_id}/attachment": {
+            "get": {
+                "tags": [
+                    "Attachment"
+                ],
+                "summary": "Get Subtask Attachments",
+                "operationId": "eff2ff93960252334151b9e6fe1a8cfe",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/attachment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/attachment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Attachment"
+                ],
+                "summary": "Add Subtask Attachment",
+                "operationId": "16563ddffa5f6cacfa599e0b512c856d",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/attachment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/attachment_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/attachment"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/assign/{personnel_id}": {
+            "post": {
+                "tags": [
+                    "Assignment"
+                ],
+                "summary": "Assign Task",
+                "operationId": "b41ab66ed3f70573d609ce0eeafd78a6",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/personnel_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/personnel_basic"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Assignment"
+                ],
+                "summary": "Deassign Task",
+                "operationId": "4fc623e30a62d3c276a4b5dfed113287",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/personnel_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/subtask/{subtask_id}/assign/{personnel_id}": {
+            "post": {
+                "tags": [
+                    "Assignment"
+                ],
+                "summary": "Assign Subtask",
+                "operationId": "733b6cdf37a4bb758b2fe6b0ca66ad8e",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/personnel_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/personnel_basic"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Assignment"
+                ],
+                "summary": "Deassign Subtask",
+                "operationId": "660810ac5d2b5576053523ff4c6ba6bd",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/personnel_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/comment/{comment_id}": {
+            "delete": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Remove Task Comment",
+                "operationId": "398cffec44c63d0deff1a0142b7d5088",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Update Task Comment",
+                "operationId": "d17ee14f88a1185e43e2a5579d752d76",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/comment_patch_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/subtask/{subtask_id}/comment/{comment_id}": {
+            "delete": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Remove Subtask Comment",
+                "operationId": "f3c0d5e5e9fda08298da1a040f49522b",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Update Subtask Comment",
+                "operationId": "20273911c907e7f5217b2a0301d07423",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/comment_include"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "data": {
+                                        "properties": {
+                                            "attributes": {
+                                                "$ref": "#/components/schemas/comment_patch_body"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/comment"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/attachment/{attachment_id}": {
+            "delete": {
+                "tags": [
+                    "Attachment"
+                ],
+                "summary": "Remove Task Attachment",
+                "operationId": "53c30e810184681fbb8281cf075c12ac",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/attachment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/task_management/task/{task_id}/subtask/{subtask_id}/attachment/{attachment_id}": {
+            "delete": {
+                "tags": [
+                    "Attachment"
+                ],
+                "summary": "Remove Subtask Attachment",
+                "operationId": "928c542b12046f86944b4df7ac74c73d",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/task_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/subtask_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/attachment_id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/authorization"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "$ref": "#/components/responses/204"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "comment_body": {
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "attachment_body": {
+                "required": [
+                    "name",
+                    "base64"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "base64": {
+                        "type": "binary"
+                    }
+                },
+                "type": "object"
+            },
+            "task_priority": {
+                "title": "TaskPriority",
+                "properties": {
+                    "priority": {
+                        "type": "integer",
+                        "default": 1,
+                        "enum": [
+                            "Clear",
+                            "Low",
+                            "Medium",
+                            "High",
+                            "Urgent"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "task_status": {
+                "title": "TaskStatus",
+                "properties": {
+                    "status": {
+                        "type": "integer",
+                        "default": 1,
+                        "enum": [
+                            "Open",
+                            "InProgress",
+                            "Delayed",
+                            "Complete",
+                            "Cancelled"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "task_post_body": {
+                "required": [
+                    "title",
+                    "assignee",
+                    "description",
+                    "due_date",
+                    "location",
+                    "priority",
+                    "status"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "assignee": {
+                        "nullable": true,
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    },
+                    "description": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "due_date": {
+                        "nullable": true,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "location": {
+                        "nullable": true,
+                        "properties": {
+                            "latitude": {
+                                "type": "string",
+                                "maximum": "90",
+                                "minimum": "-90"
+                            },
+                            "longitude": {
+                                "type": "string",
+                                "maximum": "180",
+                                "minimum": "-180"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "priority": {
+                        "description": "`1 = Clear`, `2 = Low`, `3 = Medium`, `4 = High`, `5 = Urgent`",
+                        "type": "integer",
+                        "maximum": 5,
+                        "minimum": 1
+                    },
+                    "status": {
+                        "description": "`1 = Open`, `2 = InProgress`, `3 = Delayed`, `4 = Complete`, `5 = Cancelled`",
+                        "type": "integer",
+                        "maximum": 5,
+                        "minimum": 1
+                    }
+                },
+                "type": "object"
+            },
+            "task_patch_body": {
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "nullable": true,
+                        "type": "string"
+                    },
+                    "due_date": {
+                        "nullable": true,
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "location": {
+                        "nullable": true,
+                        "properties": {
+                            "latitude": {
+                                "type": "string",
+                                "maximum": "90",
+                                "minimum": "-90"
+                            },
+                            "longitude": {
+                                "type": "string",
+                                "maximum": "180",
+                                "minimum": "-180"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "priority": {
+                        "description": "`1 = Clear`, `2 = Low`, `3 = Medium`, `4 = High`, `5 = Urgent`",
+                        "type": "integer",
+                        "maximum": 5,
+                        "minimum": 1
+                    },
+                    "status": {
+                        "description": "`1 = Open`, `2 = InProgress`, `3 = Delayed`, `4 = Complete`, `5 = Cancelled`",
+                        "type": "integer",
+                        "maximum": 5,
+                        "minimum": 1
+                    }
+                },
+                "type": "object"
+            },
+            "comment_patch_body": {
+                "title": "Comment",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "authorization": {
+                "type": "string"
+            },
+            "error": {
+                "properties": {
+                    "code": {
+                        "type": "integer"
+                    },
+                    "detail": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "errors": {
+                "properties": {
+                    "errors": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/error"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "personnel_basic": {
+                "title": "Personnel Basic",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "image_uri": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "uri"
+                            },
+                            "firstname": {
+                                "type": "string"
+                            },
+                            "lastname": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "citizen": {
+                "title": "Citizen",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "tcno": {
+                                "type": "string",
+                                "maxLength": 11,
+                                "minLength": 11
+                            },
+                            "firstname": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "lastname": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "gender": {
+                                "nullable": true,
+                                "description": "`1 = Female`, `2 = Male`",
+                                "type": "integer"
+                            },
+                            "address": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "phone": {
+                                "nullable": true,
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "corporation": {
+                "title": "Corporation",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "tax_number": {
+                                "type": "string",
+                                "maxLength": 11,
+                                "minLength": 10
+                            },
+                            "tax_office": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "title": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "address": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "phone": {
+                                "nullable": true,
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "feature_type": {
+                "type": "string",
+                "enum": [
+                    "parcel",
+                    "structure",
+                    "numbering",
+                    "district",
+                    "road",
+                    "poi",
+                    "custom"
+                ]
+            },
+            "department": {
+                "title": "Department",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "parent_department": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "director": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "director_allowed_parent_depth": {
+                                "type": "integer"
+                            },
+                            "director_allowed_child_depth": {
+                                "type": "integer"
+                            },
+                            "member_allowed_parent_depth": {
+                                "type": "integer"
+                            },
+                            "member_allowed_child_depth": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "director": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "comment_request_body": {
+                "title": "Comment",
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "department_basic": {
+                "title": "Department",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "task": {
+                "title": "Task",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "assigner": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "start_date": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "due_date": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "location": {
+                                "nullable": true,
+                                "properties": {
+                                    "latitude": {
+                                        "type": "string",
+                                        "maximum": "90",
+                                        "minimum": "-90"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "maximum": "180",
+                                        "minimum": "-180"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "priority": {
+                                "description": "`1 = Clear`, `2 = Low`, `3 = Medium`, `4 = High`, `5 = Urgent`",
+                                "type": "integer",
+                                "maximum": 5,
+                                "minimum": 1
+                            },
+                            "status": {
+                                "description": "`1 = Open`, `2 = InProgress`, `3 = Delayed`, `4 = Complete`, `5 = Cancelled`",
+                                "type": "integer",
+                                "maximum": 5,
+                                "minimum": 1
+                            },
+                            "created_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "edited_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "subtask": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/subtask"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "assignee": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/personnel_basic"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "comment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/comment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "event": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/event"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "attachment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/attachment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "subtask": {
+                "title": "Subtask",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "assigner": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "due_date": {
+                                "nullable": true,
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "location": {
+                                "nullable": true,
+                                "properties": {
+                                    "latitude": {
+                                        "type": "string",
+                                        "maximum": "90",
+                                        "minimum": "-90"
+                                    },
+                                    "longitude": {
+                                        "type": "string",
+                                        "maximum": "180",
+                                        "minimum": "-180"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "priority": {
+                                "description": "`1 = Clear`, `2 = Low`, `3 = Medium`, `4 = High`, `5 = Urgent`",
+                                "type": "integer",
+                                "maximum": 5,
+                                "minimum": 1
+                            },
+                            "status": {
+                                "description": "`1 = Open`, `2 = InProgress`, `3 = Delayed`, `4 = Complete`, `5 = Cancelled`",
+                                "type": "integer",
+                                "maximum": 5,
+                                "minimum": 1
+                            },
+                            "created_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "assignee": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/personnel_basic"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "comment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/comment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "event": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/event"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "attachment": {
+                                "properties": {
+                                    "data": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/attachment"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "comment": {
+                "title": "Comment",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            },
+                            "edited_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "commented_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "commentator": {
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "event": {
+                "title": "Event",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "type": {
+                                "description": "`StatusChanged = 1`, `TitleChanged = 2`, `Assigned = 3`, `Deassigned = 4`, `DescriptionUpdated = 5`, `DueDateChanged = 6`, `SubtaskCreated = 7`, `SubtaskRemoved = 8`, `PriorityChanged = 10`, `LocationChanged = 11`, `AttachmentAttached = 12`, `AttachmentRemoved = 13`, `StartDateChanged = 14`",
+                                "type": "integer",
+                                "maximum": 14,
+                                "minimum": 1
+                            },
+                            "occurred_on": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "data": {
+                                "description": "\n * \t\t\t\t\tDepending on the event type, this object will contain following properties: \n * \t\t\t\t\t`type == 1` => `{ status_old: int, status_new: int }`,\n * \t\t\t\t\t`type == 2` => `{ title_old: string, title_new: string }`,\n * \t\t\t\t\t`type == 3` => `{ assignee: int }`,\n * \t\t\t\t\t`type == 4` => `{ assignee: int }`,\n * \t\t\t\t\t`type == 5` => `{ description: string }`,\n * \t\t\t\t\t`type == 6` => `{ due_date_old: string(datetime), due_date_new: string(datetime) }`,\n * \t\t\t\t\t`type == 7` => `{ title: string }`,\n * \t\t\t\t\t`type == 8` => `{ title: string }`,\n * \t\t\t\t\t`type == 10` => `{ priority_old: int, priority_new: int }`,\n * \t\t\t\t\t`type == 11` => `{ location: { latitude: string, longitude: string } }`,\n * \t\t\t\t\t`type == 12` => `{ name: string }`,\n * \t\t\t\t\t`type == 13` => `{ name: string }`,\n * \t\t\t\t\t`type == 14` => `{ start_date_old: string(datetime), start_date_new: string(datetime) }`\n * \t\t\t\t",
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "enabler": {
+                                "nullable": true,
+                                "description": "NULL if event was triggered by the system",
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "attachment": {
+                "title": "attachment",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "": {
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "extension": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "uri": {
+                                "description": "Direct access URI",
+                                "type": "string",
+                                "format": "uri"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "relationships": {
+                        "properties": {
+                            "uploader": {
+                                "nullable": "true",
+                                "description": "NULL if attachment was added by the system",
+                                "properties": {
+                                    "data": {
+                                        "$ref": "#/components/schemas/personnel_basic"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "procedure_type": {
+                "description": "\n * \t\t\t`(Numarataj) Numbering = 1`\n *\t\t\t`(Yapı Ruhsatı) BuildingPermit = 2`\n *\t\t\t`(İnşaat İstikamet Rölevesi) ConstructionDirectionSurveying = 3`\n *\t\t\t`(Kot Kesit Rölevesi) ElevationProfileSurveying = 4`\n *\t\t\t`(Yola Terk) Expropriation = 5`\n *\t\t\t`(İfraz) Parcelling = 6`\n *\t\t\t`(Tevhit) Amalgamation = 7`\n *\t\t\t`(Ecrimisil) OccupationCompensationByManagement = 8`\n *\t\t\t`(Ecrimisil - Vatandaş) OccupationCompensationByCitizen = 9`\n *\t\t\t`(1/5000 Ölçekli Plan Değişimi) PlanChange1to5000Internal = 10`\n *\t\t\t`(1/5000 Ölçekli Plan Değişimi - Vatandaş) PlanChange1to5000External = 11`\n *\t\t\t`(Yıkım Ruhsatı) DeconstructionPermit = 12`\n *\t\t\t`(Avan Proje) PreliminaryDesign = 13`\n *\t\t\t`(Yazılı İmar Durumu) WrittenZoningStatus = 14`\n *\t\t\t`Riskli Yapı = 15`\n *\t\t\t`Kira Yardımı (Mal Sahibi) = 16`\n *\t\t\t`Kira Yardımı (Kiracı) = 17`\n *\t\t\t`Test = 18`",
+                "type": "integer"
+            }
+        },
+        "responses": {
+            "204": {
+                "description": "No Content"
+            },
+            "400": {
+                "description": "BadRequest",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/errors"
+                        }
+                    }
+                }
+            },
+            "401": {
+                "description": "Unatuhorized",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/errors"
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "NotFound",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/errors"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "task_id": {
+                "name": "task_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            },
+            "subtask_id": {
+                "name": "subtask_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            },
+            "personnel_id": {
+                "name": "personnel_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            },
+            "comment_id": {
+                "name": "comment_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            },
+            "attachment_id": {
+                "name": "attachment_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            },
+            "task_order_by": {
+                "name": "orderby",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "id",
+                        "title",
+                        "due_date",
+                        "start_date",
+                        "status",
+                        "priority",
+                        "date_created",
+                        "edited_on"
+                    ]
+                }
+            },
+            "task_filter": {
+                "name": "filter",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "id",
+                        "due_date",
+                        "status",
+                        "priority",
+                        "date_created",
+                        "edited_on"
+                    ]
+                }
+            },
+            "task_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "assignee",
+                        "comment",
+                        "comment.commentator",
+                        "event",
+                        "event.enabler",
+                        "attachment",
+                        "attachment.uploader",
+                        "subtask",
+                        "subtask.assignee",
+                        "subtask.comment",
+                        "subtask.comment.commentator",
+                        "subtask.event",
+                        "subtask.event.enabler",
+                        "subtask.attachment",
+                        "subtask.attachment.uploader"
+                    ]
+                }
+            },
+            "subtask_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "comment",
+                        "comment.commentator",
+                        "event",
+                        "event.enabler",
+                        "attachment",
+                        "attachment.uploader"
+                    ]
+                }
+            },
+            "event_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "enabler"
+                    ]
+                }
+            },
+            "attachment_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "uploader"
+                    ]
+                }
+            },
+            "authorization": {
+                "name": "Authorization",
+                "in": "header",
+                "schema": {
+                    "$ref": "#/components/schemas/authorization"
+                }
+            },
+            "comment_include": {
+                "name": "include",
+                "in": "query",
+                "schema": {
+                    "type": "string",
+                    "enum": [
+                        "commentator"
+                    ]
+                }
+            }
+        }
+    },
+    "x-tagGroups": [
+        {
+            "name": "Task Management",
+            "tags": [
+                "Task",
+                "Subtask",
+                "Assignement",
+                "Comment",
+                "Event",
+                "Attachment"
+            ]
+        },
+        {
+            "name": "File",
+            "tags": [
+                "File"
+            ]
+        },
+        {
+            "name": "Procedure Management",
+            "tags": [
+                "Procedure",
+                "Subprocedure",
+                "Step",
+                "Event (Procedure)",
+                "Comment (Step)",
+                "Attachment (Step)"
+            ]
+        },
+        {
+            "name": "GIS",
+            "tags": [
+                "Stats",
+                "Feature",
+                "Feature (Public)",
+                "Search",
+                "Search (Public)",
+                "POI",
+                "POI (Public)",
+                "Custom Feature",
+                "Custom Feature (Public)",
+                "District",
+                "District (Public)",
+                "CSBM",
+                "CSBM (Public)",
+                "Road",
+                "Road (Public)",
+                "Parcel",
+                "Parcel (Public)",
+                "Structure",
+                "Structure (Public)",
+                "Numbering",
+                "Numbering (Public)",
+                "Independent Section",
+                "Independent Section (Public)",
+                "Inhabitant",
+                "Document",
+                "Tag (Structure)",
+                "Tag (Parcel)",
+                "Comment (Structure)",
+                "Comment (Parcel)",
+                "Attachment (Structure)",
+                "Procedure (Structure)",
+                "Procedure (Parcel)",
+                "Plan"
+            ]
+        },
+        {
+            "name": "Sdm",
+            "tags": [
+                "Auth (Grocer)",
+                "Forgotten Password (Grocer)"
+            ]
+        },
+        {
+            "name": "Polling",
+            "tags": [
+                "Auth",
+                "Queue",
+                "DirectMessage",
+                "DemoMessage",
+                "Message",
+                "Citizen",
+                "MessageTemplate",
+                "FilterTemplate",
+                "Category (Citizen)",
+                "Tag (Citizen)",
+                "Survey",
+                "Submission",
+                "Submission (Public)",
+                "Filter",
+                "Tag Rule"
+            ]
+        }
+    ]
+}

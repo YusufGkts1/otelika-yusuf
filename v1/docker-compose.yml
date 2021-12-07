@@ -1,0 +1,233 @@
+# Yerelde calismak icin. `docker-compose up` komutunu 
+# calistirip `localhost:8080` (docker-machine kullaniliyorsa 
+# `[machine-ip]:8080`.
+
+version: "3"
+services:
+   erp-api-local-env:
+      container_name: erp-api-yusuf
+      build: 
+         context: ./
+         dockerfile: Dockerfile
+      image: erp-api-web-server
+      environment:
+         MYSQL_USER: 'appuser'
+         MYSQL_PASSWORD: '123123'
+         POLLING_MYSQL_USER: 'appuser'
+         POLLING_MYSQL_PASSWORD: '123123'
+         LANG: C.UTF-8
+         TZ: Asia/Istanbul
+         PRODUCTION: 0
+      volumes:
+        - ./:/var/www/html/v1
+      networks:
+         backend-yusuf:
+            ipv4_address: 172.111.0.2
+      ports:
+        - "48080:80"
+
+   mysql-server:
+      container_name: erp-db-yusuf
+      platform: linux/amd64 # remove if you are not using Apple M1 chip
+      build:
+         context: ./
+         dockerfile: Dockerfile-dev-mysql
+      environment:
+         MYSQL_USER: 'appuser'
+         MYSQL_PASSWORD: '123123'
+         MYSQL_ROOT_PASSWORD: '123123'
+         TZ: Asia/Istanbul
+         LANG: C.UTF-8
+      volumes:
+         - ./data/mysql/sql:/docker-entrypoint-initdb.d
+      networks:
+         backend-yusuf:           
+            ipv4_address: 172.111.0.3
+      ports:
+         - '43060:3306'
+      expose:
+         - '43060'
+
+   mariadb:
+      container_name: erp-db-polling-yusuf
+      platform: linux/amd64 # remove if you are not using Apple M1 chip
+      build:
+         context: ./
+         dockerfile: mariadb-dev.Dockerfile
+      environment:
+         MYSQL_USER: 'appuser'
+         MYSQL_PASSWORD: '123123'
+         MYSQL_ROOT_PASSWORD: '123123'
+         TZ: Asia/Istanbul
+         LANG: C.UTF-8
+         AWS_ACCESS_KEY_ID: AKIAWSKWA2I4Y4IDDDDC
+         AWS_SECRET_ACCESS_KEY: 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
+      volumes:
+         - ./data/mariadb/sql:/docker-entrypoint-initdb.d
+      networks:
+         backend-yusuf:           
+            ipv4_address: 172.111.0.12
+      ports:
+         - '43061:3306'
+      expose:
+         - '43061'
+
+   phpmyadmin:
+      container_name: erp-phpmyadmin-yusuf
+      image: "phpmyadmin/phpmyadmin"
+      ports:
+         - "48888:80"
+      environment:
+         PMA_ARBITRARY: "1"
+         PMA_HOST: "172.111.0.3"
+         PMA_PORT: "3306"
+      networks:
+         backend-yusuf:
+            ipv4_address: 172.111.0.4
+
+   # mongodb:
+   #    image: mongo
+   #    container_name: mongo-container
+   #    environment:
+   #       MONGO_INITDB_ROOT_USERNAME: 'appuser'
+   #       MONGO_INITDB_ROOT_PASSWORD: '123123'
+   #    networks:
+   #       backend-yusuf:
+   #          ipv4_address: 172.111.0.5
+
+   redis:
+      container_name: erp-redis-yusuf
+      image: redis
+      container_name: redis-container
+      networks:
+         backend-yusuf:
+            ipv4_address: 172.111.0.11
+
+   # !!! SECURITY NOTICE !!!
+   # JSON documents are parsed through a javascript virtual machine, so the web interface can be used for executing malicious javascript on a server.
+   # mongo-express should only be used privately for development purposes.
+   # mongo-express:
+   #    image: mongo-express
+   #    environment:
+   #       ME_CONFIG_MONGODB_SERVER: mongo-container
+   #       ME_CONFIG_MONGODB_ADMINUSERNAME: 'appuser'
+   #       ME_CONFIG_MONGODB_ADMINPASSWORD: '123123'
+   #    networks:
+   #       backend-yusuf:
+   #          ipv4_address: 172.111.0.6
+   #    ports:
+   #       - '8081:8081'
+   #    expose:
+   #       - '8081'
+
+   # redocly:
+   #    image: redocly/redoc
+   #    environment:
+   #       SPEC_URL: swagger/openapi_procedure_management.json
+   #       REDOC_OPTIONS: lazy-rendering
+   #    volumes:
+   #       - ./docs/:/usr/share/nginx/html/swagger/
+   #    networks:
+   #       backend-yusuf:
+   #          ipv4_address: 172.111.0.7
+   #    ports:
+   #       - '9090:80'
+   #    expose:
+   #       - '80'
+
+   # redocly:
+   #    image: httpd:2.4
+   #    volumes:
+   #       - ./docs/redoc-static.html:/usr/local/apache2/htdocs/index.html
+   #    networks:
+   #       backend-yusuf:
+   #          ipv4_address: 172.111.0.7
+   #    ports:
+   #       - '9090:80'
+   #    expose:
+   #       - '80'
+
+   redocly:
+      container_name: erp-redocly-yusuf
+      image: volbrene/redoc
+      environment:
+         URLS: "[{url: '/static/swagger-files/docs/openapi_task_management.json', name: 'TaskManagement'}, {url: '/static/swagger-files/docs/openapi_procedure_management.json', name: 'ProcedureManagement'}, {url: '/static/swagger-files/docs/openapi_gis.json', name: 'GIS'}, {url: '/static/swagger-files/docs/openapi_polling.json', name: 'Polling'},{url: '/static/swagger-files/docs/openapi_sdm.json', name: 'Sdm'}]"
+      volumes:
+         - ./docs:/var/www/html/static/swagger-files/docs
+      ports:
+         - 49090:80
+      expose:
+         - 80
+
+   postgis:
+      container_name: erp-postgis-yusuf
+      build:
+         context: ./
+         dockerfile: postgis.Dockerfile
+      environment:
+         POSTGRES_USER: 'appuser'
+         POSTGRES_PASSWORD: '123123'
+         POSTGRES_DB: 'gis'
+         POSTGIS_ENABLE_OUTDB_RASTERS: 1
+         POSTGIS_GDAL_ENABLED_DRIVERS: "GTiff PNG JPEG GIF XYZ"
+         TZ: Asia/Istanbul
+         LANG: C.UTF-8
+      volumes:
+         - ./data/postgresql/data:/var/lib/postgresql/data
+      networks:
+         backend-yusuf:
+            ipv4_address: 172.111.0.8
+      ports:
+         - '45432:5432'
+      expose:
+         - '5432'
+
+   pgadmin:
+      container_name: erp-pgadmin-yusuf
+      image: dpage/pgadmin4
+      environment:
+         PGADMIN_DEFAULT_EMAIL: 'info@kant.ist'
+         PGADMIN_DEFAULT_PASSWORD: '123123'
+      networks:
+         backend-yusuf:
+            ipv4_address: 172.111.0.9
+      ports:
+         - '44321:80'
+      expose:
+         - '44321'
+
+   invoker-event:
+      container_name: erp-invoker-event-yusuf
+      image: "kantist/invoker"
+      environment:
+         ENDPOINT: 'http://172.111.0.2:80/v1/event/event'
+         AUTH_STRING: 'Event sJ7ztFiRJf?npIMhtAeLQ&4vBYWCq%O%0qmYA39Sxb&NSkUdi7LUnResfVj5!-U1'
+         INTERVAL: 1
+      networks:
+         backend-yusuf:
+            ipv4_address: 172.111.0.13
+
+   # invoker-polling-queue:
+   #    container_name: erp-invoker-polling-queue-yusuf
+   #    image: "kantist/invoker"
+   #    container_name: erp-invoker-polling-queue
+   #    environment:
+   #       ENDPOINT: 'http://172.111.0.2:80/v1/polling/cron'
+   #       AUTH_STRING: 'Invoke z6*Ea64a5C*yZVd8&w19WRUzpZ&qkQPsG56CPyNwcW!Ni7gV0F2rTIHwhd0dk5+0'
+   #       INTERVAL: 1
+   #    networks:
+   #       backend-yusuf:
+   #          ipv4_address: 172.111.0.10
+
+# volumes:
+#    - ./repository/repo/gis/data:/opt/geoserver/data_dir
+
+volumes:
+  kant_erp_postgis_yusuf:
+
+networks:
+   backend-yusuf:
+      ipam:
+         driver: default
+         config:
+            - subnet: 172.111.0.0/16

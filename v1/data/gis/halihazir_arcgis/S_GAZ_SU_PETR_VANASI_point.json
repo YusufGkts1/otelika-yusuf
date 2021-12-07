@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"name": "S_GAZ_SU_PETR_VANASI_point",
+"features": [
+{ "type": "Feature", "properties": { }, "geometry": { "type": "Point", "coordinates": [ 406839.464781405054964, 4541911.16309052798897, 19.055492401123047 ] } }
+]
+}

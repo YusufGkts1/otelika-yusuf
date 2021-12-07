@@ -1,0 +1,15 @@
+FROM mongo
+
+RUN apt-get update
+
+# TOOLS
+RUN apt-get install -y nano \
+        curl \
+        git \
+        net-tools
+
+# DEPENDENCIES
+RUN apt-get install -y \
+		libcurl4-openssl-dev \
+		pkg-config \
+		libssl-dev
