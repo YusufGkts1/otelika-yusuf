@@ -1,12 +1,12 @@
-docker rm -f erp-api-yusuf || true
-docker rm -f erp-db-yusuf || true
-docker rm -f erp-db-polling-yusuf || true
-docker rm -f erp-phpmyadmin-yusuf || true
-docker rm -f erp-redis-yusuf || true
-docker rm -f erp-redocly-yusuf || true
-docker rm -f erp-postgis-yusuf || true
-docker rm -f erp-pgadmin-yusuf || true
-docker rm -f erp-invoker-event-yusuf || true
-docker rm -f erp-invoker-polling-queue-yusuf || true
+docker rm -f otelika-api-yusuf || true
+docker rm -f otelika-db-yusuf || true
+docker rm -f otelika-db-polling-yusuf || true
+docker rm -f otelika-phpmyadmin-yusuf || true
+docker rm -f otelika-redis-yusuf || true
+docker rm -f otelika-redocly-yusuf || true
+docker rm -f otelika-postgis-yusuf || true
+docker rm -f otelika-pgadmin-yusuf || true
+docker rm -f otelika-invoker-event-yusuf || true
+docker rm -f otelika-invoker-polling-queue-yusuf || true
 
-docker-compose -p erp-yusuf up --build -d
+docker-compose -p otelika-yusuf up --build -d
