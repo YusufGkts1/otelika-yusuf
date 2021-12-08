@@ -4,7 +4,7 @@ namespace model\Guest\application;
 
 use model\Guest\application\IIdentityProvider;
 
-class OrderQueryService extends \JsonApiQueryService {
+class RoomItemQueryService extends \JsonApiQueryService {
 
 	function __construct(
 		protected \DB $db,

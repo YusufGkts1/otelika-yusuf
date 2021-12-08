@@ -8,4 +8,13 @@ class Order extends Entity
 {
     function __construct(){}
 
+
+    public function cancel(){
+
+        $canceled = OrderStatus::Cancelled();
+        $this->status = $canceled;
+    
+        return $this->status;
+    
+        }
 }

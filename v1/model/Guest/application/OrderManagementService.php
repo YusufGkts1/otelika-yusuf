@@ -7,6 +7,9 @@ use model\common\ApplicationService;
 use model\Guest\domain\model\GuestId;
 use model\Guest\domain\model\IGuestRepository;
 use model\Guest\domain\model\IRoomItemRepository;
+use model\Guest\domain\model\Order;
+use model\Guest\domain\model\OrderId;
+use model\Guest\domain\model\OrderStatus;
 use model\Guest\domain\model\RoomItemId;
 
 class OrderManagementService extends ApplicationService{
@@ -37,7 +40,6 @@ class OrderManagementService extends ApplicationService{
         $this->process($order, $this->orders);
  
     	return $id->getId();
-
     }
 
     public function createFaultRecord(RoomItemId $broken_item_id)
@@ -53,8 +55,26 @@ class OrderManagementService extends ApplicationService{
         $this->process($order, $this->orders);
  
     	return $id->getId();
-
     }
+
+    public function cancelOrder(string $id, int $status){
+
+        $order = $this->existingOrder($id);
+
+        if(new  OrderStatus($status) == OrderStatus::Cancelled())
+            $order->cancel();
+
+        $this->process($order, $this->orders);
+    }
+
+    private function existingOrder( string $id) : Order {
+        $order = $this->registrations->find(new OrderId ($id));
+
+        if(null == $order)
+           throw new \NotFoundException('Order is not found');
+
+       return $order;
+   }
 
     protected function guestId() : GuestId {
         return new GuestId($this->identity_provider->identity());
