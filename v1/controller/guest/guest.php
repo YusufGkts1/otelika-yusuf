@@ -194,7 +194,7 @@ class ControllerGuest extends RestEndpoint{
 
     private function getSingleItemFromBasket(){
 
-        $basket_item = $this->basketQueryService()->getSelfOwnedBasketItem($this->queryServiceQueryObject());
+        $basket_item = $this->basketQueryService()->getSelfOwnedBasketItem($this->uriAt(1), $this->queryServiceQueryObject());
 
 		$this->success($basket_item);
     }
@@ -234,6 +234,11 @@ class ControllerGuest extends RestEndpoint{
         $this->basketManagementService()->changePieceOfProduct(
             $this->uriAt(1),
             $this->getAttr('piece',true));
+
+            
+        $basket = $this->basketQueryService()->fetchSelfOwnedBasketItems($this->queryServiceQueryObject());
+  
+        $this->success($basket);
     }
 
     private function deleteItemFromBasket(){
