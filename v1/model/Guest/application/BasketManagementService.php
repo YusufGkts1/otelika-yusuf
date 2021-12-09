@@ -25,7 +25,10 @@ class BasketManagementService extends ApplicationService{
         $this->process($basket_item, $this->basket_items);
     }
 
-    public function changePieceOfProduct(string $basket_item_id, int $piece){}
+    public function changePieceOfProduct(string $basket_item_id, int $piece){
+
+        
+    }
 
     private function existingBasketItem( string $ibasket_item_id) : Basket {
         $basket_item = $this->basket_items->find(new BasketId ($basket_item_id));

@@ -6,23 +6,27 @@ use model\Guest\domain\model\IOrderRepository;
 use model\common\ApplicationService;
 use model\Guest\domain\model\GuestId;
 use model\Guest\domain\model\IGuestRepository;
+use model\Guest\domain\model\IModuleRepository;
+use model\Guest\domain\model\IProductRepostitory;
 use model\Guest\domain\model\IRoomItemRepository;
 use model\Guest\domain\model\Order;
 use model\Guest\domain\model\OrderId;
 use model\Guest\domain\model\OrderStatus;
-use model\Guest\domain\model\RoomItemId;
+use model\Guest\domain\model\ProductId;
 
 class OrderManagementService extends ApplicationService{
 
-    function __construct(private IOrderRepository $orders, private IGuestRepository $guests, private IRoomItemRepository $room_items){}
+    function __construct(private IOrderRepository $orders, private IGuestRepository $guests, private IRoomItemRepository $room_items, private IModuleRepository $modules, private IProductRepostitory $products){}
 
-    public function callTaxi(float $countdown, string $order_note)
+    public function callTaxi(string $module_name, int $countdown, string $order_note)
     {
         $id = $this->orders->nextId();
 
         $guest = $this->guests->find($this->guestId());
 
-        $order = $guest->orderTaxi($countdown, $order_note);
+        $module_id = $this->modules->getModuleIdByModuleName($module_name);
+
+        $order = $guest->orderTaxi($id , $module_id, $countdown, $order_note);
 
         $this->process($order, $this->orders);
 
@@ -42,15 +46,15 @@ class OrderManagementService extends ApplicationService{
     	return $id->getId();
     }
 
-    public function createFaultRecord(RoomItemId $broken_item_id)
+    public function createFaultRecord(ProductId $broken_item_id, string $fault_note)
     {
         $id = $this->orders->nextId();
 
         $guest = $this->guests->find($this->guestId());
 
-        $broken_item = $this->room_items->find($broken_item_id); //Hasar kaydı yapılacak olan ürününü id'si dönecek.
+        $module_id = $this->modules->getModuleIdByProductId($broken_item_id);
 
-        $order = $guest->sendFaultRecord($broken_item);
+        $order = $guest->sendFaultRecord($id, $module_id, $broken_item_id, $fault_note);
 
         $this->process($order, $this->orders);
  

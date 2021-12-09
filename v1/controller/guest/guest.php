@@ -251,13 +251,15 @@ class ControllerGuest extends RestEndpoint{
     private function sendFaultRecord(){
 
         $this->orderManagementService()->createFaultRecord(
-            $this->uriAt(1)
+            $this->getAttr('product_id'),
+            $this->getAttr('fault_note')
         );
     }
 
     private function callTaxi(){
 
-        $id = $this->orderManagementService()->callTaxi(
+        $this->orderManagementService()->callTaxi(
+            $this->uriAt(0),
             $this->getAttr('countdown'),
             $this->getAttr('order_note')
             );
