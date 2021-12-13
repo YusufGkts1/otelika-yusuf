@@ -5,15 +5,16 @@ namespace model\Guest\application;
 use model\common\ApplicationService;
 use model\Guest\domain\model\GuestId;
 use model\Guest\domain\model\IGuestRepository;
+use model\Guest\domain\model\IOrderRepository;
 use model\Guest\domain\model\ITaxiRepository;
 
 class TaxiManagementService extends ApplicationService{
 
-    function __construct(private IGuestRepository $guests, private ITaxiRepository $taxi_calls){}
+    function __construct(private IGuestRepository $guests, private ITaxiRepository $taxi_calls, private IOrderRepository $orders){}
 
     public function callTaxi(int $countdown, string $guest_note)
     {
-        $id = $this->taxi_calls->nextId();
+        $id = $this->orders->nextId();
 
         $guest = $this->guests->find($this->guestId());
 

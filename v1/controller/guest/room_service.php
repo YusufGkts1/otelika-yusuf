@@ -1,15 +1,10 @@
 <?php
 
+use model\Guest\application\OrderManagementService;
 
 class ControllerGuestTaxi extends RestEndpoint{
 
-    protected function get(){
-        if(!$this->uriAt(0))
-            $this->fetchHouseKeepingProducts();
-        
-        if($this->uriAt(0))
-            $this->getSingleHouseKeepingProduct($this->uriAt(0));
-    }
+    protected function get(){}
 
     protected function post(){
 
@@ -32,4 +27,25 @@ class ControllerGuestTaxi extends RestEndpoint{
     protected function orderBySupportingFields(): array{
         return $this->filterSupportingFields();
     }
+
+    private function orderManagementService(): OrderManagementService{
+
+        $this->load->module('Guest');
+
+        $this->order_management_service = $this->module_guest->service('OrderManagementService');
+
+        return $this->order_management_service;
+    }
+
+    private function addToBasket(){
+
+        $this->orderManagementService()->addToBasket(
+            $this->getAttr('product_id'),
+            $this->getAttr('piece'),
+        );
+        
+        $this->noContent();
+    }
+
+    
 }

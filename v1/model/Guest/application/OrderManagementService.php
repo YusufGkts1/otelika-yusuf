@@ -56,14 +56,22 @@ class OrderManagementService extends ApplicationService{
         $this->process($order, $this->orders);
     }
 
+    public function addToBasket(ProductId $product_id, float $piece){
+        
+        $id = $this->orders->nextId();
+
+        $guest = $this->guests->find($this->guestId());
+        
+
+    }
+
     private function existingOrder(OrderId $id) : Order {
         $order = $this->orders->find(new OrderId ($id));
-
         if(null == $order)
-           throw new \NotFoundException('Order is not found');
+            throw new \NotFoundException('Order is not found');
 
-       return $order;
-   }
+        return $order;
+    }
 
     protected function guestId() : GuestId {
         return new GuestId($this->identity_provider->identity());

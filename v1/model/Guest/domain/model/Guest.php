@@ -18,7 +18,7 @@ class Guest extends Entity
         private ?string $passport_no
     ){}
 
-    public function orderTaxi(TaxiId $id, int $countdown, string $guest_note){
+    public function orderTaxi(OrderId $id, int $countdown, string $guest_note){
 
         if($countdown > 60)
             $this->addException(new CallingTaxiCountDownCanNotBeLaterThanOneHourException());        

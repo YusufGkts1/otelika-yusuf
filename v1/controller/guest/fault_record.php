@@ -4,7 +4,13 @@ use model\Guest\application\OrderManagementService;
 
 class ControllerGuestFaultRecord extends RestEndpoint{
 
-    protected function get(){}
+    protected function get(){
+
+        if(!$this->uriAt(0)){
+
+            $this->fetchFaultRecordProducts();
+        }
+    }
 
     protected function post(){
 
