@@ -14,20 +14,20 @@ class GuestQueryService extends \JsonApiQueryService {
 	protected function config(): array {
 		return [
             'profile' => [
-				'table' => 'student',
+				'table' => 'guest',
 				'single' => [
 					'by' => [
 						null => [
 							'nullable' => false,
 							'provider' => [
-								'id' => 'studentId'
+								'id' => 'guestId'
 							]
 						]
 					]
 				],
 				'json_api' => [
 					'id_field' => 'id',
-					'type' => 'student',
+					'type' => 'guest',
 					'translate' => [
 						// 'date_added' => [
 						// 	'translator' => 'dateISO8601',
@@ -49,7 +49,7 @@ class GuestQueryService extends \JsonApiQueryService {
 			return null;
 	}
 
-	protected function studentId() : string {
+	protected function guestId() : string {
 		return $this->identity_provider->identity();
 	}
 

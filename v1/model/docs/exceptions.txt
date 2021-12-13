@@ -50,7 +50,7 @@
 
 
 	2000-2999 => Guest
-	2001 => TaxiCountDownCanNotBeLaterThanOneHourException
+	2001 => CallingTaxiCountDownCanNotBeLaterThanOneHourException
 
 
 

@@ -5,7 +5,7 @@ namespace model\Guest\domain\model;
 use model\common\Entity;
 use model\common\IPersistenceProvider;
 
-interface IBasketRepository extends IPersistenceProvider
+interface IAlarmRepository extends IPersistenceProvider
 {
     public function find(BasketId $id) : ?Basket;
 

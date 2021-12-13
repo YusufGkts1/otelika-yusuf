@@ -3,16 +3,17 @@
 use model\Guest\application\BasketManagementService;
 use model\Guest\application\BasketQueryService;
 use model\Guest\application\GuestQueryService;
+use model\Guest\application\ModuleQueryService;
 use model\Guest\application\OrderManagementService;
 use model\Guest\application\OrderQueryService;
-use model\Guest\application\RoomItemQueryService;
+use model\Guest\application\ProductQueryService;
 
 class ControllerGuest extends RestEndpoint{
 
     protected function get(){
 
         if(!$this->uriAt(0))
-            $this->getHomePageCategories();
+            $this->fetchHomePageModules();
         
         if('profile' == $this->uriAt(0)){
             if('order' == $this->uriAt(1)){
@@ -28,13 +29,10 @@ class ControllerGuest extends RestEndpoint{
             if($this->uriAt(1)){
                 $this->getSingleItemFromBasket();
             }
-            $this->getBasket(); 
+            $this->getOrderBasket(); 
         }
 
         if('fault_record' == $this->uriAt(0))
-            if($this->uriAt(1)){
-                $this->getRoomItem();
-            }
             $this->fetchRoomItems();
     }
 
@@ -43,20 +41,13 @@ class ControllerGuest extends RestEndpoint{
             $this->confirmBasket();
 
         if('basket' != $this->uriAt(0))
-            if($this->uriAt(1)){
+            if($this->uriAt(1) || $this->uriAt(2)){
                 $this->addToBasket();
             }
-
-        if('taxi' == $this->uriAt(0))
-            $this->callTaxi();
-
+            
         if('wake_up_service' == $this->uriAt(0))
             $this->createWakeUpAlarm();
-
-        if('fault_record' == $this->uriAt(0)){
-            if($this->uriAt(1))
-                $this->sendFaultRecord();
-        }
+        
     }
 
     protected function patch(){
@@ -150,19 +141,36 @@ class ControllerGuest extends RestEndpoint{
         return $this->basket_query_service;
     }
 
-    private function roomItemQueryService(): RoomItemQueryService
+    private function productQueryService(): ProductQueryService
     {
-        if ($this->room_item_query_service)
-            return $this->room_item_query_service;
+        if ($this->product_query_service)
+            return $this->product_query_service;
 
         $this->load->module('Guest');
 
-        $this->room_item_query_service = $this->module_guest->service('RoomItemQueryService');
+        $this->product_query_service = $this->module_guest->service('ProductQueryService');
 
-        return $this->room_item_query_service;
+        return $this->product_query_service;
     }
 
-    private function getHomePageCategories(){}
+    private function moduleQueryService(): ModuleQueryService
+    {
+        if ($this->module_query_service)
+            return $this->module_query_service;
+
+        $this->load->module('Guest');
+
+        $this->module_query_service = $this->module_guest->service('ModuleQueryService');
+
+        return $this->module_query_service;
+    }
+
+    private function fetchHomePageModules(){
+
+        $modules = $this->moduleQueryService()->fetchModules($this->queryServiceQueryObject());
+        
+        $this->success($modules);
+    }
 
     private function getGuestProfile(){
 
@@ -173,7 +181,7 @@ class ControllerGuest extends RestEndpoint{
 
     private function fetchGuestSelfOrders(){
         
-        $orders = $this->orderQueryService()->fetchSelfOwnedOrders($this->queryServiceQueryObject());
+        $orders = $this->orderQueryService()->fetchGuestSelfOwnedOrders($this->queryServiceQueryObject());
 
 		$this->success($orders);
     }
@@ -185,37 +193,32 @@ class ControllerGuest extends RestEndpoint{
         $this->success($order);
     }
 
-    private function getBasket(){
+    private function getOrderBasket(){
 
-        $basket = $this->basketQueryService()->fetchSelfOwnedBasketItems($this->queryServiceQueryObject());
+        $basket = $this->basketQueryService()->fetchGuestSelfOwnedBasket($this->queryServiceQueryObject());
 
 		$this->success($basket);
     }
 
     private function getSingleItemFromBasket(){
 
-        $basket_item = $this->basketQueryService()->getSelfOwnedBasketItem($this->uriAt(1), $this->queryServiceQueryObject());
+        $basket_item = $this->basketQueryService()->getGuestSingleBasketItemById($this->uriAt(1), $this->queryServiceQueryObject());
 
 		$this->success($basket_item);
     }
 
     private function fetchRoomItems(){
 
-        $room_items = $this->roomItemQueryService()->fetchRoomItems($this->queryServiceQueryObject());
+        $room_items = $this->productQueryService()->fetchRoomItems($this->queryServiceQueryObject());
 
 		$this->success($room_items);
     }
 
-    private function getRoomItem(){
-
-        $room_item = $this->roomItemQueryService()->getRoomItemById($this->queryServiceQueryObject());
-
-		$this->success($room_item);
-    }
-
     private function confirmBasket(){}
 
-    private function addToBasket(){}
+    private function addToBasket(){
+        
+    }
 
     private function cancelOrder(){
 
@@ -229,7 +232,7 @@ class ControllerGuest extends RestEndpoint{
             $this->success($orders);
     }
 
-    private function changeProductPieceFromBasket(){ //Ürün adedi değiştirilirken hem stoktan güncelleme olacak gem basket tarafında güncelleme olacak. Bu güncellemenin yapılacağı fonksiyon ürün üzerinden mi olacak?
+    private function changeProductPieceFromBasket(){ //Ürün adedi değiştirilirken hem stoktan güncelleme olacak hem basket tarafında güncelleme olacak. Bu güncellemenin yapılacağı fonksiyon ürün üzerinden mi olacak?
 
         $this->basketManagementService()->changePieceOfProduct(
             $this->uriAt(1),
@@ -245,25 +248,6 @@ class ControllerGuest extends RestEndpoint{
 
         $this->basketManagementService()->deleteItem($this->uriAt(1));
   
-        $this->noContent();
-    }
-
-    private function sendFaultRecord(){
-
-        $this->orderManagementService()->createFaultRecord(
-            $this->getAttr('product_id'),
-            $this->getAttr('fault_note')
-        );
-    }
-
-    private function callTaxi(){
-
-        $this->orderManagementService()->callTaxi(
-            $this->uriAt(0),
-            $this->getAttr('countdown'),
-            $this->getAttr('order_note')
-            );
-        
         $this->noContent();
     }
 

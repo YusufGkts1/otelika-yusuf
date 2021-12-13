@@ -2,13 +2,13 @@
 
 namespace model\Guest\application;
 
+use DateTime;
 use model\Guest\domain\model\IOrderRepository;
 use model\common\ApplicationService;
 use model\Guest\domain\model\GuestId;
 use model\Guest\domain\model\IGuestRepository;
 use model\Guest\domain\model\IModuleRepository;
 use model\Guest\domain\model\IProductRepostitory;
-use model\Guest\domain\model\IRoomItemRepository;
 use model\Guest\domain\model\Order;
 use model\Guest\domain\model\OrderId;
 use model\Guest\domain\model\OrderStatus;
@@ -16,22 +16,7 @@ use model\Guest\domain\model\ProductId;
 
 class OrderManagementService extends ApplicationService{
 
-    function __construct(private IOrderRepository $orders, private IGuestRepository $guests, private IRoomItemRepository $room_items, private IModuleRepository $modules, private IProductRepostitory $products){}
-
-    public function callTaxi(string $module_name, int $countdown, string $order_note)
-    {
-        $id = $this->orders->nextId();
-
-        $guest = $this->guests->find($this->guestId());
-
-        $module_id = $this->modules->getModuleIdByModuleName($module_name);
-
-        $order = $guest->orderTaxi($id , $module_id, $countdown, $order_note);
-
-        $this->process($order, $this->orders);
-
-    	return $id->getId();
-    }
+    function __construct(private IOrderRepository $orders, private IGuestRepository $guests, private IModuleRepository $modules, private IProductRepostitory $products, private IAlarmRepository $alarms ){}
 
     public function wakeUpService(\DateTime $wake_up_time)
     {
@@ -41,9 +26,9 @@ class OrderManagementService extends ApplicationService{
 
         $order = $guest->wakeUpAlarm($wake_up_time);
 
-        $this->process($order, $this->orders);
+        // $this->process($order, $this->orders);
  
-    	return $id->getId();
+    	// return $id->getId();
     }
 
     public function createFaultRecord(ProductId $broken_item_id, string $fault_note)
@@ -61,7 +46,7 @@ class OrderManagementService extends ApplicationService{
     	return $id->getId();
     }
 
-    public function cancelOrder(string $id, int $status){
+    public function cancelOrder(OrderId $id, int $status){
 
         $order = $this->existingOrder($id);
 
@@ -71,8 +56,8 @@ class OrderManagementService extends ApplicationService{
         $this->process($order, $this->orders);
     }
 
-    private function existingOrder( string $id) : Order {
-        $order = $this->registrations->find(new OrderId ($id));
+    private function existingOrder(OrderId $id) : Order {
+        $order = $this->orders->find(new OrderId ($id));
 
         if(null == $order)
            throw new \NotFoundException('Order is not found');

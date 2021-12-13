@@ -4,7 +4,7 @@ namespace model\Guest\domain\model;
 
 use \model\common\IComparable;
 
-class RoomItemId implements IComparable
+class TaxiId implements IComparable
 {
     private string $id;
 

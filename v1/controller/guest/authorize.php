@@ -4,7 +4,7 @@ use \model\Guest\Login;
 use \model\Guest\Session;
 
 
-class ControllerSdmAuthorize extends Controller{
+class ControllerGuestAuthorize extends Controller{
 
     private $db;
     /**

@@ -52,7 +52,7 @@ class OrderQueryService extends \JsonApiQueryService {
 		];
 	}
 
-	public function fetchSelfOwnedOrders(){
+	public function fetchGuestSelfOwnedOrders(){
         $orders = $this->db->query("SELECT * FROM `order` WHERE guest_id = :guest_id", [
             ':guest_id'=>$this->identity_provider->identity(),
         ])->rows;
@@ -68,7 +68,7 @@ class OrderQueryService extends \JsonApiQueryService {
         return $result;    
     }
 
-    public function getGuestOrderById($guest_id){
+    public function getGuestSingleOrderById($guest_id){
 
         $order = $this->db->query("SELECT * FROM `order` WHERE id = :id ", [
             ':id' => $guest_id

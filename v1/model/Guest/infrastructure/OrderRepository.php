@@ -28,7 +28,41 @@ class OrderRepository extends Repository implements IOrderRepository{
         
         /** @var Order $entity */
 		/** @var OrderId $id */
-        $id = $this->getProperty($entity, 'id');
+            $id = $this->getProperty($entity, 'id');
+
+        if(!$this->templateOrder($id)){
+            $this->db->command("INSERT INTO `order`
+            SET
+            `id` = :id,
+            `guest_id` = :guest_id,
+            `room_id` = :room_id,
+            `module_id` = :module_id,
+            `category_id` = :category_id,
+            `product_id` = :product_id,
+            `order_note` = :order_note,
+            `delivery_time` = :delivery_time,
+            `total_amount` = :total_amount,
+            `created_on` = NOW()",
+            [
+            ':id' => $id->getId(),
+            ':guest_id' => $this->getProperty($entity, 'guest_id')->format,
+            ':room_id' => $this->getProperty($entity, 'room_id'),
+            ':module_id' =>  $this->getProperty($entity, 'module_id'),
+            ':category_id' =>  $this->getProperty($entity, 'categeory_id'),
+            ':product_id' =>  $this->getProperty($entity, 'product_id'),
+            ':order_note' => $this->getProperty($entity, 'order_note'),
+            ':delivery_time' => $this->getProperty($entity, 'delivery_time'),
+            ':total_amount' => $this->getProperty($entity,'total_amount')
+            ]);
+        }else if($this->templateOrder($id)){
+            $this->db->command("UPDATE registration SET
+            `status` = :status
+             WHERE id = :id",
+            [
+           'id' => $id->getId(),
+            ':status' => $this->getProperty($entity,'status')
+            ]);
+        }
     }
 
     public function remove(string $id){}
@@ -46,5 +80,11 @@ class OrderRepository extends Repository implements IOrderRepository{
 
     public function nextId() : OrderId {
         return new OrderId(uniqid());
+	}
+
+    private function templateOrder(OrderId $id) : bool {
+		return $this->db->query("SELECT COUNT(*) as total FROM order WHERE id = :id", [
+			':id' => $id->getId()
+		])->row['total'] > 0;
 	}
 }

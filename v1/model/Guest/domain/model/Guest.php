@@ -4,8 +4,7 @@ namespace model\Guest\domain\model;
 
 use DateTime;
 use model\common\Entity;
-use model\Sdm\domain\model\exception\TaxiCountDownCanNotBeLaterThanOneHourException;
-use model\Sdm\domain\model\OrderType;
+use model\Sdm\domain\model\exception\CallingTaxiCountDownCanNotBeLaterThanOneHourException;
 
 class Guest extends Entity
 {
@@ -15,21 +14,40 @@ class Guest extends Entity
         private string $first_name,
         private string $last_name,
         private int $phone_no,
-        private ?int $tc_kimlik,
+        private ?int $citizenship_no,
         private ?string $passport_no
     ){}
 
-    public function orderTaxi(OrderId $order_id, ModuleId $module_id, int $countdown, string $order_note){
+    public function orderTaxi(TaxiId $id, int $countdown, string $guest_note){
 
         if($countdown > 60)
-            $this->addException(new TaxiCountDownCanNotBeLaterThanOneHourException());
-
-
+            $this->addException(new CallingTaxiCountDownCanNotBeLaterThanOneHourException());        
+    
+        return new Taxi(
+            $id,
+            $this->id,
+            $this->room_id,
+            $countdown,
+            $guest_note
+        );
     }
 
-    public function wakeUpAlarm(\DateTime $wake_up_time){
+    public function wakeUpAlarm(DateTime $wake_up_time){
         
         $alarm = $wake_up_time->format('H:i');
+
+        $now = date('H:i');
+
+        if($alarm <= $now){
+
+            $new_alarm = strtotime('+1 day', $alarm);
+            
+            return new Alarm();
+        }
+        
+        if($alarm > $now){
+            return new Alarm();    
+        }
 
     }
 
@@ -43,7 +61,7 @@ class Guest extends Entity
             $broken_item_id,
             $fault_note,
             null,
-            null
+            0
         );
     }
 }
