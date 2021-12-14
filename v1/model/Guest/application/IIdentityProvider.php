@@ -6,5 +6,4 @@ interface IIdentityProvider {
 
 	public function identity() : ?string;
 }
-
 ?>

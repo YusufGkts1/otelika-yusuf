@@ -4,6 +4,7 @@ namespace model\Guest\application;
 
 use model\Guest\domain\model\IOrderRepository;
 use model\common\ApplicationService;
+use model\Guest\domain\model\CategoryId;
 use model\Guest\domain\model\GuestId;
 use model\Guest\domain\model\IGuestRepository;
 use model\Guest\domain\model\IRoomItemRepository;
@@ -56,7 +57,7 @@ public function deleteSingleItemFromShoppingCart(OrderId $order_id){
 
 }
 
-public function addToShoppingCart(ModuleId $module_id, ProductId $product_id, float $quantity, float $price){
+public function addToShoppingCart(ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity, float $price){
         
     $id = $this->shopping_carts->nextId();
 
@@ -64,7 +65,7 @@ public function addToShoppingCart(ModuleId $module_id, ProductId $product_id, fl
 
     $total_price = $quantity * $price;
     
-    $guest->addToShoppingCart($id, $module_id, $product_id, $quantity, $total_price);
+    $guest->addToShoppingCart($id, $module_id, $category_id, $product_id, $quantity, $total_price);
 
 }
 

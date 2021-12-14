@@ -65,7 +65,7 @@ class Guest extends Entity
         );
     }
 
-    public function addToShoppingCart(ShoppingCartId $id, ModuleId $module_id, ProductId $product_id, float $quantity, float $total_price){
+    public function addToShoppingCart(ShoppingCartId $id, ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity, float $total_price){
         
         return new ShoppingCart(
             $id
