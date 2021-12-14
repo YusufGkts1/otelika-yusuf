@@ -52,7 +52,6 @@ class ControllerGuestRoomService extends RestEndpoint{
             $this->getAttr('category_id'),
             $this->getAttr('product_id'),
             $this->getAttr('quantity'),
-            $this->getAttr('price')
         );
     }
 }

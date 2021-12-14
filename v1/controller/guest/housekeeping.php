@@ -47,9 +47,9 @@ class ControllerGuestHouseKeeping extends RestEndpoint{
 
         $this->shoppingCartManagementService()->addToShoppingCart(
             $this->getAttr('module_id'),
+            $this->getAttr('category_id'),
             $this->getAttr('product_id'),
-            $this->getAttr('quantity'),
-            $this->getAttr('price')
+            $this->getAttr('quantity')
         );
     }
 }
