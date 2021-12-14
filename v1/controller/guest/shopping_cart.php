@@ -2,6 +2,8 @@
 
 use model\Guest\application\OrderManagementService;
 use model\Guest\application\OrderQueryService;
+use model\Guest\application\ShoppingCartManagementService;
+use model\Guest\application\ShoppingCartQueryService;
 
 class ControllerGuestShoppingCart extends RestEndpoint{
 
@@ -29,9 +31,9 @@ class ControllerGuestShoppingCart extends RestEndpoint{
     protected function delete(){
         
         if(!$this->uriAt(0))
-            $this->emptyThecart();
+            $this->emptyTheShoppingCart();
         
-        $this->deleteSingleItemFromcart();
+        $this->deleteSingleItemFromShoppingCart();
     }
 
     protected function submoduleId(): int{
@@ -46,35 +48,35 @@ class ControllerGuestShoppingCart extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function orderQueryService(): OrderQueryService{
-        if ($this->order_query_service)
-            return $this->order_query_service;
+    private function shoppingCartQueryService(): ShoppingCartQueryService{
+        if ($this->shopping_cart_query_service)
+            return $this->shopping_cart_query_service;
 
         $this->load->module('Guest');
 
-        $this->order_query_service = $this->module_guest->service('OrderQueryService');
+        $this->shopping_cart_query_service = $this->module_guest->service('ShoppingCartQueryService');
 
-        return $this->order_query_service;
+        return $this->shopping_cart_query_service;
     }
 
-    private function orderManagementService(): OrderManagementService{
+    private function shoppingCartManagementService(): ShoppingCartManagementService{
     $this->load->module('Guest');
 
-    $this->order_management_service = $this->module_guest->service('OrderManagementService');
+    $this->shopping_cart_management_service = $this->module_guest->service('sShoppingCartManagementService');
 
-    return $this->order_management_service;
+    return $this->shopping_cart_management_service;
     }
 
     private function getSelfOwnedShoppingCart(){
 
-        $cart = $this->orderQueryService()->getSelfOwnedShoppingCart($this->queryServiceQueryObject());
+        $cart = $this->shoppingCartQueryService()->getSelfOwnedShoppingCart($this->queryServiceQueryObject());
         
         $this->success($cart);
     }
 
     private function getSingleItemFromShoppingCart(){
 
-        $cart_item = $this->orderQueryService()->getSingleItemFromShoppingCart($this->uriAt(0), $this->queryServiceQueryObject());
+        $cart_item = $this->shoppingCartQueryService()->getSingleItemFromShoppingCart($this->uriAt(0), $this->queryServiceQueryObject());
         
         $this->success($cart_item);
 
@@ -83,11 +85,11 @@ class ControllerGuestShoppingCart extends RestEndpoint{
 
     private function changeQuantityOfShoppingCartItem(){}
 
-    private function emptyThecart(){}
+    private function emptyTheShoppingCart(){}
 
-    private function deleteSingleItemFromcart(){
+    private function deleteSingleItemFromShoppingCart(){
 
-        $this->orderManagementService()->deleteSingleItemFromcart($this->uriAt(0));
+        $this->shoppingCartManagementService()->deleteSingleItemFromShoppingCart($this->uriAt(0));
   
         $this->noContent();
     }

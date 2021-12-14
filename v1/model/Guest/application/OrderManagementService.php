@@ -55,28 +55,6 @@ class OrderManagementService extends ApplicationService{
         $this->process($order, $this->orders);
     }
 
-    public function addToShoppingCart(ProductId $product_id, float $quantity){
-        
-        $id = $this->orders->nextId();
-
-        $guest = $this->guests->find($this->guestId());
-        
-
-    }
-
-    public function deleteSingleItemFromcart(OrderId $order_id){
-        
-        $order = $this->existingOrder($order_id);
-
-        $order->remove();
-
-        $this->process($order, $this->orders);
-        
-
-    }
-
-    public function addToCart(ModuleId $module_id, ProductId $product_id, ?float $quantity, ?float $price, ){}
-
     private function existingOrder(OrderId $id) : Order {
         $order = $this->orders->find(new OrderId ($id));
         if(null == $order)

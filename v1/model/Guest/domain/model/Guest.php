@@ -64,4 +64,11 @@ class Guest extends Entity
             null
         );
     }
+
+    public function addToShoppingCart(ShoppingCartId $id, ModuleId $module_id, ProductId $product_id, float $quantity, float $total_price){
+        
+        return new ShoppingCart(
+            $id
+        );
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use model\Guest\application\OrderManagementService;
+use model\Guest\application\ShoppingCartManagementService;
 
 class ControllerGuestHouseKeeping extends RestEndpoint{
 
@@ -31,22 +32,24 @@ class ControllerGuestHouseKeeping extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function orderManagementService(): OrderManagementService
+    private function shoppingCartManagementService(): ShoppingCartManagementService
     {
     $this->load->module('Guest');
 
-    $this->order_management_service = $this->module_guest->service('OrderManagementService');
+    $this->shopping_cart_management_service = $this->module_guest->service('ShoppingCartManagementService');
 
-    return $this->order_management_service;
+    return $this->shopping_cart_management_service;
     }
 
     private function fetchHouseKeepingProducts(){}
 
     private function addToCart(){
 
-        $this->orderManagementService()->addToCart(
+        $this->shoppingCartManagementService()->addToShoppingCart(
+            $this->getAttr('module_id'),
             $this->getAttr('product_id'),
             $this->getAttr('quantity'),
+            $this->getAttr('price')
         );
     }
 }

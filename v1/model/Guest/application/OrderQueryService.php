@@ -82,39 +82,7 @@ class OrderQueryService extends \JsonApiQueryService {
         return $format;
     }
 
-	public function getSelfOwnedShoppingCart(){
-        $cart = $this->db->query("SELECT * FROM `order` WHERE guest_id = :guest_id AND order_status = :order_status",[
-            ':guest_id' => $this->identity_provider->identity(),
-			':order_status' => OrderStatus::Pending()
-        ])->rows;
-        
-        $result= [];
 
-        foreach($orders as &$o){
-            $format = $this->buildResource($o, 'order');
-            $result[] = [
-                'data' => $format
-            ]; 
-        }
-        return $result;    
-    }
-
-	public function getSingleItemFromShoppingCart(ProductId $cart_item_id){
-        $cart_item = $this->db->query("SELECT * FROM `order` WHERE guest_id = :guest_id AND product_id = :product_id AND order_status = :order_status",[
-            ':guest_id' => $this->identity_provider->identity(),
-			':product_id' => $cart_item_id,
-			':order_status' => OrderStatus::Pending()
-        ])->rows;
-        
-        $result= [];
-
-            $format = $this->buildResource($cart_item, 'order');
-            $result[] = [
-                'data' => $format
-            ]; 
-
-        return $result;    
-    }
 
 	protected function dateISO8601($date) {
 		if($date)

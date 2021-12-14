@@ -1,15 +1,21 @@
 <?php
 
 use model\Guest\application\OrderManagementService;
+use model\Guest\application\ShoppingCartManagementService;
 
-class ControllerGuestTaxi extends RestEndpoint{
+class ControllerGuestRoomService extends RestEndpoint{
 
-    protected function get(){}
+    protected function get(){
+
+        if(!$this->uriAt(0))
+            $this->fetchRoomServiceProducts();
+
+        
+    }
 
     protected function post(){
 
-        if(!$this->uriAt(0) || $this->uriAt(0))
-            $this->addToCart();
+        $this->addToCart();
     }
 
     protected function patch(){}
@@ -28,24 +34,25 @@ class ControllerGuestTaxi extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function orderManagementService(): OrderManagementService{
+    private function shoppingCartManagementService(): ShoppingCartManagementService
+    {
+    $this->load->module('Guest');
 
-        $this->load->module('Guest');
+    $this->shopping_cart_management_service = $this->module_guest->service('ShoppingCartManagementService');
 
-        $this->order_management_service = $this->module_guest->service('OrderManagementService');
-
-        return $this->order_management_service;
+    return $this->shopping_cart_management_service;
     }
+
+    private function fetchRoomServiceProducts(){}
 
     private function addToCart(){
 
-        $this->orderManagementService()->addToShoppingCart(
+        $this->shoppingCartManagementService()->addToShoppingCart(
+            $this->getAttr('module_id'),
+            $this->getAttr('category_id'),
             $this->getAttr('product_id'),
             $this->getAttr('quantity'),
+            $this->getAttr('price')
         );
-        
-        $this->noContent();
     }
-
-    
 }
