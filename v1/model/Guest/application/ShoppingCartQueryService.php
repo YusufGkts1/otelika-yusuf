@@ -2,7 +2,7 @@
 
 namespace model\Guest\application;
 
-class BasketQueryService extends \JsonApiQueryService {
+class ShoppingCartQueryService extends \JsonApiQueryService {
 
 	function __construct(
 		protected \Db $db,
@@ -11,7 +11,7 @@ class BasketQueryService extends \JsonApiQueryService {
 
 	protected function config(): array {
 		return [
-			'order_basket' => [
+			'order_cart' => [
 				'single' => [
 					'by' => [
 						'id' => [
@@ -36,7 +36,7 @@ class BasketQueryService extends \JsonApiQueryService {
 				],
 				'json_api' => [
 					'id_field' => 'id',
-					'type' => 'order_basket',
+					'type' => 'order_cart',
 					'translate' => [
 						'created_on' => [
 							'translator' => 'dateISO8601',
@@ -52,15 +52,15 @@ class BasketQueryService extends \JsonApiQueryService {
 		];
 	}
 
-	public function fetchGuestSelfOwnedBasket(){
-        $order_basket = $this->db->query("SELECT * FROM `order_basket` WHERE guest_id = :guest_id", [
+	public function fetchGuestSelfOwnedcart(){
+        $order_cart = $this->db->query("SELECT * FROM `order_cart` WHERE guest_id = :guest_id", [
             ':guest_id'=>$this->identity_provider->identity(),
         ])->rows;
         
         $result= [];
 
-        foreach($order_basket as &$o){
-            $format = $this->buildResource($o, 'order_basket');
+        foreach($order_cart as &$o){
+            $format = $this->buildResource($o, 'order_cart');
             $result[] = [
                 'data' => $format
             ]; 
@@ -68,13 +68,13 @@ class BasketQueryService extends \JsonApiQueryService {
         return $result;    
     }
 
-    public function getGuestSingleBasketItemById($guest_id){
+    public function getGuestSinglecartItemById($guest_id){
 
-        $order_basket_item = $this->db->query("SELECT * FROM `order_basket` WHERE id = :id ", [
+        $order_cart_item = $this->db->query("SELECT * FROM `order_cart` WHERE id = :id ", [
             ':id' => $guest_id
         ])->row;
 
-        $format = $this->buildResource($order_basket_item, 'order_basket');
+        $format = $this->buildResource($order_cart_item, 'order_cart');
 
         return $format;
     }

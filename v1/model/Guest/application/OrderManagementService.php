@@ -9,6 +9,7 @@ use model\Guest\domain\model\GuestId;
 use model\Guest\domain\model\IGuestRepository;
 use model\Guest\domain\model\IModuleRepository;
 use model\Guest\domain\model\IProductRepostitory;
+use model\Guest\domain\model\ModuleId;
 use model\Guest\domain\model\Order;
 use model\Guest\domain\model\OrderId;
 use model\Guest\domain\model\OrderStatus;
@@ -31,13 +32,11 @@ class OrderManagementService extends ApplicationService{
     	// return $id->getId();
     }
 
-    public function createFaultRecord(ProductId $broken_item_id, string $fault_note)
+    public function createFaultRecord(ModuleId $module_id, ProductId $broken_item_id, string $fault_note)
     {
         $id = $this->orders->nextId();
 
         $guest = $this->guests->find($this->guestId());
-
-        $module_id = $this->modules->getModuleIdByProductId($broken_item_id);
 
         $order = $guest->sendFaultRecord($id, $module_id, $broken_item_id, $fault_note);
 
@@ -56,7 +55,7 @@ class OrderManagementService extends ApplicationService{
         $this->process($order, $this->orders);
     }
 
-    public function addToBasket(ProductId $product_id, float $piece){
+    public function addToShoppingCart(ProductId $product_id, float $quantity){
         
         $id = $this->orders->nextId();
 
@@ -64,6 +63,19 @@ class OrderManagementService extends ApplicationService{
         
 
     }
+
+    public function deleteSingleItemFromcart(OrderId $order_id){
+        
+        $order = $this->existingOrder($order_id);
+
+        $order->remove();
+
+        $this->process($order, $this->orders);
+        
+
+    }
+
+    public function addToCart(ModuleId $module_id, ProductId $product_id, ?float $quantity, ?float $price, ){}
 
     private function existingOrder(OrderId $id) : Order {
         $order = $this->orders->find(new OrderId ($id));

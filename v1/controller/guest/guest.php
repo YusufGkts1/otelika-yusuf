@@ -1,12 +1,9 @@
 <?php
 
-use model\Guest\application\BasketManagementService;
-use model\Guest\application\BasketQueryService;
 use model\Guest\application\GuestQueryService;
 use model\Guest\application\ModuleQueryService;
 use model\Guest\application\OrderManagementService;
 use model\Guest\application\OrderQueryService;
-use model\Guest\application\ProductQueryService;
 
 class ControllerGuest extends RestEndpoint{
 
@@ -24,31 +21,9 @@ class ControllerGuest extends RestEndpoint{
             }
             $this->getGuestProfile();
         }
-         
-        if('basket' == $this->uriAt(0)){
-            if($this->uriAt(1)){
-                $this->getSingleItemFromBasket();
-            }
-            $this->getOrderBasket(); 
-        }
-
-        if('fault_record' == $this->uriAt(0))
-            $this->fetchRoomItems();
     }
 
-    protected function post(){
-        if('basket' == $this->uriAt(0))
-            $this->confirmBasket();
-
-        if('basket' != $this->uriAt(0))
-            if($this->uriAt(1) || $this->uriAt(2)){
-                $this->addToBasket();
-            }
-            
-        if('wake_up_service' == $this->uriAt(0))
-            $this->createWakeUpAlarm();
-        
-    }
+    protected function post(){}
 
     protected function patch(){
         if('profile' == $this->uriAt(0)){
@@ -58,22 +33,9 @@ class ControllerGuest extends RestEndpoint{
                 }
             }
         }
-
-        if('basket' == $this->uriAt(0)){
-            if($this->uriAt(1)){
-                $this->changeProductPieceFromBasket();
-            }
-        }
     }
 
-    protected function delete(){
-        if('basket' == $this->uriAt(0)){
-            if($this->uriAt(1)){
-                $this->deleteItemFromBasket();
-            }
-        }
-       
-    }
+    protected function delete(){}
 
     protected function submoduleId(): int{
         return 0;
@@ -94,15 +56,6 @@ class ControllerGuest extends RestEndpoint{
     $this->order_management_service = $this->module_guest->service('OrderManagementService');
 
     return $this->order_management_service;
-    }
-
-    private function basketManagementService(): BasketManagementService
-    {
-    $this->load->module('Guest');
-
-    $this->basket_management_service = $this->module_guest->service('BasketManagementService');
-
-    return $this->basket_management_service;
     }
 
     private function guestQueryService(): GuestQueryService
@@ -127,30 +80,6 @@ class ControllerGuest extends RestEndpoint{
         $this->order_query_service = $this->module_guest->service('OrderQueryService');
 
         return $this->order_query_service;
-    }
-
-    private function basketQueryService(): BasketQueryService
-    {
-        if ($this->basket_query_service)
-            return $this->basket_query_service;
-
-        $this->load->module('Guest');
-
-        $this->basket_query_service = $this->module_guest->service('BasketQueryService');
-
-        return $this->basket_query_service;
-    }
-
-    private function productQueryService(): ProductQueryService
-    {
-        if ($this->product_query_service)
-            return $this->product_query_service;
-
-        $this->load->module('Guest');
-
-        $this->product_query_service = $this->module_guest->service('ProductQueryService');
-
-        return $this->product_query_service;
     }
 
     private function moduleQueryService(): ModuleQueryService
@@ -193,33 +122,6 @@ class ControllerGuest extends RestEndpoint{
         $this->success($order);
     }
 
-    private function getOrderBasket(){
-
-        $basket = $this->basketQueryService()->fetchGuestSelfOwnedBasket($this->queryServiceQueryObject());
-
-		$this->success($basket);
-    }
-
-    private function getSingleItemFromBasket(){
-
-        $basket_item = $this->basketQueryService()->getGuestSingleBasketItemById($this->uriAt(1), $this->queryServiceQueryObject());
-
-		$this->success($basket_item);
-    }
-
-    private function fetchRoomItems(){
-
-        $room_items = $this->productQueryService()->fetchRoomItems($this->queryServiceQueryObject());
-
-		$this->success($room_items);
-    }
-
-    private function confirmBasket(){}
-
-    private function addToBasket(){
-        
-    }
-
     private function cancelOrder(){
 
         $this->orderManagementService()->cancelOrder(
@@ -231,34 +133,4 @@ class ControllerGuest extends RestEndpoint{
     
             $this->success($orders);
     }
-
-    private function changeProductPieceFromBasket(){ //Ürün adedi değiştirilirken hem stoktan güncelleme olacak hem basket tarafında güncelleme olacak. Bu güncellemenin yapılacağı fonksiyon ürün üzerinden mi olacak?
-
-        $this->basketManagementService()->changePieceOfProduct(
-            $this->uriAt(1),
-            $this->getAttr('piece',true));
-
-            
-        $basket = $this->basketQueryService()->fetchSelfOwnedBasketItems($this->queryServiceQueryObject());
-  
-        $this->success($basket);
-    }
-
-    private function deleteItemFromBasket(){
-
-        $this->basketManagementService()->deleteItem($this->uriAt(1));
-  
-        $this->noContent();
-    }
-
-    private function createWakeUpAlarm(){
-
-        $this->orderManagementService()->wakeUpService(
-            $this->getAttr('wake_up_time')
-        );
-
-        $this->noContent();
-    }
-
-
 }

@@ -15,7 +15,7 @@ class Order extends Entity
         private ProductId $product_id,
         private ?string $order_note,
         private ?\DateTime $delivery_time,
-        private float $total_amount
+        private ?float $total_price
     ){}
 
 
@@ -27,4 +27,9 @@ class Order extends Entity
     return $this->status;
 
     }
+
+    public function remove() {
+		$this->_remove();
+	}
+
 }

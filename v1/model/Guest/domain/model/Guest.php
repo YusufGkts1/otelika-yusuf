@@ -61,7 +61,7 @@ class Guest extends Entity
             $broken_item_id,
             $fault_note,
             null,
-            0
+            null
         );
     }
 }

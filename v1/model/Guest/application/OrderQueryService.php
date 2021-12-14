@@ -2,6 +2,9 @@
 
 namespace model\Guest\application;
 
+use model\Guest\domain\model\OrderStatus;
+use model\Guest\domain\model\ProductId;
+
 class OrderQueryService extends \JsonApiQueryService {
 
 	function __construct(
@@ -54,7 +57,7 @@ class OrderQueryService extends \JsonApiQueryService {
 
 	public function fetchGuestSelfOwnedOrders(){
         $orders = $this->db->query("SELECT * FROM `order` WHERE guest_id = :guest_id", [
-            ':guest_id'=>$this->identity_provider->identity(),
+            ':guest_id' => $this->identity_provider->identity()
         ])->rows;
         
         $result= [];
@@ -77,6 +80,40 @@ class OrderQueryService extends \JsonApiQueryService {
         $format = $this->buildResource($order, 'order');
 
         return $format;
+    }
+
+	public function getSelfOwnedShoppingCart(){
+        $cart = $this->db->query("SELECT * FROM `order` WHERE guest_id = :guest_id AND order_status = :order_status",[
+            ':guest_id' => $this->identity_provider->identity(),
+			':order_status' => OrderStatus::Pending()
+        ])->rows;
+        
+        $result= [];
+
+        foreach($orders as &$o){
+            $format = $this->buildResource($o, 'order');
+            $result[] = [
+                'data' => $format
+            ]; 
+        }
+        return $result;    
+    }
+
+	public function getSingleItemFromShoppingCart(ProductId $cart_item_id){
+        $cart_item = $this->db->query("SELECT * FROM `order` WHERE guest_id = :guest_id AND product_id = :product_id AND order_status = :order_status",[
+            ':guest_id' => $this->identity_provider->identity(),
+			':product_id' => $cart_item_id,
+			':order_status' => OrderStatus::Pending()
+        ])->rows;
+        
+        $result= [];
+
+            $format = $this->buildResource($cart_item, 'order');
+            $result[] = [
+                'data' => $format
+            ]; 
+
+        return $result;    
     }
 
 	protected function dateISO8601($date) {

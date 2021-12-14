@@ -2,6 +2,8 @@
 
 namespace model\Guest\application;
 
+use model\Guest\domain\model\ProductType;
+
 class ProductQueryService extends \JsonApiQueryService {
 
 	function __construct(
@@ -50,6 +52,22 @@ class ProductQueryService extends \JsonApiQueryService {
 			]
 		];
 	}
+
+	public function fetchFaultRecordProducts(){
+        $products = $this->db->query("SELECT * FROM `product` WHERE product_type = :product_type", [
+            ':product_type'=> ProductType::FaultRecord()
+        ])->rows;
+        
+        $result= [];
+
+        foreach($products as &$p){
+            $format = $this->buildResource($p, 'product');
+            $result[] = [
+                'data' => $format
+            ]; 
+        }
+        return $result;    
+    }
     
 	protected function dateISO8601($date) {
 		if($date)

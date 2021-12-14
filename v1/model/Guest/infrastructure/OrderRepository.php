@@ -41,7 +41,7 @@ class OrderRepository extends Repository implements IOrderRepository{
             `product_id` = :product_id,
             `order_note` = :order_note,
             `delivery_time` = :delivery_time,
-            `total_amount` = :total_amount,
+            `total_price` = :total_price,
             `created_on` = NOW()",
             [
             ':id' => $id->getId(),
@@ -52,7 +52,7 @@ class OrderRepository extends Repository implements IOrderRepository{
             ':product_id' =>  $this->getProperty($entity, 'product_id'),
             ':order_note' => $this->getProperty($entity, 'order_note'),
             ':delivery_time' => $this->getProperty($entity, 'delivery_time'),
-            ':total_amount' => $this->getProperty($entity,'total_amount')
+            ':total_price' => $this->getProperty($entity,'total_price')
             ]);
         }else if($this->templateOrder($id)){
             $this->db->command("UPDATE registration SET

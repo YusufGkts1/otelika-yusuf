@@ -4,7 +4,7 @@ namespace model\Guest\domain\model;
 
 use \model\common\IComparable;
 
-class BasketId implements IComparable
+class ShoppingCartId implements IComparable
 {
     private string $id;
 

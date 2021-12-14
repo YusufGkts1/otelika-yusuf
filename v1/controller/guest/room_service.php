@@ -9,7 +9,7 @@ class ControllerGuestTaxi extends RestEndpoint{
     protected function post(){
 
         if(!$this->uriAt(0) || $this->uriAt(0))
-            $this->addToBasket();
+            $this->addToCart();
     }
 
     protected function patch(){}
@@ -37,11 +37,11 @@ class ControllerGuestTaxi extends RestEndpoint{
         return $this->order_management_service;
     }
 
-    private function addToBasket(){
+    private function addToCart(){
 
-        $this->orderManagementService()->addToBasket(
+        $this->orderManagementService()->addToShoppingCart(
             $this->getAttr('product_id'),
-            $this->getAttr('piece'),
+            $this->getAttr('quantity'),
         );
         
         $this->noContent();

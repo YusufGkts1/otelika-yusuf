@@ -1,15 +1,6 @@
 <?php
 
-use model\Guest\application\BasketManagementService;
-use model\Guest\application\BasketQueryService;
-use model\Guest\application\GuestQueryService;
-use model\Guest\application\ModuleQueryService;
-use model\Guest\application\OrderBasketQueryService;
 use model\Guest\application\OrderManagementService;
-use model\Guest\application\OrderQueryService;
-use model\Guest\application\ProductQueryService;
-use model\Guest\application\RoomItemQueryService;
-use model\Guest\application\TaxiManagementService;
 
 class ControllerGuestWakeUpService extends RestEndpoint{
 

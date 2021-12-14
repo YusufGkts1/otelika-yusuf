@@ -9,8 +9,8 @@ class OrderProducts extends Entity
     function __construct(
         ModuleId $category_id,
         ProductId $product_id,
-        private float $amount,
-        private int $pieces,
+        private float $price,
+        private int $quantity,
     ){}
 
 }
