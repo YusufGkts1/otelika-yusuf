@@ -14,6 +14,7 @@ use model\Guest\domain\model\ModuleId;
 use model\Guest\domain\model\ProductId;
 use model\Guest\domain\model\ShoppingCart;
 use model\Guest\domain\model\ShoppingCartId;
+use model\Guest\domain\model\ShoppingCartItem;
 
 class ShoppingCartManagementService extends ApplicationService{
 
@@ -49,13 +50,13 @@ class ShoppingCartManagementService extends ApplicationService{
 //    }
 
 
-    public function deleteSingleItemFromShoppingCart(OrderId $order_id){
+    public function deleteSingleItemFromShoppingCart(){
         
-        $order = $this->existingOrder($order_id);
+        // $order = $this->existingOrder($order_id);
 
-        $order->remove();
+        // $order->remove();
 
-        $this->process($order, $this->orders);
+        // $this->process($order, $this->orders);
     }
 
     public function addToShoppingCart(ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity){

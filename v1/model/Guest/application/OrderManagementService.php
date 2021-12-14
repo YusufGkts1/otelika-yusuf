@@ -17,7 +17,7 @@ use model\Guest\domain\model\ProductId;
 
 class OrderManagementService extends ApplicationService{
 
-    function __construct(private IOrderRepository $orders, private IGuestRepository $guests, private IModuleRepository $modules, private IProductRepostitory $products, private IAlarmRepository $alarms ){}
+    function __construct(private IOrderRepository $orders, private IGuestRepository $guests, private IModuleRepository $modules, private IProductRepostitory $products){}
 
     public function wakeUpService(\DateTime $wake_up_time)
     {

@@ -18,6 +18,4 @@ interface IModuleRepository extends IPersistenceProvider
     public function getModuleIdByProductId(ProductId $id) : ?ModuleId;
 
     public function getModuleIdByModuleName(string $category_name) : ?ModuleId;
-
-
 }

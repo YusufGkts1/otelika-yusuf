@@ -14,6 +14,4 @@ interface IProductRepostitory extends IPersistenceProvider
     public function remove(string $id);
 
     public function nextId():ProductId;
-
-
 }
