@@ -7,13 +7,13 @@ use model\common\IPersistenceProvider;
 
 interface ICategoryRepository extends IPersistenceProvider
 {
-    public function find(GuestId $id) : ?Guest;
+    public function find(CategoryId $id) : ?Category;
 
     public function save(Entity $entity);
 
     public function remove(string $id);
 
-    public function nextId():GuestId;
+    public function nextId(): CategoryId;
 
 
 }

@@ -1,5 +1,6 @@
 <?php
 
+use model\Guest\application\FaultRecordManagementService;
 use model\Guest\application\OrderManagementService;
 use model\Guest\application\ProductQueryService;
 
@@ -35,13 +36,13 @@ class ControllerGuestFaultRecord extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function orderManagementService(): OrderManagementService{
+    private function faultRecordManagementService(): FaultRecordManagementService{
 
         $this->load->module('Guest');
 
-        $this->order_management_service = $this->module_guest->service('OrderManagementService');
+        $this->fault_record_management_service = $this->module_guest->service('FaultRecordManagementService');
 
-        return $this->order_management_service;
+        return $this->fault_record_management_service;
     }
 
     private function productQueryService(): ProductQueryService{
@@ -64,7 +65,7 @@ class ControllerGuestFaultRecord extends RestEndpoint{
 
     private function sendFaultRecord(){
 
-        $this->orderManagementService()->createFaultRecord(
+        $this->faultRecordManagementService()->createFaultRecord(
             $this->getAttr('module_id'),
             $this->getAttr('product_id'),
             $this->getAttr('fault_note')

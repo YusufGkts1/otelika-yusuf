@@ -18,7 +18,7 @@ class Guest extends Entity
         private ?string $passport_no
     ){}
 
-    public function orderTaxi(OrderId $id, int $countdown, string $guest_note){
+    public function orderTaxi(TaxiId $id, int $countdown, string $guest_note){
 
         if($countdown > 60)
             $this->addException(new CallingTaxiCountDownCanNotBeLaterThanOneHourException());        
@@ -32,7 +32,7 @@ class Guest extends Entity
         );
     }
 
-    public function wakeUpAlarm(DateTime $wake_up_time){
+    public function wakeUpAlarm(AlarmId $alarm_id, DateTime $wake_up_time){
         
         $alarm = $wake_up_time->format('H:i');
 
@@ -40,35 +40,52 @@ class Guest extends Entity
 
         if($alarm <= $now){
 
-            $new_alarm = strtotime('+1 day', $alarm);
+            $new_alarm = $wake_up_time->modify('+1 day');
             
-            return new Alarm();
+            return new Alarm(
+                $alarm_id,
+                $this->id,
+                $this->room_id,
+                $this->phone_no,
+                $new_alarm
+            );
         }
         
         if($alarm > $now){
-            return new Alarm();    
+            return new Alarm(
+                $alarm_id,
+                $this->id,
+                $this->room_id,
+                $this->phone_no,
+                $wake_up_time
+            );    
         }
 
     }
 
-    public function sendFaultRecord(OrderId $order_id, ModuleId $module_id, ProductId $broken_item_id, string $fault_note){
+    public function sendFaultRecord(FaultRecordId $fault_record_id, ProductId $broken_item_id, string $fault_note){
 
-        return new Order(
-            $order_id,
-            $this->id,
-            $this->room_id,
-            $module_id,
-            $broken_item_id,
-            $fault_note,
-            null,
-            null
+        return new FaultRecord(
+           $fault_record_id,
+           $this->id,
+           $this->room_id,
+           $broken_item_id,
+           $fault_note
+
         );
     }
 
-    public function addToShoppingCart(ShoppingCartId $id, ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity, float $total_price){
+    public function addToShoppingCart(ShoppingCartId $shopping_cart_id, ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity, float $total_price){
         
-        return new ShoppingCartItem(
-            $id
+        return new ShoppingCart(
+            $shopping_cart_id,
+            $this->id,
+            $this->room_id,
+            $module_id,
+            $category_id,
+            $product_id,
+            $quantity,
+            $total_price
         );
     }
 }

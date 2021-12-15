@@ -1,6 +1,8 @@
 <?php
 
+use model\Guest\application\AlarmManagementService;
 use model\Guest\application\OrderManagementService;
+use model\Guest\application\WakeUpManagementService;
 
 class ControllerGuestWakeUpService extends RestEndpoint{
 
@@ -28,18 +30,18 @@ class ControllerGuestWakeUpService extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function orderManagementService(): OrderManagementService{
+    private function alarmManagementService(): AlarmManagementService{
 
         $this->load->module('Guest');
 
-        $this->order_management_service = $this->module_guest->service('OrderManagementService');
+        $this->alarm_management_service = $this->module_guest->service('AlarmManagementService');
 
-        return $this->order_management_service;
+        return $this->alarm_management_service;
     }
 
     private function createWakeUpAlarm(){
 
-        $this->orderManagementService()->wakeUpService(
+        $this->alarmManagementService()->wakeUpService(
             $this->getAttr('wake_up_time')
         );
 

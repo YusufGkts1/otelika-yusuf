@@ -2,17 +2,16 @@
 
 namespace model\Guest\domain\model;
 
-use DateTime;
 use model\common\Entity;
 
-class Alarm extends Entity
+class FaultRecord extends Entity
 {
     function __construct(
-        private AlarmId $id,
+        private FaultRecordId $id,
         private GuestId $guest_id,
         private RoomId $room_id,
-        private int $phone_no,
-        private DateTime $wake_up_time
+        private ProductId $product_id,
+        private ?string $fault_note
     ){}
 
 }

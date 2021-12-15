@@ -19,32 +19,7 @@ class OrderManagementService extends ApplicationService{
 
     function __construct(private IOrderRepository $orders, private IGuestRepository $guests, private IModuleRepository $modules, private IProductRepostitory $products){}
 
-    public function wakeUpService(\DateTime $wake_up_time)
-    {
-        $id = $this->orders->nextId();
-
-        $guest = $this->guests->find($this->guestId());
-
-        $order = $guest->wakeUpAlarm($wake_up_time);
-
-        // $this->process($order, $this->orders);
- 
-    	// return $id->getId();
-    }
-
-    public function createFaultRecord(ModuleId $module_id, ProductId $broken_item_id, string $fault_note)
-    {
-        $id = $this->orders->nextId();
-
-        $guest = $this->guests->find($this->guestId());
-
-        $order = $guest->sendFaultRecord($id, $module_id, $broken_item_id, $fault_note);
-
-        $this->process($order, $this->orders);
- 
-    	return $id->getId();
-    }
-
+    
     public function cancelOrder(OrderId $id, int $status){
 
         $order = $this->existingOrder($id);

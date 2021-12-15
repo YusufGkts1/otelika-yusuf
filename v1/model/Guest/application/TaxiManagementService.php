@@ -10,11 +10,11 @@ use model\Guest\domain\model\ITaxiRepository;
 
 class TaxiManagementService extends ApplicationService{
 
-    function __construct(private IGuestRepository $guests, private ITaxiRepository $taxi_calls, private IOrderRepository $orders){}
+    function __construct(private IGuestRepository $guests, private ITaxiRepository $taxi_calls){}
 
     public function callTaxi(int $countdown, string $guest_note)
     {
-        $id = $this->orders->nextId();
+        $id = $this->taxi_calls->nextId();
 
         $guest = $this->guests->find($this->guestId());
 

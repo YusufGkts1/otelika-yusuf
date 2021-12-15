@@ -4,7 +4,7 @@ namespace model\Guest\domain\model;
 
 use \model\common\IComparable;
 
-class AlarmId implements IComparable
+class FaultRecordId implements IComparable
 {
     private string $id;
 

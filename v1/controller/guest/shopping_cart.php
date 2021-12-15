@@ -25,7 +25,7 @@ class ControllerGuestShoppingCart extends RestEndpoint{
     protected function patch(){
 
         if($this->uriAt(0))
-            $this->changeQuantityOfShoppingCartItem();
+            $this->changeQuantity();
     }
 
     protected function delete(){
@@ -62,7 +62,7 @@ class ControllerGuestShoppingCart extends RestEndpoint{
     private function shoppingCartManagementService(): ShoppingCartManagementService{
     $this->load->module('Guest');
 
-    $this->shopping_cart_management_service = $this->module_guest->service('sShoppingCartManagementService');
+    $this->shopping_cart_management_service = $this->module_guest->service('ShoppingCartManagementService');
 
     return $this->shopping_cart_management_service;
     }
@@ -83,7 +83,13 @@ class ControllerGuestShoppingCart extends RestEndpoint{
     }
     private function completeTheOrder(){}
 
-    private function changeQuantityOfShoppingCartItem(){}
+    // private function changeQuantity(){
+
+    //     $this->shoppingCartManagementService()->changeQuantityOfShoppingCartItem(
+    //         $this->getAttr('product_id'),
+    //         $this->getAttr('quantity',true)
+    //     );
+    // }
 
     private function emptyTheShoppingCart(){}
 

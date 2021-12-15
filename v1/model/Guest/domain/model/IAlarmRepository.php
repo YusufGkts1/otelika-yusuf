@@ -7,17 +7,12 @@ use model\common\IPersistenceProvider;
 
 interface IAlarmRepository extends IPersistenceProvider
 {
-    public function find(cartId $id) : ?cart;
+    public function find(AlarmId $id) : ?Alarm;
 
     public function save(Entity $entity);
 
     public function remove(string $id);
 
-    public function nextId():cartId;
-
-    public function findcartByGuestId(GuestId $guest_id) : ?cart;
-
-    public function findProductIncart(ProductId $cart_item_id) : ?Product;
-
+    public function nextId():AlarmId;
 
 }
