@@ -46,5 +46,4 @@ class ControllerGuestTaxi extends RestEndpoint{
         
         $this->noContent();
     }
-
 }

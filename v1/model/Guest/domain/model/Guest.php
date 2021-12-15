@@ -22,7 +22,7 @@ class Guest extends Entity
 
         if($countdown > 60)
             $this->addException(new CallingTaxiCountDownCanNotBeLaterThanOneHourException());        
-    
+        
         return new Taxi(
             $id,
             $this->id,
