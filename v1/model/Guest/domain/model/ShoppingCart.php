@@ -23,4 +23,8 @@ class ShoppingCart extends Entity
 
 
     }
+
+    public function remove() {
+		$this->_remove();
+	}
 }

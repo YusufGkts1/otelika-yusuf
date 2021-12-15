@@ -58,16 +58,6 @@ class ShoppingCartManagementService extends ApplicationService{
 //        return $Cart_item;
 //    }
 
-
-    public function deleteSingleItemFromShoppingCart(){
-        
-        // $order = $this->existingOrder($order_id);
-
-        // $order->remove();
-
-        // $this->process($order, $this->orders);
-    }
-
     public function addToShoppingCart(ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity){
         
         $guest = $this->guests->find($this->guestId());
@@ -99,6 +89,32 @@ class ShoppingCartManagementService extends ApplicationService{
         }
 
         $guest->addToShoppingCart($shopping_cart['id'], $module_id, $category_id, $product_id, $quantity, $total_price);
+    }
+
+    public function removeShoppingCart(ShoppingCartId $shopping_cart_id){
+
+        $shopping_cart = $this->shopping_carts->find($shopping_cart_id);
+
+        if(!$shopping_cart)
+            throw new \NotFoundException('Shopping Cart is not found');
+
+        $shopping_cart->remove();
+
+        $this->process($shopping_cart, $this->shopping_carts);
+
+    }
+
+    public function deleteSingleItemFromShoppingCart(ShoppingCartId $shopping_cart_id, ProductId $product_id){
+
+        $shopping_cart = $this->shopping_carts->find($shopping_cart_id);
+
+        if(!$shopping_cart)
+            throw new \NotFoundException('Shopping Cart is not found');
+        
+        $product = $this->products->find($product_id);
+
+        if(!$product)
+            throw new \NotFoundException('Product is not found');
     }
 
     // public function changeQuantityOfShoppingCartItem(ProductId $product_id, float $quantity){

@@ -91,11 +91,20 @@ class ControllerGuestShoppingCart extends RestEndpoint{
     //     );
     // }
 
-    private function emptyTheShoppingCart(){}
+    private function emptyTheShoppingCart(){
+
+        $this->shoppingCartManagementService()->removeShoppingCart(
+            $this->getAttr('shopping_cart_id')
+        );
+
+        $this->noContent();
+    }
 
     private function deleteSingleItemFromShoppingCart(){
 
-        $this->shoppingCartManagementService()->deleteSingleItemFromShoppingCart($this->uriAt(0));
+        $this->shoppingCartManagementService()->deleteSingleItemFromShoppingCart(
+            $this->getAttr('shopping_cart_id'),
+            $this->uriAt(0));
   
         $this->noContent();
     }
