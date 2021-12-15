@@ -13,6 +13,7 @@ use model\Guest\domain\model\IProductRepostitory;
 use model\Guest\domain\model\IRoomItemRepository;
 use model\Guest\domain\model\IShoppingCartRepository;
 use model\Guest\domain\model\ModuleId;
+use model\Guest\domain\model\Product;
 use model\Guest\domain\model\ProductId;
 use model\Guest\domain\model\ShoppingCart;
 use model\Guest\domain\model\ShoppingCartId;
@@ -106,40 +107,37 @@ class ShoppingCartManagementService extends ApplicationService{
 
     public function deleteSingleItemFromShoppingCart(ShoppingCartId $shopping_cart_id, ProductId $product_id){
 
-        $shopping_cart = $this->shopping_carts->find($shopping_cart_id);
+        $shopping_cart_item = $this->existingShoppingCartItem($shopping_cart_id, $product_id);
 
-        if(!$shopping_cart)
-            throw new \NotFoundException('Shopping Cart is not found');
+        $shopping_cart_item->removeShoppingCartItem($shopping_cart_id, $product_id);
         
-        $product = $this->products->find($product_id);
-
-        if(!$product)
-            throw new \NotFoundException('Product is not found');
     }
 
-    // public function changeQuantityOfShoppingCartItem(ProductId $product_id, float $quantity){
+    public function changeQuantityOfShoppingCartItem(ShoppingCartId $shopping_cart_id, ProductId $product_id, float $quantity){
 
-    //     $shopping_cart_item = $this->existingShoppingCartItem($this->guestId());
+        $shopping_cart_item = $this->existingShoppingCartItem($shopping_cart_id, $product_id);
 
-    //     $this->process($registration, $this->registrations);
+        $shopping_cart_item->changeQuantityOfcartItem($product_id, $quantity);
 
-    // }
+        $this->process($shopping_cart_item, $this->shopping_cart_item);
 
-    //  Shopping Cart Item çekilerek ShoppingItem.php içerisinde change function ile işlem tamamlanacak.
-    // private function existingShoppingCartItem(ShoppingCartId $shopping_cart_id, ProductId $product_id) : ShoppingCartItem {
-    //     $shopping_cart_item = $this->shopping_carts->find(new ShoppingCartId ($guest_id));
-    //     if(null == $shopping_cart_item)
-    //         throw new \NotFoundException('Product is not found');
+    }
 
-    //     return $shopping_cart_item;
-    // }
+     //Shopping Cart Item çekilerek ShoppingItem.php içerisinde change function ile işlem tamamlanacak.
 
     private function existingShoppingCart(GuestId $guest_id) : ShoppingCart {
         $shopping_cart = $this->shopping_carts->find(new ShoppingCartId ($guest_id));
-        if(null == $shopping_cart)
-            throw new \NotFoundException('Shopping Cart is not found');
 
         return $shopping_cart;
+    }
+
+    private function existingShoppingCartItem(ShoppingCartId $shopping_cart_id, ProductId $product_id) : ShoppingCartItem {
+
+        $shopping_cart_item = $this->shopping_carts->findShoppingCartItem($shopping_cart_id, $product_id);
+        if(null == $shopping_cart_item)
+            throw new \NotFoundException('Shopping Cart Item is not found');
+
+        return $shopping_cart_item;
     }
 
     protected function guestId() : GuestId {

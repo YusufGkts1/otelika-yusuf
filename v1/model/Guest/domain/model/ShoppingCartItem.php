@@ -13,8 +13,10 @@ class ShoppingCartItem extends Entity
 
     public function changeQuantityOfcartItem(ProductId $cart_item_id, float $quantity){
 
-        
+    
+    }
 
-
+    public function removeShoppingCartItem(){
+        $this->_remove();
     }
 }

@@ -11,13 +11,13 @@ interface IShoppingCartRepository extends IPersistenceProvider
 
     public function save(Entity $entity);
 
-    public function remove(string $id);
+    public function remove(ShoppingCartId $id, ProductId $product_id);
 
     public function nextId():ShoppingCartId;
 
     public function findcartByGuestId(GuestId $guest_id) : ?ShoppingCart;
 
-    public function findProductIncart(ProductId $cart_item_id) : ?Product;
+    public function findShoppingCartItem(ShoppingCartId $id, ProductId $cart_item_id) : ?ShoppingCartItem;
 
 
 }

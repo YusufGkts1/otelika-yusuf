@@ -83,13 +83,14 @@ class ControllerGuestShoppingCart extends RestEndpoint{
     }
     private function completeTheOrder(){}
 
-    // private function changeQuantity(){
+    private function changeQuantity(){
 
-    //     $this->shoppingCartManagementService()->changeQuantityOfShoppingCartItem(
-    //         $this->getAttr('product_id'),
-    //         $this->getAttr('quantity',true)
-    //     );
-    // }
+        $this->shoppingCartManagementService()->changeQuantityOfShoppingCartItem(
+            $this->getAttr('shopping_cart_id'),
+            $this->getAttr('product_id'),
+            $this->getAttr('quantity',true)
+        );
+    }
 
     private function emptyTheShoppingCart(){
 
