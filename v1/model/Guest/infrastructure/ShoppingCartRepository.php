@@ -9,7 +9,6 @@ use model\StudentStation\domain\model\StationId;
 use model\StudentStation\domain\model\StudentId;
 use model\StudentStation\domain\model\RegistrationId;
 use model\StudentStation\domain\model\Registration;
-use model\StudentStation\domain\model\IRegistrationRepository;
 use model\StudentStation\domain\model\RegistrationStatus;
 
 

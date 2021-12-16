@@ -6,8 +6,12 @@ use model\common\Entity;
 use model\common\Repository;
 use model\Guest\domain\model\FaultRecord;
 use model\Guest\domain\model\FaultRecordId;
+use model\Guest\domain\model\GuestId;
+use model\Guest\domain\model\IFaultRecordRepository;
+use model\Guest\domain\model\ProductId;
+use model\Guest\domain\model\RoomId;
 
-class TaxiRepository extends Repository implements ITaxiRepository{
+class FaultRecordRepository extends Repository implements IFaultRecordRepository{
 
     public function find(FaultRecordId $id) : FaultRecord{
 
@@ -30,25 +34,25 @@ class TaxiRepository extends Repository implements ITaxiRepository{
         $id = $this->getProperty($entity, 'id');
 
         if(!$this->templateFaultRecord($id)){
-            $this->db->command("INSERT INTO `taxi_order` SET
+            $this->db->command("INSERT INTO `fault_record` SET
                 `id` = :id,
                 `guest_id` = :guest_id,
                 `room_id` = :room_id,
-                `countdown` = :countdown,
-                `guest_note` = :guest_note,
+                `product_id` = :product_id,
+                `fault_note` = :fault_note,
                 'status' = :status
                 `created_on` = NOW()",
                 [
                 ':id' => $id->getId(),
                 ':guest_id' => $this->getProperty($entity, 'guest_id'),
                 ':room_id' => $this->getProperty($entity, 'room_id'),
-                ':countdown' => $this->getProperty($entity, 'countdown'),
-                ':guest_note' => $this->getProperty($entity, 'guest_note'),
+                ':product_id' => $this->getProperty($entity, 'product_id'),
+                ':fault_note' => $this->getProperty($entity, 'fault_note'),
                 ':status' => 1
             ]);
-        } else if($this->templateTaxi($id)){
+        } else if($this->templateFaultRecord($id)){
 
-            $this->db->command("UPDATE taxi_order SET
+            $this->db->command("UPDATE fault_record SET
                 `status` = :status
                 WHERE id = :id",
                 [
@@ -60,33 +64,33 @@ class TaxiRepository extends Repository implements ITaxiRepository{
 
     public function remove(string $id){}
 
-    public function nextId() : TaxiId {
+    public function nextId() : FaultRecordId {
 
-        return new TaxiId(uniqid());
+        return new FaultRecordId(uniqid());
     }
 
-    private function templateTaxi(TaxiId $id) : bool {
+    private function templateFaultRecord(FaultRecordId $id) : bool {
 
-		return $this->db->query("SELECT COUNT(*) as total FROM taxi_order WHERE id = :id", [
+		return $this->db->query("SELECT COUNT(*) as total FROM fault_record WHERE id = :id", [
 			':id' => $id->getId()
 		])->row['total'] > 0;
 	}
 
-    private function dboFromId(TaxiId $id) {
+    private function dboFromId(FaultRecordId $id) {
 
         return $this->db->query("SELECT * FROM taxi_order WHERE id = :id", [
 			':id' => $id->getId()
 		])->row;
 	}
     
-    private function faultRecordFromDbo(array $dbo) : Taxi {
+    private function faultRecordFromDbo(array $dbo) : FaultRecord {
         
-        return new Taxi(
-			new TaxiId ($dbo['id']),
+        return new FaultRecord(
+			new FaultRecordId ($dbo['id']),
 			new GuestId ($dbo['guest_id']),
             new RoomId ($dbo['room_id']),
-			$dbo['countdown'],
-            $dbo['guest_note']
+            new ProductId ($dbo['room_id']),
+            $dbo['fault_note']
 		);
 
 	}

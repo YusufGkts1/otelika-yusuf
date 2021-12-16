@@ -2,11 +2,16 @@
 
 namespace model\Guest\infrastructure;
 
+use model\common\Entity;
 use model\Guest\domain\model\IOrderRepository;
 use model\Guest\domain\model\Order;
 use model\Guest\domain\model\OrderId;
 
 use model\common\Repository;
+use model\Guest\domain\model\GuestId;
+use model\Guest\domain\model\ModuleId;
+use model\Guest\domain\model\ProductId;
+use model\Guest\domain\model\RoomId;
 
 class OrderRepository extends Repository implements IOrderRepository{
 
@@ -20,7 +25,7 @@ class OrderRepository extends Repository implements IOrderRepository{
 
         return null;
 
-        return $this->transactionFromDbo($dbo);
+        return $this->orderFromDbo($dbo);
 
     }
 
@@ -55,7 +60,7 @@ class OrderRepository extends Repository implements IOrderRepository{
             ':total_price' => $this->getProperty($entity,'total_price')
             ]);
         }else if($this->templateOrder($id)){
-            $this->db->command("UPDATE registration SET
+            $this->db->command("UPDATE order SET
             `status` = :status
              WHERE id = :id",
             [
@@ -74,10 +79,6 @@ class OrderRepository extends Repository implements IOrderRepository{
         ])->row;
     }
 
-    private function transactionFromDbo(array $dbo) : Order {
-        return new Order();
-	}
-
     public function nextId() : OrderId {
         return new OrderId(uniqid());
 	}
@@ -86,5 +87,18 @@ class OrderRepository extends Repository implements IOrderRepository{
 		return $this->db->query("SELECT COUNT(*) as total FROM order WHERE id = :id", [
 			':id' => $id->getId()
 		])->row['total'] > 0;
+	}
+
+    private function orderFromDbo(array $dbo) : Order {
+        return new Order(
+            new OrderId ($dbo['id']),
+			new GuestId ($dbo['guest_id']),
+            new RoomId ($dbo['room_id']),
+            new ModuleId($dbo['module_id']),
+            new ProductId ($dbo['room_id']),
+            $dbo['order_note'],
+            new \DateTime($dbo['delivery_time']),
+            $dbo['total_price']
+        );
 	}
 }
