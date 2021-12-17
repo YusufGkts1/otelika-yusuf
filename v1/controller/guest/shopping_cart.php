@@ -81,7 +81,7 @@ class ControllerGuestShoppingCart extends RestEndpoint{
         $this->success($cart_item);
 
     }
-    private function completeTheOrder(){
+    private function completeTheOrder(){  //Shopping Cart Item olarak mı Shopping Cart olarak mı alalım?
 
         $this->shoppingCartManagementService()->completeTheOrder(
             $this->getAttr('shopping_cart_id')
@@ -110,7 +110,8 @@ class ControllerGuestShoppingCart extends RestEndpoint{
 
         $this->shoppingCartManagementService()->deleteSingleItemFromShoppingCart(
             $this->getAttr('shopping_cart_id'),
-            $this->uriAt(0)); // or product_id ??
+            $this->getAttr('product_id')
+        );
   
         $this->noContent();
     }

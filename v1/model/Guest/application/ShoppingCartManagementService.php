@@ -11,6 +11,7 @@ use model\Guest\domain\model\IGuestRepository;
 use model\Guest\domain\model\IModuleRepository;
 use model\Guest\domain\model\IProductRepostitory;
 use model\Guest\domain\model\IRoomItemRepository;
+use model\Guest\domain\model\IShoppingCartItemRepository;
 use model\Guest\domain\model\IShoppingCartRepository;
 use model\Guest\domain\model\ModuleId;
 use model\Guest\domain\model\Product;
@@ -27,6 +28,7 @@ class ShoppingCartManagementService extends ApplicationService{
         private IProductRepostitory $products,
         private IRoomItemRepository $room_items,
         private IShoppingCartRepository $shopping_carts,
+        private IShoppingCartItemRepository $shopping_cart_items,
         private IModuleRepository $modules,
         private ICategoryRepository $categories){}
 
@@ -62,14 +64,14 @@ class ShoppingCartManagementService extends ApplicationService{
 
     public function completeTheOrder(ShoppingCartId $shopping_cart_id){
 
-        $shopping_cart = $this->shopping_carts->find($shopping_cart_id);
+        $shopping_cart_items = $this->shopping_carts->find($shopping_cart_id);
 
-        if(!$shopping_cart)
+        if(!$shopping_cart_items)
             throw new \NotFoundException('Shopping Cart is not found');
 
         $order_id = $this->orders->nextId();
          
-        $new_order = $shopping_cart->addToOrders($order_id);
+        $new_order = $shopping_cart_items->addToOrders($order_id);
 
         $this->process($new_order, $this->orders);
     }
