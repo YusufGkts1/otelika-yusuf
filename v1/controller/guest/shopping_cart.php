@@ -81,7 +81,12 @@ class ControllerGuestShoppingCart extends RestEndpoint{
         $this->success($cart_item);
 
     }
-    private function completeTheOrder(){}
+    private function completeTheOrder(){
+
+        $this->shoppingCartManagementService()->completeTheOrder(
+            $this->getAttr('shopping_cart_id')
+        );
+    }
 
     private function changeQuantity(){
 
@@ -105,7 +110,7 @@ class ControllerGuestShoppingCart extends RestEndpoint{
 
         $this->shoppingCartManagementService()->deleteSingleItemFromShoppingCart(
             $this->getAttr('shopping_cart_id'),
-            $this->uriAt(0));
+            $this->uriAt(0)); // or product_id ??
   
         $this->noContent();
     }

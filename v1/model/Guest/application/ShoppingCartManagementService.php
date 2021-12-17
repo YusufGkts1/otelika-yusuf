@@ -59,6 +59,21 @@ class ShoppingCartManagementService extends ApplicationService{
 //        return $Cart_item;
 //    }
 
+
+    public function completeTheOrder(ShoppingCartId $shopping_cart_id){
+
+        $shopping_cart = $this->shopping_carts->find($shopping_cart_id);
+
+        if(!$shopping_cart)
+            throw new \NotFoundException('Shopping Cart is not found');
+
+        $order_id = $this->orders->nextId();
+         
+        $new_order = $shopping_cart->addToOrders($order_id);
+
+        $this->process($new_order, $this->orders);
+    }
+
     public function addToShoppingCart(ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity){
         
         $guest = $this->guests->find($this->guestId());
