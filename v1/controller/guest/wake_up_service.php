@@ -1,8 +1,6 @@
 <?php
 
 use model\Guest\application\AlarmManagementService;
-use model\Guest\application\OrderManagementService;
-use model\Guest\application\WakeUpManagementService;
 
 class ControllerGuestWakeUpService extends RestEndpoint{
 

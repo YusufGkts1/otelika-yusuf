@@ -134,7 +134,7 @@ class ShoppingCartManagementService extends ApplicationService{
 
         $shopping_cart_item = $this->existingShoppingCartItem($shopping_cart_id, $product_id);
 
-        $shopping_cart_item->changeQuantityOfcartItem($product_id, $quantity);
+        $shopping_cart_item->changeQuantityOfcartItem($quantity);
 
         $this->process($shopping_cart_item, $this->shopping_cart_item);
 

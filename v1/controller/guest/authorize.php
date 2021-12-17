@@ -3,7 +3,6 @@
 use \model\Guest\Login;
 use \model\Guest\Session;
 
-
 class ControllerGuestAuthorize extends Controller{
 
     private $db;

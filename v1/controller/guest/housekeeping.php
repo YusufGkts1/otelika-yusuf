@@ -1,6 +1,5 @@
 <?php
 
-use model\Guest\application\OrderManagementService;
 use model\Guest\application\ShoppingCartManagementService;
 
 class ControllerGuestHouseKeeping extends RestEndpoint{

@@ -1,7 +1,6 @@
 <?php
 
 use model\Guest\application\FaultRecordManagementService;
-use model\Guest\application\OrderManagementService;
 use model\Guest\application\ProductQueryService;
 
 class ControllerGuestFaultRecord extends RestEndpoint{

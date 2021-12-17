@@ -1,6 +1,5 @@
 <?php
 
-use model\Guest\application\OrderManagementService;
 use model\Guest\application\ShoppingCartManagementService;
 
 class ControllerGuestRoomService extends RestEndpoint{
@@ -9,8 +8,6 @@ class ControllerGuestRoomService extends RestEndpoint{
 
         if(!$this->uriAt(0))
             $this->fetchRoomServiceProducts();
-
-        
     }
 
     protected function post(){

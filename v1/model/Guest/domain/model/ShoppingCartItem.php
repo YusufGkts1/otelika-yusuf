@@ -19,9 +19,11 @@ class ShoppingCartItem extends Entity
         private float $total_price
     ){}
 
-    public function changeQuantityOfcartItem(ProductId $cart_item_id, float $quantity){
+    public function changeQuantityOfcartItem(float $quantity){
 
-    
+        $total_price = $quantity * $this->price;
+
+        // Product.php içerisinde mi yapmalı bunu?
     }
 
     public function removeShoppingCartItem(){

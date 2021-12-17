@@ -1,7 +1,5 @@
 <?php
 
-use model\Guest\application\OrderManagementService;
-use model\Guest\application\OrderQueryService;
 use model\Guest\application\ShoppingCartManagementService;
 use model\Guest\application\ShoppingCartQueryService;
 
@@ -49,6 +47,7 @@ class ControllerGuestShoppingCart extends RestEndpoint{
     }
 
     private function shoppingCartQueryService(): ShoppingCartQueryService{
+        
         if ($this->shopping_cart_query_service)
             return $this->shopping_cart_query_service;
 
