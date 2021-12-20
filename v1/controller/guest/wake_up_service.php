@@ -1,6 +1,6 @@
 <?php
 
-use model\Guest\application\AlarmManagementService;
+use model\Alarm\application\AlarmManagementService;
 
 class ControllerGuestWakeUpService extends RestEndpoint{
 
@@ -30,9 +30,9 @@ class ControllerGuestWakeUpService extends RestEndpoint{
 
     private function alarmManagementService(): AlarmManagementService{
 
-        $this->load->module('Guest');
+        $this->load->module('Alarm');
 
-        $this->alarm_management_service = $this->module_guest->service('AlarmManagementService');
+        $this->alarm_management_service = $this->module_alarm->service('AlarmManagementService');
 
         return $this->alarm_management_service;
     }

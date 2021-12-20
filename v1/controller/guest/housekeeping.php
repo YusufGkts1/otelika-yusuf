@@ -1,6 +1,6 @@
 <?php
 
-use model\Guest\application\ShoppingCartManagementService;
+use model\ShoppingCart\application\ShoppingCartManagementService;
 
 class ControllerGuestHouseKeeping extends RestEndpoint{
 
@@ -33,9 +33,9 @@ class ControllerGuestHouseKeeping extends RestEndpoint{
 
     private function shoppingCartManagementService(): ShoppingCartManagementService
     {
-    $this->load->module('Guest');
+    $this->load->module('ShoppingCart');
 
-    $this->shopping_cart_management_service = $this->module_guest->service('ShoppingCartManagementService');
+    $this->shopping_cart_management_service = $this->module_shopping_cart->service('ShoppingCartManagementService');
 
     return $this->shopping_cart_management_service;
     }
