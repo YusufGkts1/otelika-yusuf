@@ -1,11 +1,11 @@
 <?php
 
-namespace model\Module\domain\model;
+namespace model\common\domain\model;
 
 use model\common\Entity;
 use model\common\IPersistenceProvider;
 
-interface IModuleRepository extends IPersistenceProvider
+interface IServiceModuleRepository extends IPersistenceProvider
 {
     public function find(ModuleId $id) : ?Module;
 

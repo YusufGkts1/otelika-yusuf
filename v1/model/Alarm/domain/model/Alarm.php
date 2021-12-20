@@ -3,6 +3,8 @@
 namespace model\Alarm\domain\model;
 
 use DateTime;
+use model\common\domain\model\GuestId;
+use model\common\domain\model\RoomId;
 use model\common\Entity;
 
 class Alarm extends Entity

@@ -3,9 +3,9 @@
 namespace model\Taxi\application;
 
 use model\common\ApplicationService;
-use model\Guest\domain\model\GuestId;
-use model\Guest\domain\model\IGuestRepository;
-use model\Guest\domain\model\ITaxiRepository;
+use model\common\domain\model\GuestId;
+use model\common\domain\model\IGuestRepository;
+use model\Taxi\domain\model\ITaxiRepository;
 
 class TaxiManagementService extends ApplicationService{
 

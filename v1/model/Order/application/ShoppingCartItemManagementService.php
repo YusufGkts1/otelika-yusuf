@@ -1,35 +1,27 @@
 <?php
 
-namespace model\ShoppingCartItem\application;
+namespace model\Order\application;
 
-use model\Guest\domain\model\IOrderRepository;
 use model\common\ApplicationService;
-use model\Guest\domain\model\CategoryId;
-use model\Guest\domain\model\GuestId;
-use model\Guest\domain\model\ICategoryRepository;
-use model\Guest\domain\model\IGuestRepository;
-use model\Guest\domain\model\IModuleRepository;
-use model\Guest\domain\model\IProductRepostitory;
-use model\Guest\domain\model\IRoomItemRepository;
-use model\Guest\domain\model\IShoppingCartItemRepository;
-use model\Guest\domain\model\IShoppingCartRepository;
-use model\Guest\domain\model\ModuleId;
-use model\Guest\domain\model\Product;
-use model\Guest\domain\model\ProductId;
-use model\Guest\domain\model\ShoppingCart;
-use model\Guest\domain\model\ShoppingCartId;
-use model\Guest\domain\model\ShoppingCartItem;
+use model\common\domain\model\GuestId;
+use model\common\domain\model\IGuestRepository;
+use model\common\domain\model\IProductRepostitory;
+use model\common\domain\model\IServiceModuleRepository;
+use model\common\domain\model\ProductId;
+use model\common\domain\model\ServiceModuleId;
+use model\Order\domain\model\CategoryId;
+use model\Order\domain\model\ICategoryRepository;
+use model\ShoppingCartItem\domain\model\IShoppingCartItemRepository;
+use model\ShoppingCartItem\domain\model\ShoppingCartItem;
+use model\ShoppingCartItem\domain\model\ShoppingCartItemId;
 
-class ShoppingCartManagementService extends ApplicationService{
+class ShoppingCartItemManagementService extends ApplicationService{
 
     function __construct(
-        private IOrderRepository $orders,
         private IGuestRepository $guests,
         private IProductRepostitory $products,
-        private IRoomItemRepository $room_items,
-        private IShoppingCartRepository $shopping_carts,
         private IShoppingCartItemRepository $shopping_cart_items,
-        private IModuleRepository $modules,
+        private IServiceModuleRepository $service_modules,
         private ICategoryRepository $categories){}
 
     // public function deleteItem(ProductId $cart_item_id){
@@ -62,9 +54,9 @@ class ShoppingCartManagementService extends ApplicationService{
 //    }
 
 
-    public function completeTheOrder(ShoppingCartId $shopping_cart_id){
+    public function completeTheOrder(ShoppingCartItemId $shopping_cart_item_id){
 
-        $shopping_cart_items = $this->shopping_carts->find($shopping_cart_id);
+        $shopping_cart_items = $this->shopping_carts->find($shopping_cart_item_id);
 
         if(!$shopping_cart_items)
             throw new \NotFoundException('Shopping Cart is not found');
@@ -76,7 +68,7 @@ class ShoppingCartManagementService extends ApplicationService{
         $this->process($new_order, $this->orders);
     }
 
-    public function addToShoppingCart(ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity){
+    public function addToShoppingCart(ServiceModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity){
         
         $guest = $this->guests->find($this->guestId());
 
@@ -109,7 +101,7 @@ class ShoppingCartManagementService extends ApplicationService{
         $guest->addToShoppingCart($shopping_cart['id'], $module_id, $category_id, $product_id, $quantity, $total_price);
     }
 
-    public function removeShoppingCart(ShoppingCartId $shopping_cart_id){
+    public function removeShoppingCart(ShoppingCartItemId $shopping_cart_id){
 
         $shopping_cart = $this->shopping_carts->find($shopping_cart_id);
 
@@ -122,15 +114,15 @@ class ShoppingCartManagementService extends ApplicationService{
 
     }
 
-    public function deleteSingleItemFromShoppingCart(ShoppingCartId $shopping_cart_id, ProductId $product_id){
+    public function deleteSingleItemFromShoppingCart(ShoppingCartItemId $shopping_cart_item_id, ProductId $product_id){
 
-        $shopping_cart_item = $this->existingShoppingCartItem($shopping_cart_id, $product_id);
+        $shopping_cart_item = $this->existingShoppingCartItem($shopping_cart_item_id, $product_id);
 
-        $shopping_cart_item->removeShoppingCartItem($shopping_cart_id, $product_id);
+        $shopping_cart_item->removeShoppingCartItem($shopping_cart_item_id, $product_id);
         
     }
 
-    public function changeQuantityOfShoppingCartItem(ShoppingCartId $shopping_cart_id, ProductId $product_id, float $quantity){
+    public function changeQuantityOfShoppingCartItem(ShoppingCartItemId $shopping_cart_id, ProductId $product_id, float $quantity){
 
         $shopping_cart_item = $this->existingShoppingCartItem($shopping_cart_id, $product_id);
 
@@ -142,13 +134,13 @@ class ShoppingCartManagementService extends ApplicationService{
 
      //Shopping Cart Item çekilerek ShoppingItem.php içerisinde change function ile işlem tamamlanacak.
 
-    private function existingShoppingCart(GuestId $guest_id) : ShoppingCart {
-        $shopping_cart = $this->shopping_carts->find(new ShoppingCartId ($guest_id));
+    private function existingShoppingCart(GuestId $guest_id) : ShoppingCartItem {
+        $shopping_cart = $this->shopping_carts->find(new ShoppingCartItemId ($guest_id));
 
         return $shopping_cart;
     }
 
-    private function existingShoppingCartItem(ShoppingCartId $shopping_cart_id, ProductId $product_id) : ShoppingCartItem {
+    private function existingShoppingCartItem(ShoppingCartItemId $shopping_cart_id, ProductId $product_id) : ShoppingCartItem {
 
         $shopping_cart_item = $this->shopping_carts->findShoppingCartItem($shopping_cart_id, $product_id);
         if(null == $shopping_cart_item)

@@ -1,8 +1,8 @@
 <?php
 
-namespace model\ShoppingCartItem\application;
+namespace model\Order\application;
 
-class ShoppingCartQueryService extends \JsonApiQueryService {
+class ShoppingCartItemQueryService extends \JsonApiQueryService {
 
 	function __construct(
 		protected \Db $db,

@@ -1,6 +1,6 @@
 <?php
 
-namespace model\Room\domain\model;
+namespace model\common\domain\model;
 
 use model\common\Entity;
 use model\common\IPersistenceProvider;

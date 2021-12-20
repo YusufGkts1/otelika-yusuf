@@ -1,7 +1,7 @@
 <?php
 
-use model\Guest\application\ShoppingCartManagementService;
-use model\Guest\application\ShoppingCartQueryService;
+use model\ShoppingCartItem\application\ShoppingCartItemManagementService;
+use model\ShoppingCartItem\application\ShoppingCartItemQueryService;
 
 class ControllerGuestShoppingCart extends RestEndpoint{
 
@@ -46,50 +46,50 @@ class ControllerGuestShoppingCart extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function shoppingCartQueryService(): ShoppingCartQueryService{
+    private function shoppingCartItemQueryService(): ShoppingCartItemQueryService{
         
-        if ($this->shopping_cart_query_service)
-            return $this->shopping_cart_query_service;
+        if ($this->shopping_cart_item_query_service)
+            return $this->shopping_cart_item_query_service;
 
-        $this->load->module('Guest');
+        $this->load->module('ShoppingCartItem');
 
-        $this->shopping_cart_query_service = $this->module_guest->service('ShoppingCartQueryService');
+        $this->shopping_cart__item_query_service = $this->module_shopping_cart_item->service('ShoppingCartItemQueryService');
 
-        return $this->shopping_cart_query_service;
+        return $this->shopping_cart__item_query_service;
     }
 
-    private function shoppingCartManagementService(): ShoppingCartManagementService{
-    $this->load->module('Guest');
+    private function shoppingCartItemManagementService(): ShoppingCartItemManagementService{
+    $this->load->module('ShoppingCartItem');
 
-    $this->shopping_cart_management_service = $this->module_guest->service('ShoppingCartManagementService');
+    $this->shopping_cart_management_service = $this->module_shopping_cart_item->service('ShoppingCartItemManagementService');
 
     return $this->shopping_cart_management_service;
     }
 
     private function getSelfOwnedShoppingCart(){
 
-        $cart = $this->shoppingCartQueryService()->getSelfOwnedShoppingCart($this->queryServiceQueryObject());
+        $cart = $this->shoppingCartItemQueryService()->getSelfOwnedShoppingCart($this->queryServiceQueryObject());
         
         $this->success($cart);
     }
 
     private function getSingleItemFromShoppingCart(){
 
-        $cart_item = $this->shoppingCartQueryService()->getSingleItemFromShoppingCart($this->uriAt(0), $this->queryServiceQueryObject());
+        $cart_item = $this->shoppingCartItemQueryService()->getSingleItemFromShoppingCart($this->uriAt(0), $this->queryServiceQueryObject());
         
         $this->success($cart_item);
 
     }
     private function completeTheOrder(){  //Shopping Cart Item olarak mı Shopping Cart olarak mı alalım?
 
-        $this->shoppingCartManagementService()->completeTheOrder(
+        $this->ShoppingCartItemManagementService()->completeTheOrder(
             $this->getAttr('shopping_cart_id')
         );
     }
 
     private function changeQuantity(){
 
-        $this->shoppingCartManagementService()->changeQuantityOfShoppingCartItem(
+        $this->ShoppingCartItemManagementService()->changeQuantityOfShoppingCartItem(
             $this->getAttr('shopping_cart_id'),
             $this->getAttr('product_id'),
             $this->getAttr('quantity',true)
@@ -98,7 +98,7 @@ class ControllerGuestShoppingCart extends RestEndpoint{
 
     private function emptyTheShoppingCart(){
 
-        $this->shoppingCartManagementService()->removeShoppingCart(
+        $this->ShoppingCartItemManagementService()->removeShoppingCart(
             $this->getAttr('shopping_cart_id')
         );
 
@@ -107,7 +107,7 @@ class ControllerGuestShoppingCart extends RestEndpoint{
 
     private function deleteSingleItemFromShoppingCart(){
 
-        $this->shoppingCartManagementService()->deleteSingleItemFromShoppingCart(
+        $this->ShoppingCartItemManagementService()->deleteSingleItemFromShoppingCart(
             $this->getAttr('shopping_cart_id'),
             $this->getAttr('product_id')
         );

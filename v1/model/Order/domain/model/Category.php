@@ -1,6 +1,6 @@
 <?php
 
-namespace model\Category\domain\model;
+namespace model\Order\domain\model;
 
 use model\common\Entity;
 

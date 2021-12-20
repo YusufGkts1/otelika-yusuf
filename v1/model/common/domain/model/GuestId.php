@@ -1,6 +1,6 @@
 <?php
 
-namespace model\Guest\domain\model;
+namespace model\common\domain\model;
 
 use \model\common\IComparable;
 

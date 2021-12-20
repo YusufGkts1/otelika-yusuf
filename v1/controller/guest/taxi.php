@@ -1,6 +1,6 @@
 <?php
 
-use model\Guest\application\TaxiManagementService;
+use model\Taxi\application\TaxiManagementService;
 
 class ControllerGuestTaxi extends RestEndpoint{
 
@@ -30,9 +30,9 @@ class ControllerGuestTaxi extends RestEndpoint{
 
     private function taxiManagementService(): TaxiManagementService
     {
-    $this->load->module('Guest');
+    $this->load->module('Taxi');
 
-    $this->taxi_management_service = $this->module_guest->service('TaxiManagementService');
+    $this->taxi_management_service = $this->module_taxi->service('TaxiManagementService');
 
     return $this->taxi_management_service;
     }

@@ -2,6 +2,9 @@
 
 namespace model\FaultRecord\domain\model;
 
+use model\common\domain\model\GuestId;
+use model\common\domain\model\ProductId;
+use model\common\domain\model\RoomId;
 use model\common\Entity;
 
 class FaultRecord extends Entity

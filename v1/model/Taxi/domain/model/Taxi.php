@@ -2,6 +2,8 @@
 
 namespace model\Taxi\domain\model;
 
+use model\common\domain\model\GuestId;
+use model\common\domain\model\RoomId;
 use model\common\Entity;
 
 class Taxi extends Entity

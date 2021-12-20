@@ -1,10 +1,10 @@
 <?php
 
-namespace model\ShoppingCartItem\domain\model;
+namespace model\Order\domain\model;
 
 use \model\common\IComparable;
 
-class ShoppingCartItemId implements IComparable
+class CategoryId implements IComparable
 {
     private string $id;
 

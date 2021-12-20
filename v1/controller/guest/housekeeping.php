@@ -1,6 +1,7 @@
 <?php
 
 use model\ShoppingCart\application\ShoppingCartManagementService;
+use model\ShoppingCartItem\application\ShoppingCartItemManagementService;
 
 class ControllerGuestHouseKeeping extends RestEndpoint{
 
@@ -31,20 +32,20 @@ class ControllerGuestHouseKeeping extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function shoppingCartManagementService(): ShoppingCartManagementService
+    private function shoppingCartItemManagementService(): ShoppingCartItemManagementService
     {
-    $this->load->module('ShoppingCart');
+    $this->load->module('ShoppingCartItem');
 
-    $this->shopping_cart_management_service = $this->module_shopping_cart->service('ShoppingCartManagementService');
+    $this->shopping_cart_item_management_service = $this->module_shopping_cart_item->service('ShoppingCartItemManagementService');
 
-    return $this->shopping_cart_management_service;
+    return $this->shopping_cart_item_management_service;
     }
 
     private function fetchHouseKeepingProducts(){}
 
     private function addToCart(){
 
-        $this->shoppingCartManagementService()->addToShoppingCart(
+        $this->shoppingCartItemManagementService()->addToShoppingCart(
             $this->getAttr('module_id'),
             $this->getAttr('category_id'),
             $this->getAttr('product_id'),

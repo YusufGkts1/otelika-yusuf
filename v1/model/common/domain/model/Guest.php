@@ -1,10 +1,19 @@
 <?php
 
-namespace model\Guest\domain\model;
+namespace model\common\domain\model;
 
 use DateTime;
+use model\Alarm\domain\model\Alarm;
+use model\Alarm\domain\model\AlarmId;
 use model\common\Entity;
+use model\FaultRecord\domain\model\FaultRecord;
+use model\FaultRecord\domain\model\FaultRecordId;
+use model\Guest\domain\model\ShoppingCart;
 use model\Sdm\domain\model\exception\CallingTaxiCountDownCanNotBeLaterThanOneHourException;
+use model\ShoppingCartItem\domain\model\ShoppingCartItem;
+use model\ShoppingCartItem\domain\model\ShoppingCartItemId;
+use model\Taxi\domain\model\Taxi;
+use model\Taxi\domain\model\TaxiId;
 
 class Guest extends Entity
 {
@@ -75,9 +84,9 @@ class Guest extends Entity
         );
     }
 
-    public function addToShoppingCart(ShoppingCartId $shopping_cart_id, ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity, float $total_price){
+    public function addToShoppingCart(ShoppingCartItemId $shopping_cart_id, ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity, float $total_price){
         
-        return new ShoppingCart(
+        return new ShoppingCartItem(
             $shopping_cart_id,
             $this->id,
             $this->room_id,

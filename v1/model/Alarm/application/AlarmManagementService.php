@@ -2,10 +2,10 @@
 
 namespace model\Alarm\application;
 
-use model\Alarm\domain\model\GuestId;
 use model\Alarm\domain\model\IAlarmRepository;
 use model\common\ApplicationService;
-use model\Guest\domain\model\IGuestRepository;
+use model\common\domain\model\GuestId;
+use model\common\domain\model\IGuestRepository;
 
 class AlarmManagementService extends ApplicationService{
 

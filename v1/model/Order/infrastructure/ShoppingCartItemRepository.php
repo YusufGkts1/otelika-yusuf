@@ -1,10 +1,10 @@
 <?php
 
-namespace model\ShoppingCartItem\infrastructure;
+namespace model\Order\infrastructure;
 
 use model\common\Repository;
 use model\common\Entity;
-use model\Guest\domain\model\IShoppingCartRepository;
+use model\Order\domain\model\IShoppingCartItemRepository;
 use model\StudentStation\domain\model\StationId;
 use model\StudentStation\domain\model\StudentId;
 use model\StudentStation\domain\model\RegistrationId;
@@ -12,7 +12,7 @@ use model\StudentStation\domain\model\Registration;
 use model\StudentStation\domain\model\RegistrationStatus;
 
 
-class ShoppingCartRepository extends Repository implements IShoppingCartRepository{
+class ShoppingCartItemRepository extends Repository implements IShoppingCartItemRepository{
     
 
     function __construct(

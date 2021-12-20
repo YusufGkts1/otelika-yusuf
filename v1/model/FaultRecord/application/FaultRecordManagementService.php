@@ -3,11 +3,10 @@
 namespace model\FaultRecord\application;
 
 use model\common\ApplicationService;
-use model\Guest\domain\model\GuestId;
+use model\common\domain\model\GuestId;
+use model\common\domain\model\IGuestRepository;
+use model\common\domain\model\ProductId;
 use model\FaultRecord\domain\model\IFaultRecordRepository;
-use model\Guest\domain\model\IGuestRepository;
-use model\FaultRecord\domain\model\ModuleId;
-use model\Guest\domain\model\ProductId;
 
 class FaultRecordManagementService extends ApplicationService{
 

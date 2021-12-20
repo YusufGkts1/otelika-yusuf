@@ -1,13 +1,14 @@
 <?php
 
-namespace model\ShoppingCartItem\domain\model;
+namespace model\Order\domain\model;
 
+use model\common\domain\model\ProductId;
 use model\common\Entity;
 use model\common\IPersistenceProvider;
 
 interface IShoppingCartItemRepository extends IPersistenceProvider
 {
-    public function find(ShoppingCartId $id) : ?ShoppingCartItem;
+    public function find(ShoppingCartItemId $id) : ?ShoppingCartItem;
 
     public function save(Entity $entity);
 

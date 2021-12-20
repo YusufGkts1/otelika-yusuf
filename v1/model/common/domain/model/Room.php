@@ -1,10 +1,10 @@
 <?php
 
-namespace model\Module\domain\model;
+namespace model\common\domain\model;
 
 use model\common\Entity;
 
-class Module extends Entity
+class Room extends Entity
 {
     function __construct(){}
 

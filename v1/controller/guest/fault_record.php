@@ -1,7 +1,7 @@
 <?php
 
-use model\Guest\application\FaultRecordManagementService;
-use model\Guest\application\ProductQueryService;
+use model\FaultRecord\application\FaultRecordManagementService;
+use model\Product\application\ProductQueryService;
 
 class ControllerGuestFaultRecord extends RestEndpoint{
 
@@ -37,9 +37,9 @@ class ControllerGuestFaultRecord extends RestEndpoint{
 
     private function faultRecordManagementService(): FaultRecordManagementService{
 
-        $this->load->module('Guest');
+        $this->load->module('FaultRecord');
 
-        $this->fault_record_management_service = $this->module_guest->service('FaultRecordManagementService');
+        $this->fault_record_management_service = $this->module_fault_record->service('FaultRecordManagementService');
 
         return $this->fault_record_management_service;
     }
@@ -48,9 +48,9 @@ class ControllerGuestFaultRecord extends RestEndpoint{
         if ($this->product_query_service)
             return $this->product_query_service;
 
-        $this->load->module('Guest');
+        $this->load->module('Product');
 
-        $this->product_query_service = $this->module_guest->service('ProductQueryService');
+        $this->product_query_service = $this->module_product->service('ProductQueryService');
 
         return $this->product_query_service;
     } 
