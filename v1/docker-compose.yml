@@ -4,12 +4,12 @@
 
 version: "3"
 services:
-   erp-api-local-env:
-      container_name: erp-api-yusuf
+   otelika-api-local-env:
+      container_name: otelika
       build: 
          context: ./
          dockerfile: Dockerfile
-      image: erp-api-web-server
+      image: otelika-web-server
       environment:
          MYSQL_USER: 'appuser'
          MYSQL_PASSWORD: '123123'
@@ -24,10 +24,10 @@ services:
          backend-yusuf:
             ipv4_address: 172.111.0.2
       ports:
-        - "48080:80"
+        - "48088:80"
 
    mysql-server:
-      container_name: erp-db-yusuf
+      container_name: otelika-db
       platform: linux/amd64 # remove if you are not using Apple M1 chip
       build:
          context: ./
@@ -44,12 +44,12 @@ services:
          backend-yusuf:           
             ipv4_address: 172.111.0.3
       ports:
-         - '43060:3306'
+         - '43061:3306'
       expose:
-         - '43060'
+         - '43061'
 
    mariadb:
-      container_name: erp-db-polling-yusuf
+      container_name: otelika-db-polling
       platform: linux/amd64 # remove if you are not using Apple M1 chip
       build:
          context: ./
@@ -68,15 +68,15 @@ services:
          backend-yusuf:           
             ipv4_address: 172.111.0.12
       ports:
-         - '43061:3306'
+         - '43062:3306'
       expose:
-         - '43061'
+         - '43062'
 
    phpmyadmin:
-      container_name: erp-phpmyadmin-yusuf
+      container_name: otelika-phpmyadmin
       image: "phpmyadmin/phpmyadmin"
       ports:
-         - "48888:80"
+         - "48889:80"
       environment:
          PMA_ARBITRARY: "1"
          PMA_HOST: "172.111.0.3"
@@ -96,7 +96,7 @@ services:
    #          ipv4_address: 172.111.0.5
 
    redis:
-      container_name: erp-redis-yusuf
+      container_name: otelika-redis
       image: redis
       container_name: redis-container
       networks:
@@ -148,19 +148,19 @@ services:
    #       - '80'
 
    redocly:
-      container_name: erp-redocly-yusuf
+      container_name: otelika-redocly
       image: volbrene/redoc
       environment:
          URLS: "[{url: '/static/swagger-files/docs/openapi_task_management.json', name: 'TaskManagement'}, {url: '/static/swagger-files/docs/openapi_procedure_management.json', name: 'ProcedureManagement'}, {url: '/static/swagger-files/docs/openapi_gis.json', name: 'GIS'}, {url: '/static/swagger-files/docs/openapi_polling.json', name: 'Polling'},{url: '/static/swagger-files/docs/openapi_sdm.json', name: 'Sdm'}]"
       volumes:
          - ./docs:/var/www/html/static/swagger-files/docs
       ports:
-         - 49090:80
+         - 49091:80
       expose:
          - 80
 
    postgis:
-      container_name: erp-postgis-yusuf
+      container_name: otelika-postgis
       build:
          context: ./
          dockerfile: postgis.Dockerfile
@@ -178,12 +178,12 @@ services:
          backend-yusuf:
             ipv4_address: 172.111.0.8
       ports:
-         - '45432:5432'
+         - '45433:5433'
       expose:
-         - '5432'
+         - '5433'
 
    pgadmin:
-      container_name: erp-pgadmin-yusuf
+      container_name: otelika-pgadmin
       image: dpage/pgadmin4
       environment:
          PGADMIN_DEFAULT_EMAIL: 'info@kant.ist'
@@ -192,12 +192,12 @@ services:
          backend-yusuf:
             ipv4_address: 172.111.0.9
       ports:
-         - '44321:80'
+         - '44322:80'
       expose:
-         - '44321'
+         - '44322'
 
    invoker-event:
-      container_name: erp-invoker-event-yusuf
+      container_name: otelika-invoker-event
       image: "kantist/invoker"
       environment:
          ENDPOINT: 'http://172.111.0.2:80/v1/event/event'
@@ -208,9 +208,9 @@ services:
             ipv4_address: 172.111.0.13
 
    # invoker-polling-queue:
-   #    container_name: erp-invoker-polling-queue-yusuf
+   #    container_name: otelika-invoker-polling-queue-yusuf
    #    image: "kantist/invoker"
-   #    container_name: erp-invoker-polling-queue
+   #    container_name: otelika-invoker-polling-queue
    #    environment:
    #       ENDPOINT: 'http://172.111.0.2:80/v1/polling/cron'
    #       AUTH_STRING: 'Invoke z6*Ea64a5C*yZVd8&w19WRUzpZ&qkQPsG56CPyNwcW!Ni7gV0F2rTIHwhd0dk5+0'
@@ -223,7 +223,7 @@ services:
 #    - ./repository/repo/gis/data:/opt/geoserver/data_dir
 
 volumes:
-  kant_erp_postgis_yusuf:
+  kant_otelika_postgis:
 
 networks:
    backend-yusuf:
