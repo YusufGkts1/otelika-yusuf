@@ -8,10 +8,10 @@ use model\Alarm\domain\model\AlarmId;
 use model\common\Entity;
 use model\FaultRecord\domain\model\FaultRecord;
 use model\FaultRecord\domain\model\FaultRecordId;
-use model\Guest\domain\model\ShoppingCart;
+use model\Order\domain\model\CategoryId;
+use model\Order\domain\model\ShoppingCartItem;
+use model\Order\domain\model\ShoppingCartItemId;
 use model\Sdm\domain\model\exception\CallingTaxiCountDownCanNotBeLaterThanOneHourException;
-use model\ShoppingCartItem\domain\model\ShoppingCartItem;
-use model\ShoppingCartItem\domain\model\ShoppingCartItemId;
 use model\Taxi\domain\model\Taxi;
 use model\Taxi\domain\model\TaxiId;
 
@@ -84,15 +84,17 @@ class Guest extends Entity
         );
     }
 
-    public function addToShoppingCart(ShoppingCartItemId $shopping_cart_id, ModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity, float $total_price){
+    public function addToShoppingCart(ShoppingCartItemId $shopping_cart_item_id, ServiceModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, ?string $order_note, ?DateTime $delivery_time, float $quantity, float $total_price){
         
         return new ShoppingCartItem(
-            $shopping_cart_id,
+            $shopping_cart_item_id,
             $this->id,
             $this->room_id,
             $module_id,
             $category_id,
             $product_id,
+            $order_note,
+            $delivery_time,
             $quantity,
             $total_price
         );

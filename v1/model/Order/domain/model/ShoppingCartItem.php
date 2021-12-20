@@ -17,7 +17,7 @@ class ShoppingCartItem extends Entity
         private ServiceModuleId $module_id,
         private ?CategoryId $category_id,
         private ProductId $product_id,
-        private string $order_note,
+        private ?string $order_note,
         private ?\DateTime $delivery_time,
         private float $quantity,
         private float $total_price

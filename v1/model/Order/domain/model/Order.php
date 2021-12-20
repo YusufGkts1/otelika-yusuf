@@ -2,6 +2,10 @@
 
 namespace model\Order\domain\model;
 
+use model\common\domain\model\GuestId;
+use model\common\domain\model\ProductId;
+use model\common\domain\model\RoomId;
+use model\common\domain\model\ServiceModuleId;
 use model\common\Entity;
 
 class Order extends Entity
@@ -10,7 +14,7 @@ class Order extends Entity
         private OrderId $id,
         private GuestId $guest_id,
         private RoomId $room_id,
-        private ModuleId $module_id,
+        private ServiceModuleId $module_id,
         //private ?CategoryId $category_id,
         private ProductId $product_id,
         private ?string $order_note,

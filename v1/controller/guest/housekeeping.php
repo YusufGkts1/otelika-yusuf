@@ -1,7 +1,6 @@
 <?php
 
-use model\ShoppingCart\application\ShoppingCartManagementService;
-use model\ShoppingCartItem\application\ShoppingCartItemManagementService;
+use model\Order\application\ShoppingCartItemManagementService;
 
 class ControllerGuestHouseKeeping extends RestEndpoint{
 
@@ -34,9 +33,9 @@ class ControllerGuestHouseKeeping extends RestEndpoint{
 
     private function shoppingCartItemManagementService(): ShoppingCartItemManagementService
     {
-    $this->load->module('ShoppingCartItem');
+    $this->load->module('Order');
 
-    $this->shopping_cart_item_management_service = $this->module_shopping_cart_item->service('ShoppingCartItemManagementService');
+    $this->shopping_cart_item_management_service = $this->module_order->service('ShoppingCartItemManagementService');
 
     return $this->shopping_cart_item_management_service;
     }
@@ -47,8 +46,10 @@ class ControllerGuestHouseKeeping extends RestEndpoint{
 
         $this->shoppingCartItemManagementService()->addToShoppingCart(
             $this->getAttr('module_id'),
-            $this->getAttr('category_id'),
+            $this->getAttr('category_id', true),
             $this->getAttr('product_id'),
+            $this->getAttr('order_note', true),
+            $this->getAttr('delivery_time', true),
             $this->getAttr('quantity')
         );
     }

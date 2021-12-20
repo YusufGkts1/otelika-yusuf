@@ -2,6 +2,7 @@
 
 namespace model\Order\application;
 
+use DateTime;
 use model\common\ApplicationService;
 use model\common\domain\model\GuestId;
 use model\common\domain\model\IGuestRepository;
@@ -11,9 +12,9 @@ use model\common\domain\model\ProductId;
 use model\common\domain\model\ServiceModuleId;
 use model\Order\domain\model\CategoryId;
 use model\Order\domain\model\ICategoryRepository;
-use model\ShoppingCartItem\domain\model\IShoppingCartItemRepository;
-use model\ShoppingCartItem\domain\model\ShoppingCartItem;
-use model\ShoppingCartItem\domain\model\ShoppingCartItemId;
+use model\Order\domain\model\IShoppingCartItemRepository;
+use model\Order\domain\model\ShoppingCartItem;
+use model\Order\domain\model\ShoppingCartItemId;
 
 class ShoppingCartItemManagementService extends ApplicationService{
 
@@ -68,7 +69,7 @@ class ShoppingCartItemManagementService extends ApplicationService{
         $this->process($new_order, $this->orders);
     }
 
-    public function addToShoppingCart(ServiceModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, float $quantity){
+    public function addToShoppingCart(ServiceModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, ?string $order_note, ?DateTime $delivery_time, float $quantity){
         
         $guest = $this->guests->find($this->guestId());
 
@@ -95,10 +96,10 @@ class ShoppingCartItemManagementService extends ApplicationService{
 
             $id = $this->shopping_carts->nextId();
 
-            $guest->addToShoppingCart($id, $module_id, $category_id, $product_id, $quantity, $total_price);
+            $guest->addToShoppingCart($id, $module_id, $category_id, $product_id, $order_note, $delivery_time, $quantity, $total_price);
         }
 
-        $guest->addToShoppingCart($shopping_cart['id'], $module_id, $category_id, $product_id, $quantity, $total_price);
+        $guest->addToShoppingCart($shopping_cart['id'], $module_id, $category_id, $product_id, $order_note, $delivery_time, $quantity, $total_price);
     }
 
     public function removeShoppingCart(ShoppingCartItemId $shopping_cart_id){
