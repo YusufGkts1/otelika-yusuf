@@ -2,7 +2,6 @@
 
 namespace model\Order\domain\model;
 
-use model\Guest\domain\model\OrderId;
 
 use model\common\Entity;
 use model\common\IPersistenceProvider;

@@ -2,8 +2,8 @@
 
 use model\Guest\application\GuestQueryService;
 use model\Guest\application\ModuleQueryService;
-use model\Guest\application\OrderManagementService;
 use model\Guest\application\OrderQueryService;
+use model\Order\application\OrderManagementService;
 
 class ControllerGuest extends RestEndpoint{
 
@@ -51,9 +51,9 @@ class ControllerGuest extends RestEndpoint{
 
     private function orderManagementService(): OrderManagementService
     {
-    $this->load->module('Guest');
+    $this->load->module('Order');
 
-    $this->order_management_service = $this->module_guest->service('OrderManagementService');
+    $this->order_management_service = $this->module_order->service('OrderManagementService');
 
     return $this->order_management_service;
     }
