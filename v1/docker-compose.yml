@@ -5,11 +5,11 @@
 version: "3"
 services:
    otelika-api-local-env:
-      container_name: otelika
+      container_name: otelika-api
       build: 
          context: ./
          dockerfile: Dockerfile
-      image: otelika-web-server
+      image: otelika-api-web-server
       environment:
          MYSQL_USER: 'appuser'
          MYSQL_PASSWORD: '123123'
@@ -20,15 +20,17 @@ services:
          PRODUCTION: 0
       volumes:
         - ./:/var/www/html/v1
+        - ./dev/polling.php:/var/www/html/v1/system/config/conf.d/polling_auth.php
+        - ./dev/repo_polling:/var/www/html/v1/repository/repo_polling
       networks:
-         backend-yusuf:
-            ipv4_address: 172.111.0.2
+         backend:
+            ipv4_address: 172.100.0.2
       ports:
-        - "48088:80"
+        - "8080:80"
 
    mysql-server:
       container_name: otelika-db
-      platform: linux/amd64 # remove if you are not using Apple M1 chip
+      # platform: linux/amd64 # remove if you are not using Apple M1 chip
       build:
          context: ./
          dockerfile: Dockerfile-dev-mysql
@@ -41,16 +43,16 @@ services:
       volumes:
          - ./data/mysql/sql:/docker-entrypoint-initdb.d
       networks:
-         backend-yusuf:           
-            ipv4_address: 172.111.0.3
+         backend:           
+            ipv4_address: 172.100.0.3
       ports:
-         - '43061:3306'
+         - '33060:3306'
       expose:
-         - '43061'
+         - '33060'
 
    mariadb:
       container_name: otelika-db-polling
-      platform: linux/amd64 # remove if you are not using Apple M1 chip
+      # platform: linux/amd64 # remove if you are not using Apple M1 chip
       build:
          context: ./
          dockerfile: mariadb-dev.Dockerfile
@@ -65,56 +67,56 @@ services:
       volumes:
          - ./data/mariadb/sql:/docker-entrypoint-initdb.d
       networks:
-         backend-yusuf:           
-            ipv4_address: 172.111.0.12
+         backend:           
+            ipv4_address: 172.100.0.12
       ports:
-         - '43062:3306'
+         - '33061:3306'
       expose:
-         - '43062'
+         - '33061'
 
    phpmyadmin:
       container_name: otelika-phpmyadmin
       image: "phpmyadmin/phpmyadmin"
       ports:
-         - "48889:80"
+         - "8888:80"
       environment:
          PMA_ARBITRARY: "1"
-         PMA_HOST: "172.111.0.3"
+         PMA_HOST: "172.100.0.3"
          PMA_PORT: "3306"
       networks:
-         backend-yusuf:
-            ipv4_address: 172.111.0.4
+         backend:
+            ipv4_address: 172.100.0.4
 
-   # mongodb:
-   #    image: mongo
-   #    container_name: mongo-container
-   #    environment:
-   #       MONGO_INITDB_ROOT_USERNAME: 'appuser'
-   #       MONGO_INITDB_ROOT_PASSWORD: '123123'
-   #    networks:
-   #       backend-yusuf:
-   #          ipv4_address: 172.111.0.5
+   mongodb:
+      container_name: otelika-mongo
+      image: mongo
+      environment:
+         MONGO_INITDB_ROOT_USERNAME: 'appuser'
+         MONGO_INITDB_ROOT_PASSWORD: '123123'
+      networks:
+         backend:
+            ipv4_address: 172.100.0.5
 
    redis:
       container_name: otelika-redis
       image: redis
-      container_name: redis-container
       networks:
-         backend-yusuf:
-            ipv4_address: 172.111.0.11
+         backend:
+            ipv4_address: 172.100.0.11
 
    # !!! SECURITY NOTICE !!!
    # JSON documents are parsed through a javascript virtual machine, so the web interface can be used for executing malicious javascript on a server.
    # mongo-express should only be used privately for development purposes.
    # mongo-express:
+   #    container_name: otelika-mongo-express
    #    image: mongo-express
    #    environment:
    #       ME_CONFIG_MONGODB_SERVER: mongo-container
    #       ME_CONFIG_MONGODB_ADMINUSERNAME: 'appuser'
    #       ME_CONFIG_MONGODB_ADMINPASSWORD: '123123'
    #    networks:
-   #       backend-yusuf:
-   #          ipv4_address: 172.111.0.6
+   #       backend:
+   #          ipv4_address: 172.100.0.6
    #    ports:
    #       - '8081:8081'
    #    expose:
@@ -128,8 +130,8 @@ services:
    #    volumes:
    #       - ./docs/:/usr/share/nginx/html/swagger/
    #    networks:
-   #       backend-yusuf:
-   #          ipv4_address: 172.111.0.7
+   #       backend:
+   #          ipv4_address: 172.100.0.7
    #    ports:
    #       - '9090:80'
    #    expose:
@@ -140,22 +142,22 @@ services:
    #    volumes:
    #       - ./docs/redoc-static.html:/usr/local/apache2/htdocs/index.html
    #    networks:
-   #       backend-yusuf:
-   #          ipv4_address: 172.111.0.7
+   #       backend:
+   #          ipv4_address: 172.100.0.7
    #    ports:
    #       - '9090:80'
    #    expose:
    #       - '80'
 
    redocly:
-      container_name: otelika-redocly
+      container_name: otelika-redoc
       image: volbrene/redoc
       environment:
-         URLS: "[{url: '/static/swagger-files/docs/openapi_task_management.json', name: 'TaskManagement'}, {url: '/static/swagger-files/docs/openapi_procedure_management.json', name: 'ProcedureManagement'}, {url: '/static/swagger-files/docs/openapi_gis.json', name: 'GIS'}, {url: '/static/swagger-files/docs/openapi_polling.json', name: 'Polling'},{url: '/static/swagger-files/docs/openapi_sdm.json', name: 'Sdm'}]"
+         URLS: "[{url: '/static/swagger-files/docs/openapi_task_management.json', name: 'TaskManagement'}, {url: '/static/swagger-files/docs/openapi_procedure_management.json', name: 'ProcedureManagement'}, {url: '/static/swagger-files/docs/openapi_gis.json', name: 'GIS'}, {url: '/static/swagger-files/docs/openapi_polling.json', name: 'Polling'}, {url: '/static/swagger-files/docs/openapi_student_station.json', name: 'StudentStation'}]"
       volumes:
          - ./docs:/var/www/html/static/swagger-files/docs
       ports:
-         - 49091:80
+         - 9090:80
       expose:
          - 80
 
@@ -175,12 +177,12 @@ services:
       volumes:
          - ./data/postgresql/data:/var/lib/postgresql/data
       networks:
-         backend-yusuf:
-            ipv4_address: 172.111.0.8
+         backend:
+            ipv4_address: 172.100.0.8
       ports:
-         - '45433:5433'
+         - '5432:5432'
       expose:
-         - '5433'
+         - '5432'
 
    pgadmin:
       container_name: otelika-pgadmin
@@ -189,35 +191,34 @@ services:
          PGADMIN_DEFAULT_EMAIL: 'info@kant.ist'
          PGADMIN_DEFAULT_PASSWORD: '123123'
       networks:
-         backend-yusuf:
-            ipv4_address: 172.111.0.9
+         backend:
+            ipv4_address: 172.100.0.9
       ports:
-         - '44322:80'
+         - '54321:80'
       expose:
-         - '44322'
+         - '54321'
 
    invoker-event:
       container_name: otelika-invoker-event
       image: "kantist/invoker"
       environment:
-         ENDPOINT: 'http://172.111.0.2:80/v1/event/event'
+         ENDPOINT: 'http://172.100.0.2:80/v1/event/event'
          AUTH_STRING: 'Event sJ7ztFiRJf?npIMhtAeLQ&4vBYWCq%O%0qmYA39Sxb&NSkUdi7LUnResfVj5!-U1'
          INTERVAL: 1
       networks:
-         backend-yusuf:
-            ipv4_address: 172.111.0.13
+         backend:
+            ipv4_address: 172.100.0.13
 
-   # invoker-polling-queue:
-   #    container_name: otelika-invoker-polling-queue-yusuf
-   #    image: "kantist/invoker"
-   #    container_name: otelika-invoker-polling-queue
-   #    environment:
-   #       ENDPOINT: 'http://172.111.0.2:80/v1/polling/cron'
-   #       AUTH_STRING: 'Invoke z6*Ea64a5C*yZVd8&w19WRUzpZ&qkQPsG56CPyNwcW!Ni7gV0F2rTIHwhd0dk5+0'
-   #       INTERVAL: 1
-   #    networks:
-   #       backend-yusuf:
-   #          ipv4_address: 172.111.0.10
+   invoker-polling-queue:
+      container_name: otelika-invoker-polling-queue
+      image: "kantist/invoker"
+      environment:
+         ENDPOINT: 'http://172.100.0.2:80/v1/polling/cron'
+         AUTH_STRING: 'Invoke z6*Ea64a5C*yZVd8&w19WRUzpZ&qkQPsG56CPyNwcW!Ni7gV0F2rTIHwhd0dk5+0'
+         INTERVAL: 1
+      networks:
+         backend:
+            ipv4_address: 172.100.0.10
 
 # volumes:
 #    - ./repository/repo/gis/data:/opt/geoserver/data_dir
@@ -226,8 +227,8 @@ volumes:
   kant_otelika_postgis:
 
 networks:
-   backend-yusuf:
+   backend:
       ipam:
          driver: default
          config:
-            - subnet: 172.111.0.0/16
+            - subnet: 172.100.0.0/16

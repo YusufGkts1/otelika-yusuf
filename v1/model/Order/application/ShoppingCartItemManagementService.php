@@ -68,12 +68,10 @@ class ShoppingCartItemManagementService extends ApplicationService{
 
         $order_id = $this->orders->nextId();
          
-        $new_orders = $shopping_cart->confirmShoppingCart($order_id);
+        $new_order = $shopping_cart->confirmShoppingCart($order_id);
 
-        foreach($new_orders as $o){
-
-            $this->process($o, $this->orders);
-        }
+        $this->process($new_order, $this->orders);
+    
     }
 
     public function addToShoppingCart(ProductId $product_id, $quantity){
