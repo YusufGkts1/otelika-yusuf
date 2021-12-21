@@ -58,5 +58,24 @@ class ShoppingCart extends Entity
         $this->shopping_cart_items[] = $new_shopping_cart_item;
     }
 
+    public function confirmShoppingCart(OrderId $order_id){
+        /** @var ShoppingCartItem $s */
+        foreach($this->shopping_cart_items as $s){
+
+            $s = new Order(
+                $order_id,
+                $s->guestId(),
+                $s->roomId(),
+                $s->serviceModuleId(),
+                $s->categoryId(),
+                $s->productId(),
+                $this->order_note,
+                $this->delivery_time,
+                $s
+            );
+        }
+        return;
+    }
+
   
 }

@@ -59,18 +59,21 @@ class ShoppingCartItemManagementService extends ApplicationService{
 //    }
 
 
-    public function completeTheOrder(ShoppingCartItemId $shopping_cart_item_id){
+    public function completeTheOrder(ShoppingCartId $shopping_cart_id){
 
-        $shopping_cart_item = $this->shopping_cart_items->find($shopping_cart_item_id);
+        $shopping_cart = $this->shopping_carts->find($shopping_cart_id);
 
-        if(!$shopping_cart_item)
+        if(!$shopping_cart)
             throw new \NotFoundException('Shopping Cart is not found');
 
         $order_id = $this->orders->nextId();
          
-        $new_order = $shopping_cart_item->addToOrders($order_id);
+        $new_orders = $shopping_cart->confirmShoppingCart($order_id);
 
-        $this->process($new_order, $this->orders);
+        foreach($new_orders as $o){
+
+            $this->process($o, $this->orders);
+        }
     }
 
     public function addToShoppingCart(ProductId $product_id, $quantity){

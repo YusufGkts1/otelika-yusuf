@@ -15,7 +15,7 @@ class Order extends Entity
         private GuestId $guest_id,
         private RoomId $room_id,
         private ServiceModuleId $module_id,
-        //private ?CategoryId $category_id,
+        private ?CategoryId $category_id,
         private ProductId $product_id,
         private ?string $order_note,
         private ?\DateTime $delivery_time,

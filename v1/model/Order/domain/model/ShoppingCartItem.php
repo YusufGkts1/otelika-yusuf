@@ -22,23 +22,30 @@ class ShoppingCartItem extends Entity
         private float $total_price
     ){}
 
+    // getter
+    public function guestId(){
+        return $this->guest_id;
+    }
+
+    public function roomId(){
+        return $this->room_id;
+    }
+
+    public function serviceModuleId(){
+        return $this->module_id;
+    }
+
+    public function categoryId(){
+        return $this->category_id;
+
+    }
+
     public function productId(){
         return $this->product_id;
     }
 
-    public function addToOrders(OrderId $order_id){
 
-        return new Order(
-            $order_id,
-            $this->guest_id,
-            $this->room_id,
-            $this->module,
-            $this->product_id,
-            $this->order_note,
-            $this->delivery_time,
-            $this->total_price
-        );
-    }
+   
 
     public function newTotalPrice($total_price){
 

@@ -93,35 +93,4 @@ class Guest extends Entity
 
         );
     }
-
-    // public function addToShoppingCart(ShoppingCartItemId $shopping_cart_item_id, ServiceModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, ?string $order_note, ?DateTime $delivery_time, float $quantity, float $total_price){
-        
-    //     return new ShoppingCartItem(
-    //         $shopping_cart_item_id,
-    //         $this->id,
-    //         $this->room_id,
-    //         $module_id,
-    //         $category_id,
-    //         $product_id,
-    //         $order_note,
-    //         $delivery_time,
-    //         $quantity,
-    //         $total_price
-    //     );
-    // }
-
-    public function addToShoppingCart(ShoppingCartId $shopping_cart_id, ShoppingCartItemId $shopping_cart_item_id, Product $product, float $quantity){
-
-        return new ShoppingCartItem(
-            $shopping_cart_id,
-            $shopping_cart_item_id,
-            $this->id,
-            $this->room_id,
-            $product->moduleId(),
-            $product->categoryId(),
-            $product->productId(),
-            $quantity,
-            $product->calculatePrice($quantity)
-        );
-    }
 }
