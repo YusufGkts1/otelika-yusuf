@@ -22,6 +22,10 @@ class ShoppingCartItem extends Entity
         private float $total_price
     ){}
 
+    public function productId(){
+        return $this->product_id;
+    }
+
     public function addToOrders(OrderId $order_id){
 
         return new Order(
@@ -51,4 +55,11 @@ class ShoppingCartItem extends Entity
     }
 
     public function removeShoppingCartItem(){}
+
+    public function changeQuantityOfExistCartItem(float $quantity){
+
+        $this->quantity = $this->quantity + $quantity;
+
+        return $this->quantity;
+    }
 }

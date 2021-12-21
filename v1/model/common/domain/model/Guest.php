@@ -28,6 +28,15 @@ class Guest extends Entity
         private ?string $passport_no
     ){}
 
+    public function id(){
+
+        return $this->id;
+    }
+
+    public function roomId(){
+        return $this->room_id;
+    }
+
     public function orderTaxi(TaxiId $id, int $countdown, string $guest_note){
 
         if($countdown > 60)

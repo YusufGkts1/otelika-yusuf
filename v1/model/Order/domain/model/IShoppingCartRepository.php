@@ -9,7 +9,9 @@ use model\common\IPersistenceProvider;
 
 interface IShoppingCartRepository extends IPersistenceProvider
 {
-    public function find(GuestId $guest_id) : ?ShoppingCartId;
+    public function find(ShoppingCartId $id) : ShoppingCart;
+    
+    public function getShoppingCartByGuestId(GuestId $guest_id) : ?ShoppingCart;
 
     public function save(Entity $entity);
 

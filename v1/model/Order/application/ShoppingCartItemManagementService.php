@@ -79,16 +79,12 @@ class ShoppingCartItemManagementService extends ApplicationService{
 
         $guest = $this->guests->find($this->guestId());
 
+        $shopping_cart = $this->shopping_carts->getShoppingCartByGuestId($this->guestId());
+
         $shopping_cart_item_id = $this->shopping_cart_items->nextId();
 
-        $shopping_cart_id = $this->existingShoppingCartId($this->guestId());
+        $shopping_cart->addToShoppingCart($shopping_cart_item_id, $guest, $product, $quantity);
 
-        if(!$shopping_cart_id){
-
-            $shopping_cart_id = $this->shopping_carts->nextId();
-        }
-
-        $guest->addToShoppingCart($shopping_cart_id, $shopping_cart_item_id, $product, $quantity);
     }
 
     // public function addToShoppingCart(ServiceModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, ?string $order_note, ?DateTime $delivery_time, float $quantity){
@@ -146,7 +142,7 @@ class ShoppingCartItemManagementService extends ApplicationService{
     }
 
     private function existingShoppingCartId(GuestId $guest_id) : ShoppingCartId {
-        $shopping_cart_id = $this->shopping_carts->find();
+        $shopping_cart_id = $this->shopping_carts->getShoppingCartIdByGuestId($guest_id);
 
         return $shopping_cart_id;
     }
