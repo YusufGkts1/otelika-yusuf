@@ -12,6 +12,7 @@ class ShoppingCart extends Entity
         private ShoppingCartId $id,
         private GuestId $guest_id,
         private RoomId $room_id,
+        private array $products,
         private ?string $order_note,
         private ?\DateTime $delivery_time,
         private float $total_price
@@ -26,5 +27,7 @@ class ShoppingCart extends Entity
     public function removeShoppingCart(){
         $this->_remove();
     }
+
+    
   
 }
