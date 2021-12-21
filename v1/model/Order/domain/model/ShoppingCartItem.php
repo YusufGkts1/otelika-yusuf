@@ -44,9 +44,7 @@ class ShoppingCartItem extends Entity
         return $this->product_id;
     }
 
-
-   
-
+    // setter?
     public function newTotalPrice($total_price){
 
         $this->total_price = $total_price;
