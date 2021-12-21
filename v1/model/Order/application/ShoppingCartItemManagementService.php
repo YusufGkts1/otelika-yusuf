@@ -8,11 +8,14 @@ use model\common\domain\model\GuestId;
 use model\common\domain\model\IGuestRepository;
 use model\common\domain\model\IProductRepostitory;
 use model\common\domain\model\IServiceModuleRepository;
+use model\common\domain\model\Product;
 use model\common\domain\model\ProductId;
 use model\common\domain\model\ServiceModuleId;
 use model\Order\domain\model\CategoryId;
 use model\Order\domain\model\ICategoryRepository;
 use model\Order\domain\model\IShoppingCartItemRepository;
+use model\Order\domain\model\IShoppingCartRepository;
+use model\Order\domain\model\ShoppingCartId;
 use model\Order\domain\model\ShoppingCartItem;
 use model\Order\domain\model\ShoppingCartItemId;
 
@@ -22,6 +25,7 @@ class ShoppingCartItemManagementService extends ApplicationService{
         private IGuestRepository $guests,
         private IProductRepostitory $products,
         private IShoppingCartItemRepository $shopping_cart_items,
+        private IShoppingCartRepository $shopping_carts,
         private IServiceModuleRepository $service_modules,
         private ICategoryRepository $categories){}
 
@@ -57,69 +61,71 @@ class ShoppingCartItemManagementService extends ApplicationService{
 
     public function completeTheOrder(ShoppingCartItemId $shopping_cart_item_id){
 
-        $shopping_cart_items = $this->shopping_carts->find($shopping_cart_item_id);
+        $shopping_cart_item = $this->shopping_cart_items->find($shopping_cart_item_id);
 
-        if(!$shopping_cart_items)
+        if(!$shopping_cart_item)
             throw new \NotFoundException('Shopping Cart is not found');
 
         $order_id = $this->orders->nextId();
          
-        $new_order = $shopping_cart_items->addToOrders($order_id);
+        $new_order = $shopping_cart_item->addToOrders($order_id);
 
         $this->process($new_order, $this->orders);
     }
 
-    public function addToShoppingCart(ServiceModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, ?string $order_note, ?DateTime $delivery_time, float $quantity){
-        
+    public function addToShoppingCart(ProductId $product_id, $quantity){
+
+        $product = $this->existingProduct($product_id);
+
         $guest = $this->guests->find($this->guestId());
 
-        $module = $this->modules->find($module_id);
+        $shopping_cart_item_id = $this->shopping_cart_items->nextId();
 
-        if(!$module)
-            throw new \NotFoundException('Module is not found');
+        $shopping_cart_id = $this->existingShoppingCartId($this->guestId());
 
-        $category = $this->categories->find($category_id);
+        if(!$shopping_cart_id){
 
-        if(!$category)
-            throw new \NotFoundException('Category is not found');    
-
-        $product = $this->products->find($product_id);
-
-        if(!$product)
-            throw new \NotFoundException('Product is not found');
-
-        $total_price = $product->totalPrice($quantity);
-
-        $shopping_cart = $this->existingShoppingCart($this->guestId());
-
-        if(!$shopping_cart){
-
-            $id = $this->shopping_carts->nextId();
-
-            $guest->addToShoppingCart($id, $module_id, $category_id, $product_id, $order_note, $delivery_time, $quantity, $total_price);
+            $shopping_cart_id = $this->shopping_carts->nextId();
         }
 
-        $guest->addToShoppingCart($shopping_cart['id'], $module_id, $category_id, $product_id, $order_note, $delivery_time, $quantity, $total_price);
+        $guest->addToShoppingCart($shopping_cart_id, $shopping_cart_item_id, $product, $quantity);
     }
 
-    public function removeShoppingCart(ShoppingCartItemId $shopping_cart_id){
+    // public function addToShoppingCart(ServiceModuleId $module_id, ?CategoryId $category_id, ProductId $product_id, ?string $order_note, ?DateTime $delivery_time, float $quantity){
+        
+
+    //     $total_price = $product->totalPrice($quantity);
+
+    //     $shopping_cart = $this->existingShoppingCart($this->guestId());
+
+    //     if(!$shopping_cart){
+
+    //         $id = $this->shopping_carts->nextId();
+
+    //         $guest->addToShoppingCart($id, $module_id, $category_id, $product_id, $order_note, $delivery_time, $quantity, $total_price);
+    //     }
+
+    //     $guest->addToShoppingCart($shopping_cart['id'], $module_id, $category_id, $product_id, $order_note, $delivery_time, $quantity, $total_price);
+    // }
+
+    public function removeShoppingCart(ShoppingCartId $shopping_cart_id){
 
         $shopping_cart = $this->shopping_carts->find($shopping_cart_id);
 
         if(!$shopping_cart)
             throw new \NotFoundException('Shopping Cart is not found');
 
-        $shopping_cart->remove();
+        $shopping_cart->removeShoppingCart();
 
         $this->process($shopping_cart, $this->shopping_carts);
 
     }
 
-    public function deleteSingleItemFromShoppingCart(ShoppingCartItemId $shopping_cart_item_id, ProductId $product_id){
+    public function deleteSingleItemFromShoppingCart(ShoppingCartItemId $shopping_cart_item_id){
 
-        $shopping_cart_item = $this->existingShoppingCartItem($shopping_cart_item_id, $product_id);
+        $shopping_cart_item = $this->existingShoppingCartItem($shopping_cart_item_id);
 
-        $shopping_cart_item->removeShoppingCartItem($shopping_cart_item_id, $product_id);
+        $shopping_cart_item->removeShoppingCartItem($shopping_cart_item_id);
         
     }
 
@@ -127,27 +133,40 @@ class ShoppingCartItemManagementService extends ApplicationService{
 
         $shopping_cart_item = $this->existingShoppingCartItem($shopping_cart_id, $product_id);
 
-        $shopping_cart_item->changeQuantityOfcartItem($quantity);
+        $product = $this->products->find($product_id);
 
-        $this->process($shopping_cart_item, $this->shopping_cart_item);
+        $total_price = $product->totalPrice($quantity);
+
+        $shopping_cart_item->newTotalPrice($total_price);
+
+        $shopping_cart_item->changeQuantityOfCartItem($quantity);
+
+        $this->process($shopping_cart_item, $this->shopping_cart_items);
 
     }
 
-     //Shopping Cart Item çekilerek ShoppingItem.php içerisinde change function ile işlem tamamlanacak.
+    private function existingShoppingCartId(GuestId $guest_id) : ShoppingCartId {
+        $shopping_cart_id = $this->shopping_carts->find();
 
-    private function existingShoppingCart(GuestId $guest_id) : ShoppingCartItem {
-        $shopping_cart = $this->shopping_carts->find(new ShoppingCartItemId ($guest_id));
-
-        return $shopping_cart;
+        return $shopping_cart_id;
     }
 
-    private function existingShoppingCartItem(ShoppingCartItemId $shopping_cart_id, ProductId $product_id) : ShoppingCartItem {
+    private function existingShoppingCartItem(ShoppingCartItemId $shopping_cart_id) : ShoppingCartItem {
 
-        $shopping_cart_item = $this->shopping_carts->findShoppingCartItem($shopping_cart_id, $product_id);
+        $shopping_cart_item = $this->shopping_cart_items->find($shopping_cart_id);
         if(null == $shopping_cart_item)
             throw new \NotFoundException('Shopping Cart Item is not found');
 
         return $shopping_cart_item;
+    }
+
+    private function existingProduct(ProductId $product_id) : Product{
+
+        $product = $this->products->find($product_id);
+        if(null == $product)
+            throw new \NotFoundException('Product is not found');
+
+        return $product;
     }
 
     protected function guestId() : GuestId {

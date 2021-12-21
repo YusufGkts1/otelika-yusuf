@@ -1,7 +1,7 @@
 <?php
 
-use model\ShoppingCartItem\application\ShoppingCartItemManagementService;
-use model\ShoppingCartItem\application\ShoppingCartItemQueryService;
+use model\Order\application\ShoppingCartItemManagementService;
+use model\Order\application\ShoppingCartItemQueryService;
 
 class ControllerGuestShoppingCart extends RestEndpoint{
 
@@ -51,19 +51,20 @@ class ControllerGuestShoppingCart extends RestEndpoint{
         if ($this->shopping_cart_item_query_service)
             return $this->shopping_cart_item_query_service;
 
-        $this->load->module('ShoppingCartItem');
+        $this->load->module('Order');
 
-        $this->shopping_cart__item_query_service = $this->module_shopping_cart_item->service('ShoppingCartItemQueryService');
+        $this->shopping_cart__item_query_service = $this->module_order->service('ShoppingCartItemQueryService');
 
         return $this->shopping_cart__item_query_service;
     }
 
-    private function shoppingCartItemManagementService(): ShoppingCartItemManagementService{
-    $this->load->module('ShoppingCartItem');
+    private function shoppingCartItemManagementService(): ShoppingCartItemManagementService
+    {
+    $this->load->module('Order');
 
-    $this->shopping_cart_management_service = $this->module_shopping_cart_item->service('ShoppingCartItemManagementService');
+    $this->shopping_cart_item_management_service = $this->module_order->service('ShoppingCartItemManagementService');
 
-    return $this->shopping_cart_management_service;
+    return $this->shopping_cart_item_management_service;
     }
 
     private function getSelfOwnedShoppingCart(){
@@ -80,7 +81,7 @@ class ControllerGuestShoppingCart extends RestEndpoint{
         $this->success($cart_item);
 
     }
-    private function completeTheOrder(){  //Shopping Cart Item olarak mı Shopping Cart olarak mı alalım?
+    private function completeTheOrder(){
 
         $this->ShoppingCartItemManagementService()->completeTheOrder(
             $this->getAttr('shopping_cart_id')

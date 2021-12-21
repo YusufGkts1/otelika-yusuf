@@ -1,6 +1,6 @@
 <?php
 
-use model\Guest\application\ShoppingCartManagementService;
+use model\Order\application\ShoppingCartItemManagementService;
 
 class ControllerGuestRoomService extends RestEndpoint{
 
@@ -31,24 +31,26 @@ class ControllerGuestRoomService extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function shoppingCartManagementService(): ShoppingCartManagementService
+    private function shoppingCartItemManagementService(): ShoppingCartItemManagementService
     {
-    $this->load->module('Guest');
+    $this->load->module('Order');
 
-    $this->shopping_cart_management_service = $this->module_guest->service('ShoppingCartManagementService');
+    $this->shopping_cart_item_management_service = $this->module_order->service('ShoppingCartItemManagementService');
 
-    return $this->shopping_cart_management_service;
+    return $this->shopping_cart_item_management_service;
     }
 
     private function fetchRoomServiceProducts(){}
 
     private function addToCart(){
 
-        $this->shoppingCartManagementService()->addToShoppingCart(
+        $this->shoppingCartItemManagementService()->addToShoppingCart(
             $this->getAttr('module_id'),
-            $this->getAttr('category_id'),
+            $this->getAttr('category_id', true),
             $this->getAttr('product_id'),
-            $this->getAttr('quantity'),
+            $this->getAttr('order_note', true),
+            $this->getAttr('delivery_time', true),
+            $this->getAttr('quantity')
         );
     }
 }

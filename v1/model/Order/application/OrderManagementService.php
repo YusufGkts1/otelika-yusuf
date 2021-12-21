@@ -11,6 +11,7 @@ use model\common\domain\model\IServiceModuleRepository;
 use model\Order\domain\model\IOrderRepository;
 use model\Order\domain\model\Order;
 use model\Order\domain\model\OrderId;
+use model\Order\domain\model\OrderStatus;
 
 class OrderManagementService extends ApplicationService{
 
@@ -21,7 +22,7 @@ class OrderManagementService extends ApplicationService{
 
         $order = $this->existingOrder($id);
 
-        if(new  Orde($status) == OrderStatus::Cancelled())
+        if(new  OrderStatus($status) == OrderStatus::Cancelled())
             $order->cancel();
 
         $this->process($order, $this->orders);
@@ -35,7 +36,7 @@ class OrderManagementService extends ApplicationService{
         return $order;
     }
 
-    protected function guestId() : GuestIdORder {
+    protected function guestId() : GuestId {
         return new GuestId($this->identity_provider->identity());
     }
 }

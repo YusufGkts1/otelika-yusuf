@@ -45,11 +45,7 @@ class ControllerGuestHouseKeeping extends RestEndpoint{
     private function addToCart(){
 
         $this->shoppingCartItemManagementService()->addToShoppingCart(
-            $this->getAttr('module_id'),
-            $this->getAttr('category_id', true),
             $this->getAttr('product_id'),
-            $this->getAttr('order_note', true),
-            $this->getAttr('delivery_time', true),
             $this->getAttr('quantity')
         );
     }

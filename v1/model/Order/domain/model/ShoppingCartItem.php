@@ -11,26 +11,44 @@ use model\common\Entity;
 class ShoppingCartItem extends Entity
 {
     function __construct(
+        private ShoppingCartId $shopping_cart_id,
         private ShoppingCartItemId $id,
         private GuestId $guest_id,
         private RoomId $room_id,
         private ServiceModuleId $module_id,
         private ?CategoryId $category_id,
         private ProductId $product_id,
-        private ?string $order_note,
-        private ?\DateTime $delivery_time,
         private float $quantity,
         private float $total_price
     ){}
 
+    public function addToOrders(OrderId $order_id){
+
+        return new Order(
+            $order_id,
+            $this->guest_id,
+            $this->room_id,
+            $this->module,
+            $this->product_id,
+            $this->order_note,
+            $this->delivery_time,
+            $this->total_price
+        );
+    }
+
+    public function newTotalPrice($total_price){
+
+        $this->total_price = $total_price;
+
+        return $this->total_price;
+    }
+
     public function changeQuantityOfCartItem(float $quantity){
 
-        $total_price = $quantity * $this->price;
+        $this->quantity = $quantity;
 
-        // Product.php içerisinde mi yapmalı bunu?
+        return $this->quantity;
     }
 
-    public function removeShoppingCartItem(){
-        $this->_remove();
-    }
+    public function removeShoppingCartItem(){}
 }
