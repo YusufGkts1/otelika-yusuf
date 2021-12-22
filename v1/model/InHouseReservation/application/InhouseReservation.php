@@ -1,10 +1,10 @@
 <?php
 
-namespace model\ServiceReservation\application;
+namespace model\InhouseReservation\application;
 
 use model\common\ApplicationService;
 
-class ServiceReservationManagementService extends ApplicationService{
+class InhouseReservationManagementService extends ApplicationService{
 
     function __construct(){}
 
