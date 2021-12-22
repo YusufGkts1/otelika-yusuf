@@ -2,6 +2,7 @@
 
 namespace model\Order\domain\model;
 
+use DateTime;
 use model\common\domain\model\Guest;
 use model\common\domain\model\GuestId;
 use model\common\domain\model\Product;
@@ -19,8 +20,6 @@ class ShoppingCart extends Entity
         private GuestId $guest_id,
         private RoomId $room_id,
         private array $shopping_cart_items,
-        private ?string $order_note,
-        private ?\DateTime $delivery_time,
         private float $total_price
     ){}
 
@@ -32,6 +31,15 @@ class ShoppingCart extends Entity
 
     public function removeShoppingCart(){
         $this->_remove();
+    }
+
+    public function shoppingCartTotalPrice(){
+        $this->total_price = 0;
+        /** @var ShoppingCartItem $i */
+        foreach($this->shopping_cart_items as $i){
+            $this->total_price += $i->price(); 
+        }
+        return $this->total_price;
     }
 
     public function addToShoppingCart(ShoppingCartItemId $shopping_cart_item_id, Guest $guest, Product $product, float $quantity){
@@ -58,24 +66,27 @@ class ShoppingCart extends Entity
         $this->shopping_cart_items[] = $new_shopping_cart_item;
     }
 
-    public function confirmShoppingCart(OrderId $order_id){
+    public function confirmShoppingCart(OrderId $order_id, string $order_note, DateTime $delivery_time){
         /** @var ShoppingCartItem $s */
         foreach($this->shopping_cart_items as $s){
 
-            $s = new Order(
+            $new_order = new Order(
                 $order_id,
                 $s->guestId(),
                 $s->roomId(),
                 $s->serviceModuleId(),
                 $s->categoryId(),
                 $s->productId(),
-                $this->order_note,
-                $this->delivery_time,
-                $s
+                $order_note,
+                $delivery_time,
+                $this->total_price
             );
+            $new_orders[] = $new_order;
         }
-        return;
+        return $new_orders;
     }
+
+  
 
   
 }

@@ -84,7 +84,9 @@ class ControllerGuestShoppingCart extends RestEndpoint{
     private function completeTheOrder(){
 
         $this->ShoppingCartItemManagementService()->completeTheOrder(
-            $this->getAttr('shopping_cart_id')
+            $this->getAttr('shopping_cart_id'),
+            $this->getAttr('order_note'),
+            $this->getAttr('delivery_time')
         );
     }
 
@@ -109,8 +111,7 @@ class ControllerGuestShoppingCart extends RestEndpoint{
     private function deleteSingleItemFromShoppingCart(){
 
         $this->ShoppingCartItemManagementService()->deleteSingleItemFromShoppingCart(
-            $this->getAttr('shopping_cart_id'),
-            $this->getAttr('product_id')
+            $this->getAttr('shopping_cart_item_id')
         );
   
         $this->noContent();

@@ -1,6 +1,7 @@
 <?php
 
 use model\Guest\application\OrderManagementService;
+use model\ServiceReservation\application\ServiceReservationManagementService;
 
 class ControllerGuestReservation extends RestEndpoint{
 
@@ -28,18 +29,18 @@ class ControllerGuestReservation extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function orderManagementService(): OrderManagementService{
+    private function serviceReservationManagementService(): ServiceReservationManagementService{
 
-        $this->load->module('Guest');
+        $this->load->module('ServiceReservation');
 
-        $this->order_management_service = $this->module_guest->service('OrderManagementService');
+        $this->service_reservation_service = $this->module_service_reservation->service('ServiceReservationManagementService');
 
-        return $this->order_management_service;
+        return $this->service_reservation_service;
     }
 
     private function addToCart(){
 
-        $this->orderManagementService()->addToShoppingCart(
+        $this->serviceReservationManagementService()->createReservation(
             $this->getAttr('product_id'),
             $this->getAttr('reservation_time'),
             $this->getAttr('number_of_people')

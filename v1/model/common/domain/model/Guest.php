@@ -59,17 +59,16 @@ class Guest extends Entity
 
         if($alarm <= $now){
 
-            $new_alarm = $wake_up_time->modify('+1 day');
+            $new_alarm_time = $wake_up_time->modify('+1 day');
             
             return new Alarm(
                 $alarm_id,
                 $this->id,
                 $this->room_id,
                 $this->phone_no,
-                $new_alarm
+                $new_alarm_time
             );
-        }
-        
+        } 
         if($alarm > $now){
             return new Alarm(
                 $alarm_id,
@@ -79,18 +78,18 @@ class Guest extends Entity
                 $wake_up_time
             );    
         }
-
     }
 
-    public function sendFaultRecord(FaultRecordId $fault_record_id, ProductId $broken_item_id, string $fault_note){
+    public function sendFaultRecord(FaultRecordId $fault_record_id, Product $product, string $fault_note){
 
         return new FaultRecord(
            $fault_record_id,
            $this->id,
            $this->room_id,
-           $broken_item_id,
+           $product->productId(),
+           $product->moduleId(),
+           $product->categoryId(),
            $fault_note
-
         );
     }
 }

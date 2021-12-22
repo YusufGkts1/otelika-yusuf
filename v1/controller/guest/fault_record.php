@@ -65,7 +65,6 @@ class ControllerGuestFaultRecord extends RestEndpoint{
     private function sendFaultRecord(){
 
         $this->faultRecordManagementService()->createFaultRecord(
-            $this->getAttr('module_id'),
             $this->getAttr('product_id'),
             $this->getAttr('fault_note')
         );

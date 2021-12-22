@@ -5,7 +5,7 @@ namespace model\common\domain\model;
 use model\common\Entity;
 use model\common\IPersistenceProvider;
 
-interface IProductRepostitory extends IPersistenceProvider
+interface IProductRepository extends IPersistenceProvider
 {
     public function find(ProductId $id) : ?Product;
 

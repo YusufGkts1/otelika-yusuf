@@ -45,11 +45,7 @@ class ControllerGuestMinibar extends RestEndpoint{
     private function addToCart(){
 
         $this->shoppingCartItemManagementService()->addToShoppingCart(
-            $this->getAttr('module_id'),
-            $this->getAttr('category_id'),
             $this->getAttr('product_id'),
-            $this->getAttr('order_note'),
-            $this->getAttr('delivery_time'),
             $this->getAttr('quantity')
         );
     }
