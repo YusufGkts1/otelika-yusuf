@@ -16,7 +16,8 @@ class InhouseReservation extends Entity
         private InhouseServiceId $inhouse_service_id,
         private GuestId $guest_id,
         private RoomId $room_id,
-        private DateTime $reservation_date
+        private DateTime $reservation_date,
+        private int $numer_of_people
     ){}
 
 }

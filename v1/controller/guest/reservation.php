@@ -28,7 +28,7 @@ class ControllerGuestReservation extends RestEndpoint{
         return $this->filterSupportingFields();
     }
 
-    private function serviceReservationManagementService(): InhouseReservationManagementService{
+    private function inhouseReservationManagementService(): InhouseReservationManagementService{
 
         $this->load->module('InhouseReservation');
 
@@ -39,7 +39,7 @@ class ControllerGuestReservation extends RestEndpoint{
 
     private function addToCart(){
 
-        $this->serviceReservationManagementService()->createReservation(
+        $this->inhouseReservationManagementService()->createReservation(
             $this->getAttr('inhouse_service_id'),
             $this->getAttr('reservation_date'),
             $this->getAttr('number_of_people')

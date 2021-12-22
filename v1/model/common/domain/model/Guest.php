@@ -8,6 +8,9 @@ use model\Alarm\domain\model\AlarmId;
 use model\common\Entity;
 use model\FaultRecord\domain\model\FaultRecord;
 use model\FaultRecord\domain\model\FaultRecordId;
+use model\InhouseReservation\domain\model\InhouseReservation;
+use model\InhouseReservation\domain\model\InhouseService;
+use model\InhouserReservation\domain\model\InhouseReservationId;
 use model\Order\domain\model\CategoryId;
 use model\Order\domain\model\ShoppingCartId;
 use model\Order\domain\model\ShoppingCartItem;
@@ -90,6 +93,18 @@ class Guest extends Entity
            $product->moduleId(),
            $product->categoryId(),
            $fault_note
+        );
+    }
+
+    public function createInhouseReservation(InhouseReservationId $inhouse_reservation_id, InhouseService $inhouse_service, DateTime $reservation_date, int $number_of_people){
+
+        return new InhouseReservation(
+            $inhouse_reservation_id,
+            $inhouse_service->getId(),
+            $this->id,
+            $this->room_id,
+            $reservation_date,
+            $number_of_people
         );
     }
 }
