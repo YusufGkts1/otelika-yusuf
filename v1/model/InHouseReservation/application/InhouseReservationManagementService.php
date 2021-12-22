@@ -18,6 +18,8 @@ class InhouseReservationManagementService extends ApplicationService{
 
         $inhouse_service = $this->inhouse_services->find($inhouse_service_id);
 
+        $inhouse_service;
+
         //Kota kontrolü gün kontrolü vs kontroller için Service içerisinde gidilecek
 
         $guest = $this->guests->find($this->guestId());

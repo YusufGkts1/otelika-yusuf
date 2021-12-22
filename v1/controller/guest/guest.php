@@ -125,8 +125,9 @@ class ControllerGuest extends RestEndpoint{
     private function cancelOrder(){
 
         $this->orderManagementService()->cancelOrder(
-            $this->uriAt(2),
-            $this->getAttr('status',true)
+            $this->getAttr('order_id'),
+            $this->getAttr('product_id', true),
+            $this->getAttr('status',false)
             );
     
             $orders = $this->orderQueryService()->fetchGuestSelfOrders($this->queryServiceQueryObject());

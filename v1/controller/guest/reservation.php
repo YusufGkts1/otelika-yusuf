@@ -9,7 +9,7 @@ class ControllerGuestReservation extends RestEndpoint{
     protected function post(){
 
         if(!$this->uriAt(0))
-            $this->addTocart();
+            $this->reservation();
     }
 
     protected function patch(){}
@@ -37,7 +37,7 @@ class ControllerGuestReservation extends RestEndpoint{
         return $this->inhouse_reservation_service;
     }
 
-    private function addToCart(){
+    private function reservation(){
 
         $this->inhouseReservationManagementService()->createReservation(
             $this->getAttr('inhouse_service_id'),

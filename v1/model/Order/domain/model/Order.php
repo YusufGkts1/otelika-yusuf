@@ -23,14 +23,13 @@ class Order extends Entity
     ){}
 
 
-    public function cancel(){
-
-        $canceled = OrderStatus::Cancelled();
-        $this->status = $canceled;
-
-    return $this->status;
-
+    public function cancelAllCart(){
+        $this->status = OrderStatus::Canceled();
+        
+        return $this->status;
     }
+
+    public function cancelSingleOrder(){}
 
     public function remove() {
 		$this->_remove();
