@@ -4,7 +4,7 @@ namespace model\InhouserReservation\domain\model;
 
 use \model\common\IComparable;
 
-class InhouseReservationId implements IComparable
+class InhouseServiceId implements IComparable
 {
     private string $id;
 

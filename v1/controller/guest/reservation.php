@@ -41,7 +41,7 @@ class ControllerGuestReservation extends RestEndpoint{
 
         $this->serviceReservationManagementService()->createReservation(
             $this->getAttr('inhouse_service_id'),
-            $this->getAttr('reservation_date_time'),
+            $this->getAttr('reservation_date'),
             $this->getAttr('number_of_people')
         );
         
