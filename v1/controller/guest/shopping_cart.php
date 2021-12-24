@@ -6,31 +6,27 @@ use model\Order\application\ShoppingCartItemQueryService;
 class ControllerGuestShoppingCart extends RestEndpoint{
 
     protected function get(){
-
-        if(!$this->uriAt(0))
-            $this->getSelfOwnedShoppingCart();
-        
-       $this->getSingleItemFromShoppingCart(); 
+    
+        $this->getSelfOwnedShoppingCart();
+        if($this->uriAt(0))
+        $this->getSingleItemFromShoppingCart(); 
         
     }
 
     protected function post(){
 
-        if(!$this->uriAt(0))
-            $this->completeTheOrder();
+        $this->completeTheOrder();
     }
 
     protected function patch(){
 
-        if($this->uriAt(0))
-            $this->changeQuantity();
+        $this->changeQuantity();
     }
 
     protected function delete(){
         
-        if(!$this->uriAt(0))
-            $this->emptyTheShoppingCart();
-        
+        $this->emptyTheShoppingCart();
+        if($this->uriAt(0))
         $this->deleteSingleItemFromShoppingCart();
     }
 
