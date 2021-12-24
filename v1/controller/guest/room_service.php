@@ -6,8 +6,7 @@ class ControllerGuestRoomService extends RestEndpoint{
 
     protected function get(){
 
-        if(!$this->uriAt(0))
-            $this->fetchRoomServiceProducts();
+        $this->fetchRoomServiceProducts();
     }
 
     protected function post(){

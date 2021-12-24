@@ -6,8 +6,7 @@ class ControllerGuestHouseKeeping extends RestEndpoint{
 
     protected function get(){
 
-        if(!$this->uriAt(0))
-            $this->fetchHouseKeepingProducts();
+        $this->fetchHouseKeepingProducts();
     }
 
     protected function post(){

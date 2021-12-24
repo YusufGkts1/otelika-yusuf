@@ -1,9 +1,9 @@
 <?php
 
+use model\common\application\ServiceModuleQueryService;
 use model\Guest\application\GuestQueryService;
-use model\Guest\application\ModuleQueryService;
-use model\Guest\application\OrderQueryService;
 use model\Order\application\OrderManagementService;
+use model\Order\application\OrderQueryService;
 
 class ControllerGuest extends RestEndpoint{
 
@@ -75,28 +75,28 @@ class ControllerGuest extends RestEndpoint{
         if ($this->order_query_service)
             return $this->order_query_service;
 
-        $this->load->module('Guest');
+        $this->load->module('Order');
 
-        $this->order_query_service = $this->module_guest->service('OrderQueryService');
+        $this->order_query_service = $this->module_order->service('OrderQueryService');
 
         return $this->order_query_service;
     }
 
-    private function moduleQueryService(): ModuleQueryService
+    private function serviceModuleQueryService(): ServiceModuleQueryService
     {
-        if ($this->module_query_service)
-            return $this->module_query_service;
+        if ($this->service_module_query_service)
+            return $this->service_module_query_service;
 
-        $this->load->module('Guest');
+        $this->load->module('ServiceModel');
 
-        $this->module_query_service = $this->module_guest->service('ModuleQueryService');
+        $this->service_module_query_service = $this->module_service_module->service('ServiceModuleQueryService');
 
-        return $this->module_query_service;
+        return $this->service_module_query_service;
     }
 
     private function fetchHomePageModules(){
 
-        $modules = $this->moduleQueryService()->fetchModules($this->queryServiceQueryObject());
+        $modules = $this->serviceModuleQueryService()->fetchModules($this->queryServiceQueryObject());
         
         $this->success($modules);
     }

@@ -8,8 +8,7 @@ class ControllerGuestWakeUpService extends RestEndpoint{
 
     protected function post(){
 
-        if(!$this->uriAt(0))
-            $this->createWakeUpAlarm();    
+        $this->createWakeUpAlarm();    
     }
 
     protected function patch(){}

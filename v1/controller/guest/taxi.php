@@ -8,8 +8,7 @@ class ControllerGuestTaxi extends RestEndpoint{
 
     protected function post(){
 
-        if(!$this->uriAt(0))
-            $this->callTaxi();    
+        $this->callTaxi();    
     }
 
     protected function patch(){}

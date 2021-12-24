@@ -1,10 +1,10 @@
 <?php
 
-namespace model\Module\application;
+namespace model\common\application;
 
 use model\Guest\application\IIdentityProvider;
 
-class ModuleQueryService extends \JsonApiQueryService {
+class ServiceModuleQueryService extends \JsonApiQueryService {
 
 	function __construct(
 		protected \DB $db

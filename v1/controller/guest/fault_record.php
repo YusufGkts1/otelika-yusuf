@@ -7,16 +7,13 @@ class ControllerGuestFaultRecord extends RestEndpoint{
 
     protected function get(){
 
-        if(!$this->uriAt(0)){
-
-            $this->fetchFaultRecordProducts();
-        }
+        $this->fetchFaultRecordProducts();
+        
     }
 
     protected function post(){
 
-        if(!$this->uriAt(0))
-            $this->sendFaultRecord();
+        $this->sendFaultRecord();
     }
 
     protected function patch(){}

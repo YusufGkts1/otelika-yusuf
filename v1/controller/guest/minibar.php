@@ -6,8 +6,7 @@ class ControllerGuestMinibar extends RestEndpoint{
 
     protected function get(){
 
-        if(!$this->uriAt(0))
-            $this->fetchMinibarProducts();
+        $this->fetchMinibarProducts();
     }
 
     protected function post(){

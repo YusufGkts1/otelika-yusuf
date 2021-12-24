@@ -8,8 +8,7 @@ class ControllerGuestReservation extends RestEndpoint{
 
     protected function post(){
 
-        if(!$this->uriAt(0))
-            $this->reservation();
+        $this->reservation();
     }
 
     protected function patch(){}
